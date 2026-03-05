@@ -474,6 +474,14 @@ footer{
     <a href="#contratos-ativos">Clientes</a>
     <a href="#acessos">Acessos</a>
   </nav>
+
+  <!-- ═══ LANG SWITCH (added) -->
+  <div id="langSwitch" aria-label="Language selector" style="display:flex;gap:8px;align-items:center;">
+    <button type="button" class="lang-btn" data-lang="pt" aria-label="Português" style="cursor:pointer;border:1px solid rgba(245,194,0,0.25);background:rgba(245,194,0,0.10);color:#F0F4FF;border-radius:999px;padding:6px 10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">PT</button>
+    <button type="button" class="lang-btn" data-lang="es" aria-label="Español" style="cursor:pointer;border:1px solid rgba(26,127,212,0.35);background:rgba(26,127,212,0.12);color:#F0F4FF;border-radius:999px;padding:6px 10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">ES</button>
+    <button type="button" class="lang-btn" data-lang="en" aria-label="English" style="cursor:pointer;border:1px solid rgba(245,194,0,0.25);background:rgba(245,194,0,0.10);color:#F0F4FF;border-radius:999px;padding:6px 10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">EN</button>
+  </div>
+
 </header>
 
 <!-- ═══ HERO ═══ -->
@@ -678,6 +686,104 @@ footer{
   <div class="footer-meta">Confiabilidade: Gestão de Ativos Selados · Documento Interno · 2025</div>
   <div class="footer-notice">Uso Restrito · Não Compartilhar</div>
 </footer>
+
+
+<script>
+/* ═══ I18N ALL TEXTS (added) ═══
+   - Does NOT change page structure.
+   - Switches ALL static texts by matching original PT strings.
+*/
+(function(){
+  const DICT = {
+    es: {"Chesterton | Confiabilidade: Gestão de Ativos Selados": "Chesterton | Confiabilidad: Gestión de Activos Sellados", "Acesso Restrito · Uso Institucional": "Acceso restringido · Uso institucional", "Portal de": "Portal de", "Confiabilidade": "Confiabilidad", "Conteúdo institucional de uso interno. Insira a senha de acesso para continuar.": "Contenido institucional de uso interno. Ingresa la contraseña de acceso para continuar.", "Acessar Portal →": "Acceder al portal →", "Senha incorreta. Tente novamente.": "Contraseña incorrecta. Inténtalo de nuevo.", "Acesso restrito ao público autorizado · Não compartilhar externamente": "Acceso restringido al público autorizado · No compartir externamente", "Gestão de Ativos Selados": "Gestión de Activos Sellados", "Visão Geral": "Visión general", "Entregas": "Entregas", "Ecossistema": "Ecosistema", "Contratos": "Contratos", "Clientes": "Clientes", "Acessos": "Accesos", "Programa Ativo desde 2019": "Programa activo desde 2019", "Confiabilidade:": "Confiabilidad:", "Gestão de Ativos": "Gestión de Activos", "Selados": "Sellados", "Mais de 7 anos transformando dados em decisões. Do campo ao dashboard executivo — rastreabilidade total, governança por KPIs e monitoramento IIoT 24/7 em ativos rotativos críticos no Brasil.": "Más de 7 años transformando datos en decisiones. Del campo al dashboard ejecutivo: trazabilidad total, gobernanza por KPI y monitoreo IIoT 24/7 en activos rotativos críticos en Brasil.", "Ativos Monitorados": "Activos monitoreados", "Intervenções Realizadas": "Intervenciones realizadas", "Modelos Contratuais": "Modelos contractuales", "Monitoramento IIoT": "Monitoreo IIoT", "Contratos Ativos": "Contratos activos", "Inspeção IIoT": "Inspección IIoT", "Equipe de Campo": "Equipo de campo", "Selos Mecânicos": "Sellos mecánicos", "Sensoriamento": "Sensorización", "Sala de Controle": "Sala de Control", "Treinamento": "Capacitación", "Convenção LATAM": "Convención LATAM", "Feira Industrial": "Feria industrial", "Nossa Entrega": "Nuestra entrega", "O que": "Qué", "Entregamos": "Entregamos", "Um modelo estruturado de parceria técnico-operacional — combinando expertise em selagem, tecnologia digital proprietária e governança por dados.": "Un modelo estructurado de alianza técnico-operativa — combinando expertise en sellado, tecnología digital propietaria y gobernanza por datos.", "Rastreabilidade Total por Ativo": "Trazabilidad total por activo", "TAG NFC em cada equipamento. Histórico completo de intervenções, causas de falha e consumo de materiais — auditável em tempo real.": "TAG NFC en cada equipo. Historial completo de intervenciones, causas de falla y consumo de materiales — auditable en tiempo real.", "Indicadores de Confiabilidade": "Indicadores de confiabilidad", "MTBF, MTTR, Disponibilidade e Bad Actors gerados automaticamente. Dashboards Power BI atualizados em tempo real via SGA.": "MTBF, MTTR, Disponibilidad y Bad Actors generados automáticamente. Dashboards de Power BI actualizados en tiempo real vía SGA.", "Monitoramento IIoT 24/7": "Monitoreo IIoT 24/7", "Sensores Chesterton Connect instalados em ativos críticos. Dados de pressão, temperatura, vibração e detecção de vazamento em tempo real.": "Sensores Chesterton Connect instalados en activos críticos. Datos de presión, temperatura, vibración y detección de fugas en tiempo real.", "Governança por Dados": "Gobernanza por datos", "Três camadas de governança: operacional diária, tática mensal e QBR trimestral — com relatórios automáticos e planos de ação estruturados.": "Tres capas de gobernanza: operativa diaria, táctica mensual y QBR trimestral — con informes automáticos y planes de acción estructurados.", "Inteligência Artificial Integrada": "Inteligencia artificial integrada", "IA treinada com dados reais de selagem: análise preditiva de falhas, correlação de causa raiz e recomendações técnicas automatizadas.": "IA entrenada con datos reales de sellado: análisis predictivo de fallas, correlación de causa raíz y recomendaciones técnicas automatizadas.", "Comunicação Inteligente": "Comunicación inteligente", "WhatsApp automatizado integrado ao SGA. Consulte histórico de ativos, estoque consignado e alertas de desempenho diretamente pelo smartphone.": "WhatsApp automatizado integrado al SGA. Consulta el historial de activos, inventario consignado y alertas de desempeño directamente desde el smartphone.", "Plataforma": "Plataforma", "Digital": "Digital", "SGA como núcleo. Power BI como camada de visualização. IA para predição. IIoT para monitoramento. Sala de Controle como centro de inteligência.": "SGA como núcleo. Power BI como capa de visualización. IA para predicción. IIoT para monitoreo. Sala de Control como centro de inteligencia.", "TAG NFC": "TAG NFC", "Identidade do Ativo": "Identidad del activo", "Rotas de Inspeção": "Rutas de inspección", "Ordens de Serviço": "Órdenes de servicio", "Registro Digital": "Registro digital", "Dashboards Online": "Dashboards online", "IA Integrada": "IA integrada", "Análise Preditiva": "Análisis predictivo", "WhatsApp Bot": "Bot de WhatsApp", "Comunicação Smart": "Comunicación smart", "IIoT 24/7": "IIoT 24/7", "SBC — Brasil": "SBC — Brasil", "Análise de Falha": "Análisis de falla", "Causa Raiz": "Causa raíz", "Ativos rotativos cadastrados e monitorados desde 2019": "Activos rotativos registrados y monitoreados desde 2019", "Monitoramento contínuo via Sala de Controle e sensores Chesterton Connect": "Monitoreo continuo vía Sala de Control y sensores Chesterton Connect", "Redução de vazamentos, emissões fugitivas e consumo energético — dados auditáveis": "Reducción de fugas, emisiones fugitivas y consumo energético — datos auditables", "Portfólio": "Portafolio", "Modelos": "Modelos", "Contratuais": "Contractuales", "Sete modelos estruturados em três níveis de maturidade operacional. Do fornecimento de materiais à confiabilidade integrada com IIoT.": "Siete modelos estructurados en tres niveles de madurez operativa. Desde el suministro de materiales hasta la confiabilidad integrada con IIoT.", "Todos": "Todos", "Básico": "Básico", "Intermediário": "Intermedio", "Avançado": "Avanzado", "Presença Nacional": "Presencia nacional", "Ativos": "Activos", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do país.": "Presencia en múltiples sectores industriales (Papel y Celulosa, Química y Minería) de norte a sur del país.", "Portais": "Portales", "Rápidos": "Rápidos", "Links diretos para as principais ferramentas do ecossistema digital Chesterton.": "Enlaces directos a las principales herramientas del ecosistema digital Chesterton.", "Dashboard de Overall Equipment Effectiveness em tempo real. Indicadores MTBF, MTTR e performance operacional auditáveis.": "Dashboard de Overall Equipment Effectiveness en tiempo real. Indicadores MTBF, MTTR y desempeño operativo auditables.", "Abrir Dashboard": "Abrir dashboard", "Matriz de Escopo": "Matriz de alcance", "Matriz interativa com os 7 modelos contratuais e 32 escopos técnicos detalhados. Filtros por categoria e tipo de contrato.": "Matriz interactiva con los 7 modelos contractuales y 32 alcances técnicos detallados. Filtros por categoría y tipo de contrato.", "Abrir Matriz": "Abrir matriz", "Agente IA · SGA": "Agente IA · SGA", "Agente inteligente via WhatsApp integrado ao SGA. Consulte contratos, histórico de ativos e indicadores direto pelo smartphone.": "Agente inteligente vía WhatsApp integrado al SGA. Consulta contratos, historial de activos e indicadores directamente desde el smartphone.", "Abrir WhatsApp": "Abrir WhatsApp", "Site Chesterton Brasil": "Sitio Chesterton Brasil", "Portal institucional da Chesterton do Brasil. Produtos, soluções, casos de sucesso e contatos da equipe técnica.": "Portal institucional de Chesterton Brasil. Productos, soluciones, casos de éxito y contactos del equipo técnico.", "Acessar Site": "Acceder al sitio", "Confiabilidade: Gestão de Ativos Selados · Documento Interno · 2025": "Confiabilidad: Gestión de Activos Sellados · Documento interno · 2025", "Uso Restrito · Não Compartilhar": "Uso restringido · No compartir", "Acesso restrito": "Acceso restringido", "Acessos Rápidos": "Accesos rápidos", "Chesterton Home": "Chesterton Home", "Ecossistema Digital": "Ecosistema digital", "Galeria de campo": "Galería de campo", "Navegação": "Navegación", "O Que Entregamos": "Qué entregamos", "Senha de acesso": "Contraseña de acceso", "Convenção Chesterton": "Convención Chesterton", "Dashboard SGA": "Dashboard SGA", "Equipe Chesterton": "Equipo Chesterton", "Inspeção em campo": "Inspección en campo", "Manutenção de selos": "Mantenimiento de sellos", "Sensor Connect": "Sensor Connect", "Stand Chesterton": "Stand Chesterton", "Técnico em campo": "Técnico en campo"},
+    en: {"Chesterton | Confiabilidade: Gestão de Ativos Selados": "Chesterton | Reliability: Sealed Assets Management", "Acesso Restrito · Uso Institucional": "Restricted access · Institutional use", "Portal de": "Portal of", "Confiabilidade": "Reliability", "Conteúdo institucional de uso interno. Insira a senha de acesso para continuar.": "Internal institutional content. Enter the access password to continue.", "Acessar Portal →": "Enter portal →", "Senha incorreta. Tente novamente.": "Incorrect password. Try again.", "Acesso restrito ao público autorizado · Não compartilhar externamente": "Restricted to authorized audience · Do not share externally", "Gestão de Ativos Selados": "Sealed Assets Management", "Visão Geral": "Overview", "Entregas": "Deliverables", "Ecossistema": "Ecosystem", "Contratos": "Contracts", "Clientes": "Clients", "Acessos": "Access", "Programa Ativo desde 2019": "Active program since 2019", "Confiabilidade:": "Reliability:", "Gestão de Ativos": "Asset Management", "Selados": "Sealed", "Mais de 7 anos transformando dados em decisões. Do campo ao dashboard executivo — rastreabilidade total, governança por KPIs e monitoramento IIoT 24/7 em ativos rotativos críticos no Brasil.": "Over 7 years turning data into decisions. From the field to the executive dashboard — full traceability, KPI governance, and 24/7 IIoT monitoring of critical rotating assets in Brazil.", "Ativos Monitorados": "Monitored assets", "Intervenções Realizadas": "Interventions performed", "Modelos Contratuais": "Contract models", "Monitoramento IIoT": "IIoT monitoring", "Contratos Ativos": "Active contracts", "Inspeção IIoT": "IIoT inspection", "Equipe de Campo": "Field team", "Selos Mecânicos": "Mechanical seals", "Sensoriamento": "Sensorization", "Sala de Controle": "Control Room", "Treinamento": "Training", "Convenção LATAM": "LATAM Convention", "Feira Industrial": "Industrial Fair", "Nossa Entrega": "Our deliverables", "O que": "What", "Entregamos": "We deliver", "Um modelo estruturado de parceria técnico-operacional — combinando expertise em selagem, tecnologia digital proprietária e governança por dados.": "A structured technical-operational partnership model — combining sealing expertise, proprietary digital technology, and data governance.", "Rastreabilidade Total por Ativo": "Full asset traceability", "TAG NFC em cada equipamento. Histórico completo de intervenções, causas de falha e consumo de materiais — auditável em tempo real.": "NFC tag on each asset. Full history of interventions, failure causes, and material consumption — auditable in real time.", "Indicadores de Confiabilidade": "Reliability indicators", "MTBF, MTTR, Disponibilidade e Bad Actors gerados automaticamente. Dashboards Power BI atualizados em tempo real via SGA.": "MTBF, MTTR, Availability and Bad Actors generated automatically. Power BI dashboards updated in real time via SGA.", "Monitoramento IIoT 24/7": "24/7 IIoT monitoring", "Sensores Chesterton Connect instalados em ativos críticos. Dados de pressão, temperatura, vibração e detecção de vazamento em tempo real.": "Chesterton Connect sensors installed on critical assets. Real-time pressure, temperature, vibration and leak detection data.", "Governança por Dados": "Data governance", "Três camadas de governança: operacional diária, tática mensal e QBR trimestral — com relatórios automáticos e planos de ação estruturados.": "Three governance layers: daily operational, monthly tactical, and quarterly QBR — with automated reports and structured action plans.", "Inteligência Artificial Integrada": "Integrated artificial intelligence", "IA treinada com dados reais de selagem: análise preditiva de falhas, correlação de causa raiz e recomendações técnicas automatizadas.": "AI trained on real sealing data: predictive failure analysis, root-cause correlation, and automated technical recommendations.", "Comunicação Inteligente": "Smart communication", "WhatsApp automatizado integrado ao SGA. Consulte histórico de ativos, estoque consignado e alertas de desempenho diretamente pelo smartphone.": "Automated WhatsApp integrated with SGA. Check asset history, consignment stock, and performance alerts directly from your smartphone.", "Plataforma": "Platform", "Digital": "Digital", "SGA como núcleo. Power BI como camada de visualização. IA para predição. IIoT para monitoramento. Sala de Controle como centro de inteligência.": "SGA as the core. Power BI as the visualization layer. AI for prediction. IIoT for monitoring. Control Room as the intelligence center.", "TAG NFC": "NFC tag", "Identidade do Ativo": "Asset identity", "Rotas de Inspeção": "Inspection routes", "Ordens de Serviço": "Work orders", "Registro Digital": "Digital records", "Dashboards Online": "Online dashboards", "IA Integrada": "Integrated AI", "Análise Preditiva": "Predictive analytics", "WhatsApp Bot": "WhatsApp bot", "Comunicação Smart": "Smart communication", "IIoT 24/7": "IIoT 24/7", "SBC — Brasil": "SBC — Brazil", "Análise de Falha": "Failure analysis", "Causa Raiz": "Root cause", "Ativos rotativos cadastrados e monitorados desde 2019": "Rotating assets registered and monitored since 2019", "Monitoramento contínuo via Sala de Controle e sensores Chesterton Connect": "Continuous monitoring via Control Room and Chesterton Connect sensors", "Redução de vazamentos, emissões fugitivas e consumo energético — dados auditáveis": "Reduced leaks, fugitive emissions and energy consumption — auditable data", "Portfólio": "Portfolio", "Modelos": "Models", "Contratuais": "Contract", "Sete modelos estruturados em três níveis de maturidade operacional. Do fornecimento de materiais à confiabilidade integrada com IIoT.": "Seven models structured across three operational maturity levels — from materials supply to IIoT-integrated reliability.", "Todos": "All", "Básico": "Basic", "Intermediário": "Intermediate", "Avançado": "Advanced", "Presença Nacional": "National presence", "Ativos": "Active", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do país.": "Presence across multiple industrial sectors — Pulp & Paper, Chemicals, and Mining — from north to south of the country.", "Portais": "Portals", "Rápidos": "Quick", "Links diretos para as principais ferramentas do ecossistema digital Chesterton.": "Direct links to the main tools in the Chesterton digital ecosystem.", "Dashboard de Overall Equipment Effectiveness em tempo real. Indicadores MTBF, MTTR e performance operacional auditáveis.": "Real-time Overall Equipment Effectiveness dashboard. Auditable MTBF, MTTR and operational performance indicators.", "Abrir Dashboard": "Open dashboard", "Matriz de Escopo": "Scope matrix", "Matriz interativa com os 7 modelos contratuais e 32 escopos técnicos detalhados. Filtros por categoria e tipo de contrato.": "Interactive matrix with the 7 contract models and 32 detailed technical scopes. Filters by category and contract type.", "Abrir Matriz": "Open matrix", "Agente IA · SGA": "AI Agent · SGA", "Agente inteligente via WhatsApp integrado ao SGA. Consulte contratos, histórico de ativos e indicadores direto pelo smartphone.": "Smart WhatsApp agent integrated with SGA. Check contracts, asset history and indicators directly from your smartphone.", "Abrir WhatsApp": "Open WhatsApp", "Site Chesterton Brasil": "Chesterton Brazil website", "Portal institucional da Chesterton do Brasil. Produtos, soluções, casos de sucesso e contatos da equipe técnica.": "Institutional portal of Chesterton Brazil. Products, solutions, success cases and technical team contacts.", "Acessar Site": "Open website", "Confiabilidade: Gestão de Ativos Selados · Documento Interno · 2025": "Reliability: Sealed Assets Management · Internal Document · 2025", "Uso Restrito · Não Compartilhar": "Restricted use · Do not share", "Acesso restrito": "Restricted access", "Acessos Rápidos": "Quick access", "Chesterton Home": "Chesterton Home", "Ecossistema Digital": "Digital ecosystem", "Galeria de campo": "Field gallery", "Navegação": "Navigation", "O Que Entregamos": "What we deliver", "Senha de acesso": "Access password", "Convenção Chesterton": "Chesterton convention", "Dashboard SGA": "SGA dashboard", "Equipe Chesterton": "Chesterton team", "Inspeção em campo": "Field inspection", "Manutenção de selos": "Seal maintenance", "Sensor Connect": "Connect sensor", "Stand Chesterton": "Chesterton booth", "Técnico em campo": "Field technician"}
+  };
+  const ATTRS = ["aria-label","title","placeholder","alt","value"];
+
+  function setActive(lang){
+    document.querySelectorAll('#langSwitch .lang-btn').forEach(b=>{
+      b.classList.toggle('is-active', b.dataset.lang === lang);
+      b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true':'false');
+    });
+  }
+
+  function translateTextNode(node, map){
+    const raw = node.nodeValue;
+    const trimmed = raw.trim();
+    if(!trimmed) return;
+    const repl = map[trimmed];
+    if(!repl) return;
+
+    // preserve leading/trailing whitespace
+    const lead = raw.match(/^\s*/)?.[0] || "";
+    const trail = raw.match(/\s*$/)?.[0] || "";
+    node.nodeValue = lead + repl + trail;
+  }
+
+  function translateAttributes(el, map){
+    ATTRS.forEach(a=>{
+      const v = el.getAttribute(a);
+      if(!v) return;
+      const t = v.trim();
+      const repl = map[t];
+      if(!repl) return;
+      el.setAttribute(a, repl);
+    });
+  }
+
+  function apply(lang){
+    const map = (lang === "pt") ? null : (DICT[lang] || null);
+
+    // If PT: reload original texts by hard refresh of the document (safe and complete)
+    if(lang === "pt"){
+      try{ localStorage.setItem('portal_lang','pt'); }catch(e){}
+      // quick UX: if already pt, do nothing
+      if(document.documentElement.getAttribute('data-lang-applied') === 'pt') {
+        setActive('pt');
+        return;
+      }
+      location.reload();
+      return;
+    }
+
+    // translate document title if we can
+    if(map["Chesterton | Confiabilidade: Gestão de Ativos Selados"]) {
+      document.title = map["Chesterton | Confiabilidade: Gestão de Ativos Selados"];
+    }
+
+    // translate text nodes
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(n){
+        if(!n.parentElement) return NodeFilter.FILTER_REJECT;
+        const tag = n.parentElement.tagName;
+        if(tag === "SCRIPT" || tag === "STYLE" || tag === "NOSCRIPT") return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    const textNodes = [];
+    while(walker.nextNode()) textNodes.push(walker.currentNode);
+    textNodes.forEach(n=>translateTextNode(n, map));
+
+    // translate attributes
+    document.querySelectorAll('*').forEach(el=>translateAttributes(el, map));
+
+    document.documentElement.setAttribute('lang', lang === 'es' ? 'es' : 'en');
+    document.documentElement.setAttribute('data-lang-applied', lang);
+    setActive(lang);
+    try{ localStorage.setItem('portal_lang', lang); }catch(e){}
+  }
+
+  window.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('#langSwitch .lang-btn').forEach(btn=>{
+      btn.addEventListener('click', function(){ apply(this.dataset.lang); });
+    });
+    const saved = (function(){ try{ return localStorage.getItem('portal_lang'); }catch(e){ return null; } })();
+    setActive(saved || 'pt');
+    if(saved && saved !== 'pt') apply(saved);
+    else document.documentElement.setAttribute('data-lang-applied','pt');
+  });
+})();
+</script>
 
 <script>
 // ═══ AUTH ═══
