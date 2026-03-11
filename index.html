@@ -2025,5 +2025,439 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 </script>
+
+<!-- ═══ SGA — SISTEMA DE GESTÃO DE ATIVOS ═══ -->
+<script>
+(function() {
+  const SENHA_SGA = 'Contratos01';
+
+  const sistemas = [
+    {
+      id: 'klabin-selo',
+      label: 'Klabin Monte Alegre',
+      sub: 'Selo Mecânico',
+      color: '#0e9e5a',
+      icon: 'K',
+      url: 'https://www.appsheet.com/start/9fa24309-6357-4b44-9023-b989bd236ca3?platform=desktop#appName=SGA_Klabin_Monte_Alegre_Selo-136726047&vss=H4sIAAAAAAAAA52OvQ7CMBCD38VzniBjKQNCsIBYCENorlJEm1RNWqiivDtXfsQKjOfzZzthtHTdRV1dII_pc61pgkRS2E8dKUiFhXex942CUNjq9ikWpUJGPok3GSlApm9B-W-jgDXkoq0t9XPKzDD9Ivg9-1koSmSBdoj63NBjHrtzZq321RDIHLj-p9qwcstbp53ZeMNhtW4C5Ts6xi4ERwEAAA==&view=BD'
+    },
+    {
+      id: 'klabin-gaxeta',
+      label: 'Klabin Monte Alegre',
+      sub: 'Gaxeta',
+      color: '#7b3fa0',
+      icon: 'K',
+      url: 'https://www.appsheet.com/start/9fa24309-6357-4b44-9023-b989bd236ca3?platform=desktop#appName=SGA_KLABIN_MA_GAXETA-136726047&vss=H4sIAAAAAAAAA52OvQ7CMBCD38VzniBjKQNCsIBYCENorlJEm1RNWqiivDtXfsQKjOfzZzthtHTdRV1dII_pc61pgkRS2E8dKUiFhXex942CUNjq9ikWpUJGPok3GSlApm9B-W-jgDXkoq0t9XPKzDD9Ivg9-1koSmSBdoj63NBjHrtzZq321RDIHLj-p9qwcstbp53ZeMNhtW4C5Ts6xi4ERwEAAA==&view=BD'
+    },
+    {
+      id: 'klabin-ortigueira',
+      label: 'Klabin Ortigueira',
+      sub: 'Gestão de Ativos',
+      color: '#0e7c9e',
+      icon: 'K',
+      url: 'https://www.appsheet.com/start/9fa24309-6357-4b44-9023-b989bd236ca3?platform=desktop#appName=KLABIN_ORTIGUEIRA-136726047&vss=H4sIAAAAAAAAA52OvQ7CMBCD38VzniBjKQNCsIBYCENorlJEm1RNWqiivDtXfsQKjOfzZzthtHTdRV1dII_pc61pgkRS2E8dKUiFhXex942CUNjq9ikWpUJGPok3GSlApm9B-W-jgDXkoq0t9XPKzDD9Ivg9-1koSmSBdoj63NBjHrtzZq321RDIHLj-p9qwcstbp53ZeMNhtW4C5Ts6xi4ERwEAAA==&view=BD'
+    },
+    {
+      id: 'nexa',
+      label: 'Nexa 3 Marias',
+      sub: 'Gestão de Ativos',
+      color: '#d97706',
+      icon: 'N',
+      url: 'https://www.appsheet.com/start/9fa24309-6357-4b44-9023-b989bd236ca3?platform=desktop#appName=NewApp-136726047&vss=H4sIAAAAAAAAA52OvQ7CMBCD38VzniBjKQNCsIBYCENorlJEm1RNWqiivDtXfsQKjOfzZzthtHTdRV1dII_pc61pgkRS2E8dKUiFhXex942CUNjq9ikWpUJGPok3GSlApm9B-W-jgDXkoq0t9XPKzDD9Ivg9-1koSmSBdoj63NBjHrtzZq321RDIHLj-p9qwcstbp53ZeMNhtW4C5Ts6xi4ERwEAAA==&view=BD'
+    },
+    {
+      id: 'unipar',
+      label: 'Unipar',
+      sub: 'Gestão de Ativos',
+      color: '#1a6fbf',
+      icon: 'U',
+      url: 'https://www.appsheet.com/start/9fa24309-6357-4b44-9023-b989bd236ca3?platform=desktop#appName=SGA-GerenciamentodeAtivos-136726047&vss=H4sIAAAAAAAAA62POw7CMBBErxJNbS7gMoECIWj4NJjCxBvJIrGj2AEiy3fH4SNEG1HujN7TbMBV023rZXkBP4bvtaIBHEFgN7QkwAUKa3xnawEmsJHNK8zn2SzbG93KLitygYh4Yh-LJwcepkj4P5YwaEXG60pTNxpHPpnedKpHNgW_JCJD03t5run5QiJjTFlly96ROqRZk-e4pVncW2nU2qokrmTtKD4AW9HbcoMBAAA=&view=BD%20-%20Unipar%20CB'
+    }
+  ];
+
+  // ── Inject CSS ──
+  const style = document.createElement('style');
+  style.textContent = `
+    /* ─── SEÇÃO SGA ─── */
+    #sga-section {
+      background: linear-gradient(135deg, #050c0f 0%, #061a14 60%, #050e0a 100%);
+      border-top: 2px solid #0e9e5a;
+      padding: 72px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    #sga-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(14,158,90,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .sga-section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .sga-badge-restricted {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(14,158,90,0.12);
+      border: 1px solid rgba(14,158,90,0.4);
+      border-radius: 50px;
+      padding: 6px 18px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #0e9e5a;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .sga-badge-restricted svg { width:14px; height:14px; }
+    .sga-section-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+    .sga-section-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ── GATE DE SENHA ── */
+    #sga-gate {
+      max-width: 420px;
+      margin: 0 auto 60px;
+      background: rgba(14,158,90,0.05);
+      border: 1px solid rgba(14,158,90,0.25);
+      border-radius: 16px;
+      padding: 36px 32px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+    .sga-gate-icon { font-size: 36px; margin-bottom: 14px; }
+    .sga-gate-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .sga-gate-hint  { font-size: 12px; color: rgba(255,255,255,0.35); margin-bottom: 24px; }
+    .sga-input-wrap { position: relative; margin-bottom: 16px; }
+    #sga-password-input {
+      width: 100%;
+      padding: 13px 44px 13px 16px;
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+    #sga-password-input:focus  { border-color: #0e9e5a; }
+    #sga-password-input.error  {
+      border-color: #e74c3c;
+      animation: sga-shake 0.35s ease;
+    }
+    @keyframes sga-shake {
+      0%,100%{transform:translateX(0)}
+      25%{transform:translateX(-6px)}
+      75%{transform:translateX(6px)}
+    }
+    .sga-eye-btn {
+      position: absolute; right: 12px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: rgba(255,255,255,0.4); padding: 4px;
+      line-height: 1; transition: color 0.2s;
+    }
+    .sga-eye-btn:hover { color: #0e9e5a; }
+    #sga-error-msg {
+      font-size: 12px; color: #e74c3c;
+      min-height: 16px; margin-bottom: 12px; display: none;
+    }
+    #sga-submit-btn {
+      width: 100%; padding: 13px;
+      background: linear-gradient(135deg, #0e9e5a 0%, #0a7d46 100%);
+      border: none; border-radius: 10px;
+      color: #fff; font-size: 14px; font-weight: 800;
+      cursor: pointer; letter-spacing: 0.5px;
+      transition: opacity 0.2s, transform 0.15s;
+      font-family: inherit;
+    }
+    #sga-submit-btn:hover  { opacity: 0.9; transform: translateY(-1px); }
+    #sga-submit-btn:active { transform: translateY(0); }
+
+    /* ── PAINEL DE SISTEMAS ── */
+    #sga-sistemas {
+      display: none;
+      animation: sga-fadein 0.5s ease;
+    }
+    @keyframes sga-fadein {
+      from { opacity:0; transform: translateY(20px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    .sga-access-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: 0 auto 32px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .sga-access-info {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 12px; color: rgba(255,255,255,0.45);
+    }
+    .sga-dot-green {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #0e9e5a; box-shadow: 0 0 6px #0e9e5a; flex-shrink: 0;
+    }
+    #sga-logout-btn {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px; padding: 7px 16px;
+      color: rgba(255,255,255,0.6); font-size: 12px;
+      cursor: pointer; font-family: inherit; transition: all 0.2s;
+    }
+    #sga-logout-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+    /* ── GRID DE CARDS ── */
+    .sga-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .sga-card {
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 28px 24px 24px;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .sga-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--card-color, #0e9e5a);
+      border-radius: 16px 16px 0 0;
+    }
+    .sga-card:hover {
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.07);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+    .sga-card-top {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 18px;
+    }
+    .sga-card-avatar {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 800;
+      color: #fff; flex-shrink: 0;
+      background: var(--card-color, #0e9e5a);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    .sga-card-info { flex: 1; min-width: 0; }
+    .sga-card-name {
+      font-size: 15px; font-weight: 700; color: #fff;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 3px;
+    }
+    .sga-card-sub { font-size: 12px; color: rgba(255,255,255,0.4); }
+    .sga-card-status {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 11px; color: rgba(255,255,255,0.35);
+      margin-bottom: 20px;
+    }
+    .sga-status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #0e9e5a; box-shadow: 0 0 5px #0e9e5a;
+      animation: sga-pulse 2s ease infinite; flex-shrink: 0;
+    }
+    @keyframes sga-pulse {
+      0%,100%{ box-shadow: 0 0 4px #0e9e5a; }
+      50%    { box-shadow: 0 0 10px #0e9e5a, 0 0 20px rgba(14,158,90,0.3); }
+    }
+    .sga-open-btn {
+      width: 100%; padding: 12px 16px;
+      border-radius: 10px; border: none;
+      font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+      font-family: inherit;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--card-color, #0e9e5a);
+      color: #fff;
+      letter-spacing: 0.3px;
+    }
+    .sga-open-btn:hover  { filter: brightness(1.15); transform: translateY(-1px); }
+    .sga-open-btn:active { transform: translateY(0); }
+    .sga-open-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    /* ── DICA INFERIOR ── */
+    .sga-hint-bar {
+      max-width: 1100px;
+      margin: 28px auto 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+    }
+    .sga-hint-bar svg { width:14px; height:14px; flex-shrink:0; opacity:0.5; }
+  `;
+  document.head.appendChild(style);
+
+  // ── Inject HTML ──
+  const section = document.createElement('section');
+  section.id = 'sga-section';
+  section.innerHTML = `
+    <div class="sga-section-header">
+      <div class="sga-badge-restricted">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        Acesso Restrito
+      </div>
+      <div class="sga-section-title">SGA — Sistema de Gestão de Ativos</div>
+      <div class="sga-section-sub">Acesso direto aos sistemas AppSheet por contrato. Área exclusiva mediante senha.</div>
+    </div>
+
+    <!-- Gate de senha -->
+    <div id="sga-gate">
+      <div class="sga-gate-icon">🛡️</div>
+      <div class="sga-gate-title">Área Restrita — SGA</div>
+      <div class="sga-gate-hint">Insira a senha para acessar os sistemas</div>
+      <div class="sga-input-wrap">
+        <input id="sga-password-input" type="password" placeholder="Senha de acesso…" autocomplete="off" />
+        <button class="sga-eye-btn" id="sga-eye-btn" type="button" title="Mostrar/ocultar senha">
+          <svg id="sga-eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+      <div id="sga-error-msg">Senha incorreta. Verifique e tente novamente.</div>
+      <button id="sga-submit-btn" type="button">Acessar Sistemas SGA</button>
+    </div>
+
+    <!-- Painel de sistemas (oculto até autenticar) -->
+    <div id="sga-sistemas">
+      <div class="sga-access-bar">
+        <div class="sga-access-info">
+          <div class="sga-dot-green"></div>
+          <span>Sessão autenticada · Sistemas AppSheet</span>
+        </div>
+        <button id="sga-logout-btn" type="button">🔒 Bloquear acesso</button>
+      </div>
+      <div class="sga-grid" id="sga-grid"></div>
+      <div class="sga-hint-bar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        Cada sistema abre em uma janela separada. Certifique-se de estar logado no AppSheet com italo.alves@chesterton.com
+      </div>
+    </div>
+  `;
+  document.body.appendChild(section);
+
+  // ── Build cards ──
+  const grid = document.getElementById('sga-grid');
+
+  sistemas.forEach((s) => {
+    const card = document.createElement('div');
+    card.className = 'sga-card';
+    card.style.setProperty('--card-color', s.color);
+    card.innerHTML = `
+      <div class="sga-card-top">
+        <div class="sga-card-avatar" style="background:${s.color}">${s.icon}</div>
+        <div class="sga-card-info">
+          <div class="sga-card-name">${s.label}</div>
+          <div class="sga-card-sub">${s.sub}</div>
+        </div>
+      </div>
+      <div class="sga-card-status">
+        <div class="sga-status-dot"></div>
+        Sistema ativo · AppSheet
+      </div>
+      <button class="sga-open-btn" data-url="${s.url}" data-id="${s.id}" style="background:${s.color}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        Abrir no SGA
+      </button>
+    `;
+    grid.appendChild(card);
+  });
+
+  // ── Função abre janela SGA ──
+  function openSGA(url) {
+    const w    = Math.min(1440, screen.availWidth  - 40);
+    const h    = Math.min(900,  screen.availHeight - 60);
+    const left = Math.round((screen.availWidth  - w) / 2);
+    const top  = Math.round((screen.availHeight - h) / 2);
+    window.open(
+      url,
+      'SGA_Sistema',
+      `width=${w},height=${h},left=${left},top=${top},menubar=no,toolbar=no,location=no,status=no,scrollbars=yes,resizable=yes`
+    );
+  }
+
+  // Delegação de evento nos botões do grid
+  grid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.sga-open-btn');
+    if (btn) openSGA(btn.dataset.url);
+  });
+
+  // ── Lógica de senha ──
+  const gate       = document.getElementById('sga-gate');
+  const sistemasEl = document.getElementById('sga-sistemas');
+  const input      = document.getElementById('sga-password-input');
+  const errorMsg   = document.getElementById('sga-error-msg');
+  const submitBtn  = document.getElementById('sga-submit-btn');
+  const logoutBtn  = document.getElementById('sga-logout-btn');
+  const eyeBtn     = document.getElementById('sga-eye-btn');
+
+  // Mostrar/ocultar senha
+  eyeBtn.addEventListener('click', () => {
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    document.getElementById('sga-eye-icon').innerHTML = show
+      ? '<line x1="1" y1="1" x2="23" y2="23"/><path d="M10.5 6.5a5 5 0 0 1 7 7"/><path d="M9.9 1.3C7.5 2.4 5.3 4.3 3.3 7 1 10.1 1 12 1 12s4 8 11 8c1.9 0 3.7-.5 5.3-1.3"/><path d="M6.1 6.1A10.2 10.2 0 0 0 1 12s4 8 11 8c2.4 0 4.6-.8 6.4-2.1"/>'
+      : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  });
+
+  function tryUnlockSGA() {
+    if (input.value === SENHA_SGA) {
+      errorMsg.style.display  = 'none';
+      input.classList.remove('error');
+      gate.style.display       = 'none';
+      sistemasEl.style.display = 'block';
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      errorMsg.style.display = 'block';
+      input.classList.add('error');
+      setTimeout(() => input.classList.remove('error'), 400);
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  submitBtn.addEventListener('click', tryUnlockSGA);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlockSGA(); });
+
+  logoutBtn.addEventListener('click', () => {
+    sistemasEl.style.display = 'none';
+    gate.style.display       = 'block';
+    input.value = '';
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+})();
+</script>
 </body>
 </html>
