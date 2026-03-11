@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chesterton | Confiabilidade: Gestão de Ativos Selados</title>
+<title>Chesterton | Confiabilidade: Gestão de Ativos Rotativos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -441,6 +441,327 @@ footer{
   .clients-grid{grid-template-columns:1fr}
   footer{flex-direction:column;text-align:center}
 }
+
+/* ── CHESTERTON BRAND STRIP ─────────────────────────────────── */
+.brand-strip{
+  background:var(--dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:10px 40px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+}
+.brand-strip-tag{
+  font-family:"Space Mono",monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);
+}
+.brand-strip-tagline{
+  font-family:"Space Mono",monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--white2);opacity:0.7;
+}
+.brand-strip-flags{display:flex;gap:6px;align-items:center}
+.brand-flag{
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);font-family:"Space Mono",monospace;
+  background:var(--dark2);padding:3px 8px;border-radius:4px;border:1px solid var(--border);
+}
+
+/* ── TETRIS JOURNEY ─────────────────────────────────── */
+#jornada{background:var(--dark);position:relative;overflow:hidden}
+.journey-quote{
+  background:linear-gradient(135deg,rgba(245,194,0,0.08),rgba(26,127,212,0.06));
+  border:1px solid rgba(245,194,0,0.25);border-radius:var(--radius-lg);
+  padding:28px 36px;margin-bottom:56px;position:relative;overflow:hidden;
+}
+.journey-quote::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--gold),var(--blue));border-radius:3px 0 0 3px;
+}
+.journey-quote p{
+  font-size:15px;color:var(--white2);line-height:1.8;font-style:italic;
+}
+.journey-quote strong{color:var(--gold)}
+
+/* Tetris blocks layout */
+.tetris-wrapper{
+  display:flex;flex-direction:column;gap:24px;align-items:stretch;
+}
+.tetris-row{
+  display:grid;gap:16px;
+}
+.tetris-row.row-base{ grid-template-columns:1fr 1fr; }
+.tetris-row.row-evolucao{ grid-template-columns:1fr 1fr 1fr 1fr; }
+.tetris-row.row-core{ grid-template-columns:1fr; max-width:680px; margin:0 auto; width:100%; }
+
+.tetris-group-label{
+  font-family:"Space Mono",monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:12px;
+}
+.tetris-group-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.tetris-arrow{
+  display:flex;justify-content:center;align-items:center;
+  padding:8px 0;color:var(--gold);opacity:0.5;font-size:20px;
+  position:relative;
+}
+.tetris-arrow::before{
+  content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,transparent,var(--gold),transparent);
+  transform:translateX(-50%);
+}
+
+/* Base tetris block card */
+.tetris-card{
+  background:var(--dark2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:22px 24px;
+  position:relative;overflow:hidden;transition:var(--t-slow);
+  opacity:0;transform:translateY(20px);
+}
+.tetris-card.visible{opacity:1;transform:translateY(0)}
+.tetris-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--gold-dim);transition:var(--t-slow);
+}
+.tetris-card:hover::after{background:var(--gold);opacity:0.6}
+.tetris-card:hover{border-color:rgba(245,194,0,0.3);transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,0.3)}
+
+/* GROUP LABELS: base / evoluçao / estratégico */
+.tetris-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:"Space Mono",monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;
+  padding:3px 9px;border-radius:999px;margin-bottom:12px;
+}
+.tbadge-base{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(26,127,212,0.3)}
+.tbadge-evolucao{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(245,194,0,0.3)}
+.tbadge-core{background:rgba(245,194,0,0.18);color:var(--gold);border:1px solid rgba(245,194,0,0.5);font-size:9px;letter-spacing:2.5px}
+
+.tetris-num{font-family:"Space Mono",monospace;font-size:10px;color:var(--muted);margin-bottom:6px}
+.tetris-title{font-family:"Bebas Neue",sans-serif;font-size:20px;color:var(--white);margin-bottom:6px;letter-spacing:0.5px;line-height:1.1}
+.tetris-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* CORE CARD — 2.5 */
+.tetris-card.core-card{
+  background:linear-gradient(135deg,var(--dark2) 0%,rgba(245,194,0,0.05) 100%);
+  border:2px solid var(--gold);
+  box-shadow:0 0 60px rgba(245,194,0,0.15),0 0 0 4px rgba(245,194,0,0.06);
+  padding:36px 48px;
+  display:flex;gap:40px;align-items:center;
+  opacity:0;transform:translateY(30px) scale(0.98);
+}
+.tetris-card.core-card.visible{opacity:1;transform:translateY(0) scale(1)}
+.tetris-card.core-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 80% at 50% 0%,rgba(245,194,0,0.07),transparent 70%);
+  pointer-events:none;
+}
+.tetris-card.core-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),var(--gold),transparent);
+}
+.core-left{flex:1;min-width:0}
+.core-right{
+  background:var(--dark3);border:1px solid var(--border2);border-radius:var(--radius);
+  padding:20px 24px;min-width:240px;flex-shrink:0;
+  display:flex;flex-direction:column;gap:12px;
+}
+.core-stat-row{display:flex;flex-direction:column;gap:4px}
+.core-stat-label{font-family:"Space Mono",monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.core-stat-val{font-family:"Bebas Neue",sans-serif;font-size:26px;color:var(--gold);line-height:1}
+.core-stat-sep{height:1px;background:var(--border);margin:4px 0}
+.core-badge-alvo{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--gold);color:var(--black);
+  font-family:"Space Mono",monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  padding:5px 14px;border-radius:999px;margin-bottom:12px;font-weight:700;
+}
+.core-badge-alvo::before{content:'⬡';font-size:8px}
+.core-tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.core-tag{
+  font-size:10px;padding:3px 8px;border-radius:100px;
+  background:rgba(245,194,0,0.1);color:var(--gold);
+  border:1px solid rgba(245,194,0,0.25);
+}
+.tetris-card.core-card .tetris-num{font-size:12px;color:var(--gold2)}
+.tetris-card.core-card .tetris-title{font-size:32px;color:var(--white)}
+.tetris-card.core-card .tetris-desc{font-size:14px;color:var(--white2);line-height:1.6}
+.objetivo-label{
+  font-family:"Space Mono",monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold2);margin-top:8px;display:flex;align-items:center;gap:6px;
+}
+.objetivo-label::before{content:'→';font-size:11px}
+
+/* ── CONTRACT GROUPS (journey section in contratos) ─────────── */
+#contratos{background:var(--black)}
+.contracts-journey-header{
+  background:linear-gradient(135deg,rgba(245,194,0,0.07),rgba(26,127,212,0.04));
+  border:1px solid rgba(245,194,0,0.2);border-radius:var(--radius-lg);
+  padding:24px 32px;margin-bottom:48px;
+}
+.contracts-journey-header p{
+  font-size:14px;color:var(--white2);line-height:1.8;
+}
+.contracts-journey-header strong{color:var(--gold)}
+.cgroup-section{margin-bottom:40px}
+.cgroup-header{
+  display:flex;align-items:center;gap:16px;margin-bottom:20px;
+}
+.cgroup-badge{
+  font-family:"Space Mono",monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;
+  padding:5px 14px;border-radius:999px;
+}
+.cbadge-base{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(26,127,212,0.35)}
+.cbadge-evolucao{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(245,194,0,0.35)}
+.cbadge-core{background:rgba(245,194,0,0.2);color:var(--gold);border:1px solid rgba(245,194,0,0.6);font-weight:700}
+.cgroup-title{font-family:"Bebas Neue",sans-serif;font-size:18px;color:var(--white2);letter-spacing:1px}
+.cgroup-line{flex:1;height:1px;background:var(--border)}
+.cgroup-grid-base{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cgroup-grid-evolucao{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.cgroup-grid-core{display:grid;grid-template-columns:1fr;gap:0}
+
+/* Reuse contract-card styles but add group variants */
+.contract-card-v2{
+  background:var(--dark2);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:28px;
+  position:relative;overflow:hidden;transition:var(--t-slow);
+  opacity:0;transform:translateY(20px);
+}
+.contract-card-v2.visible{opacity:1;transform:translateY(0)}
+.contract-card-v2:hover{border-color:rgba(245,194,0,0.3);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,0.4)}
+.contract-card-v2::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--border2);transform:scaleX(0);transform-origin:left;transition:var(--t-slow);
+}
+.contract-card-v2:hover::before{transform:scaleX(1);background:var(--gold)}
+
+/* Core contract card (2.5) */
+.contract-card-core{
+  background:linear-gradient(135deg,var(--dark2) 0%,rgba(245,194,0,0.06) 100%);
+  border:2px solid var(--gold) !important;
+  border-radius:var(--radius-lg);padding:40px 48px;
+  position:relative;overflow:hidden;transition:var(--t-slow);
+  opacity:0;transform:translateY(20px);
+  display:grid;grid-template-columns:1fr 260px;gap:40px;align-items:start;
+  box-shadow:0 0 80px rgba(245,194,0,0.1),0 0 0 4px rgba(245,194,0,0.05);
+}
+.contract-card-core.visible{opacity:1;transform:translateY(0)}
+.contract-card-core:hover{box-shadow:0 0 100px rgba(245,194,0,0.2),0 0 0 4px rgba(245,194,0,0.08);transform:translateY(-4px)}
+.contract-card-core::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),var(--gold),transparent);
+}
+.contract-card-core::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 60% at 30% 0%,rgba(245,194,0,0.06),transparent 60%);
+}
+.core-card-left{position:relative;z-index:1}
+.core-card-right{
+  background:var(--dark3);border:1px solid var(--border2);border-radius:var(--radius);
+  padding:20px;display:flex;flex-direction:column;gap:14px;position:relative;z-index:1;
+  align-self:start;
+}
+.core-stat-item{display:flex;flex-direction:column;gap:3px}
+.core-stat-item .lbl{font-family:"Space Mono",monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.core-stat-item .val{font-family:"Bebas Neue",sans-serif;font-size:28px;color:var(--gold);line-height:1}
+.core-stat-item .val.blue{color:var(--blue);font-size:22px}
+.core-sep{height:1px;background:var(--border)}
+.badge-modelo-alvo{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--gold);color:var(--black);
+  font-family:"Space Mono",monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;
+  padding:5px 14px;border-radius:999px;margin-bottom:14px;font-weight:700;
+}
+.objetivo-est{
+  font-family:"Space Mono",monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gold2);margin-top:10px;display:flex;align-items:center;gap:6px;opacity:0.85;
+}
+.objetivo-est::before{content:'◆';font-size:8px}
+
+/* ── CLIENTS TABLE ─────────────────────────────────── */
+#contratos-ativos{background:var(--dark)}
+.clients-stats-bar{
+  display:flex;gap:20px;flex-wrap:wrap;margin-bottom:40px;
+}
+.cstat-item{
+  background:var(--dark2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 24px;flex:1;min-width:140px;
+}
+.cstat-val{font-family:"Bebas Neue",sans-serif;font-size:36px;color:var(--gold);line-height:1}
+.cstat-label{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:0.5px}
+.clients-table-wrap{
+  background:var(--dark2);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;
+}
+.clients-table{width:100%;border-collapse:collapse}
+.clients-table thead tr{background:var(--dark3);border-bottom:1px solid var(--border2)}
+.clients-table thead th{
+  font-family:"Space Mono",monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);padding:14px 18px;text-align:left;white-space:nowrap;
+  font-weight:400;
+}
+.clients-table tbody tr{
+  border-bottom:1px solid var(--border);transition:var(--t);
+}
+.clients-table tbody tr:last-child{border-bottom:none}
+.clients-table tbody tr:hover{background:rgba(245,194,0,0.03)}
+.clients-table td{padding:14px 18px;font-size:13px;vertical-align:middle}
+.td-company{font-weight:500;color:var(--white);font-size:14px}
+.td-status-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:"Space Mono",monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;
+  padding:3px 10px;border-radius:100px;white-space:nowrap;
+}
+.td-status-seal{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(245,194,0,0.3)}
+.td-status-gasket{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(26,127,212,0.3)}
+.td-status-monitor{background:rgba(212,32,32,0.12);color:#FF6B6B;border:1px solid rgba(212,32,32,0.3)}
+.td-country{color:var(--white2);font-size:14px}
+.td-city{color:var(--muted);font-size:12px}
+.td-equip{font-family:"Bebas Neue",sans-serif;font-size:20px;color:var(--white2);text-align:right}
+.td-mtbf{font-family:"Bebas Neue",sans-serif;font-size:20px;text-align:right}
+.mtbf-high{color:#4CAF50}
+.mtbf-mid{color:var(--gold)}
+.mtbf-low{color:#FF6B6B}
+.mtbf-none{color:var(--muted);font-size:13px}
+
+@media(max-width:1100px){
+  .cgroup-grid-evolucao{grid-template-columns:repeat(2,1fr)}
+  .contract-card-core{grid-template-columns:1fr;padding:28px}
+  .tetris-row.row-evolucao{grid-template-columns:repeat(2,1fr)}
+  .tetris-card.core-card{flex-direction:column;padding:28px}
+  .core-right{min-width:0;width:100%}
+}
+@media(max-width:768px){
+  .cgroup-grid-base,.cgroup-grid-evolucao{grid-template-columns:1fr}
+  .contract-card-core{grid-template-columns:1fr;padding:24px 20px}
+  .tetris-row.row-base,.tetris-row.row-evolucao{grid-template-columns:1fr}
+  .tetris-card.core-card{flex-direction:column;padding:20px}
+  .clients-table{font-size:12px}
+  .clients-table td{padding:10px 12px}
+  .clients-table thead th{padding:10px 12px}
+}
+
+
+/* ── HERO TETRIS DECORATION ─────────────────────────────────── */
+.hero-tetris{
+  position:absolute;
+  right:2%;
+  top:50%;
+  transform:translateY(-50%);
+  width:clamp(260px,28vw,420px);
+  height:auto;
+  pointer-events:none;
+  z-index:1;
+  opacity:0.92;
+}
+.hero-tetris svg{width:100%;height:100%;overflow:visible}
+
+@keyframes tp1{0%,100%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(-6px,-10px) rotate(-1deg)}}
+@keyframes tp2{0%,100%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(8px,-7px) rotate(1deg)}}
+@keyframes tp3{0%,100%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(-5px,9px) rotate(-0.8deg)}}
+@keyframes tp4{0%,100%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(6px,6px) rotate(0.6deg)}}
+
+.tp1{animation:tp1 4.2s ease-in-out infinite;transform-origin:center}
+.tp2{animation:tp2 5.0s ease-in-out infinite;transform-origin:center}
+.tp3{animation:tp3 4.7s ease-in-out infinite;transform-origin:center;animation-delay:0.4s}
+.tp4{animation:tp4 3.9s ease-in-out infinite;transform-origin:center;animation-delay:0.8s}
+
+@media(max-width:1100px){.hero-tetris{opacity:0.5;right:-2%}}
+@media(max-width:768px){.hero-tetris{display:none}}
+
 </style>
 </head>
 <body>
@@ -464,7 +785,7 @@ footer{
   <a href="#hero" class="brand" aria-label="Chesterton Home">
     <div class="brand-logo">CHESTERTON<span>.</span></div>
     <div class="brand-divider"></div>
-    <div class="brand-sub">Confiabilidade<br>Gestão de Ativos Selados</div>
+    <div class="brand-sub">Confiabilidade<br>Gestão de Ativos Rotativos</div>
   </a>
   <nav aria-label="Navegação">
     <a href="#hero" class="active">Visão Geral</a>
@@ -484,16 +805,106 @@ footer{
 
 </header>
 
+<!-- ═══ BRAND IDENTITY STRIP ═══ -->
+<div class="brand-strip" aria-hidden="true">
+  <span class="brand-strip-tag">A.W. Chesterton Company</span>
+  <span class="brand-strip-tagline">Improving Reliability and Efficiency Worldwide</span>
+  <div class="brand-strip-flags">
+    <span class="brand-flag">140+ anos</span>
+    <span class="brand-flag">113 países</span>
+    <span class="brand-flag">500+ centros de serviço</span>
+  </div>
+</div>
+
 <!-- ═══ HERO ═══ -->
 <section id="hero" aria-label="Visão Geral">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
+
+<!-- ═══ HERO TETRIS DECORATION ═══ -->
+<div class="hero-tetris" aria-hidden="true">
+  <svg viewBox="0 0 380 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="glow-gold" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="5" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="glow-wht" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="3.5" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <!-- Piece 1: L-shape — YELLOW (primary) -->
+    <!-- ■         -->
+    <!-- ■ ■ ■     -->
+    <g class="tp1" filter="url(#glow-gold)">
+      <rect x="30"  y="18"  width="38" height="38" rx="3" fill="#F5C200" opacity="0.92"/>
+      <rect x="30"  y="60"  width="38" height="38" rx="3" fill="#F5C200" opacity="0.92"/>
+      <rect x="72"  y="60"  width="38" height="38" rx="3" fill="#F5C200" opacity="0.92"/>
+      <rect x="114" y="60"  width="38" height="38" rx="3" fill="#F5C200" opacity="0.92"/>
+      <!-- inner highlight -->
+      <rect x="33"  y="21"  width="14" height="10" rx="2" fill="white" opacity="0.3"/>
+      <rect x="33"  y="63"  width="14" height="10" rx="2" fill="white" opacity="0.3"/>
+      <rect x="75"  y="63"  width="14" height="10" rx="2" fill="white" opacity="0.3"/>
+      <rect x="117" y="63"  width="14" height="10" rx="2" fill="white" opacity="0.3"/>
+    </g>
+
+    <!-- Piece 2: T-shape — WHITE (semi-transparent) -->
+    <!-- ■ ■ ■  -->
+    <!--   ■    -->
+    <g class="tp2" filter="url(#glow-wht)">
+      <rect x="210" y="20"  width="38" height="38" rx="3" fill="white" opacity="0.55"/>
+      <rect x="252" y="20"  width="38" height="38" rx="3" fill="white" opacity="0.55"/>
+      <rect x="294" y="20"  width="38" height="38" rx="3" fill="white" opacity="0.55"/>
+      <rect x="252" y="62"  width="38" height="38" rx="3" fill="white" opacity="0.55"/>
+      <!-- subtle inner -->
+      <rect x="213" y="23"  width="13" height="9"  rx="2" fill="white" opacity="0.4"/>
+      <rect x="255" y="23"  width="13" height="9"  rx="2" fill="white" opacity="0.4"/>
+      <rect x="297" y="23"  width="13" height="9"  rx="2" fill="white" opacity="0.4"/>
+      <rect x="255" y="65"  width="13" height="9"  rx="2" fill="white" opacity="0.4"/>
+    </g>
+
+    <!-- Piece 3: S-shape — YELLOW dim -->
+    <!--   ■ ■  -->
+    <!-- ■ ■    -->
+    <g class="tp3">
+      <rect x="170" y="168" width="38" height="38" rx="3" fill="#F5C200" opacity="0.42"/>
+      <rect x="212" y="168" width="38" height="38" rx="3" fill="#F5C200" opacity="0.42"/>
+      <rect x="128" y="210" width="38" height="38" rx="3" fill="#F5C200" opacity="0.42"/>
+      <rect x="170" y="210" width="38" height="38" rx="3" fill="#F5C200" opacity="0.42"/>
+      <!-- stroke outline only -->
+      <rect x="170" y="168" width="38" height="38" rx="3" stroke="#F5C200" stroke-width="1" fill="none" opacity="0.6"/>
+      <rect x="212" y="168" width="38" height="38" rx="3" stroke="#F5C200" stroke-width="1" fill="none" opacity="0.6"/>
+      <rect x="128" y="210" width="38" height="38" rx="3" stroke="#F5C200" stroke-width="1" fill="none" opacity="0.6"/>
+      <rect x="170" y="210" width="38" height="38" rx="3" stroke="#F5C200" stroke-width="1" fill="none" opacity="0.6"/>
+    </g>
+
+    <!-- Piece 4: Square 2x2 — WHITE dim -->
+    <!-- ■ ■ -->
+    <!-- ■ ■ -->
+    <g class="tp4">
+      <rect x="276" y="162" width="38" height="38" rx="3" fill="white" opacity="0.22"/>
+      <rect x="318" y="162" width="38" height="38" rx="3" fill="white" opacity="0.22"/>
+      <rect x="276" y="204" width="38" height="38" rx="3" fill="white" opacity="0.22"/>
+      <rect x="318" y="204" width="38" height="38" rx="3" fill="white" opacity="0.22"/>
+      <rect x="276" y="162" width="38" height="38" rx="3" stroke="white" stroke-width="1" fill="none" opacity="0.4"/>
+      <rect x="318" y="162" width="38" height="38" rx="3" stroke="white" stroke-width="1" fill="none" opacity="0.4"/>
+      <rect x="276" y="204" width="38" height="38" rx="3" stroke="white" stroke-width="1" fill="none" opacity="0.4"/>
+      <rect x="318" y="204" width="38" height="38" rx="3" stroke="white" stroke-width="1" fill="none" opacity="0.4"/>
+    </g>
+
+    <!-- Subtle gap indicators between pieces (dotted arrows) -->
+    <line x1="158" y1="90"  x2="205" y2="40"  stroke="#F5C200" stroke-width="0.8" stroke-dasharray="3 4" opacity="0.2"/>
+    <line x1="160" y1="170" x2="252" y2="115" stroke="white"   stroke-width="0.8" stroke-dasharray="3 4" opacity="0.12"/>
+  </svg>
+</div>
+
   <div class="hero-inner">
     <div class="hero-eyebrow">Programa Ativo desde 2019</div>
     <h1 class="hero-title">
       Confiabilidade:<br>
-      <em>Gestão de Ativos</em><br>
-      <span class="sub">Selados</span>
+      <em>Gestão de Ativos</em>
     </h1>
     <p class="hero-desc">
       Mais de 7 anos transformando dados em decisões. Do campo ao dashboard executivo — rastreabilidade total, governança por KPIs e monitoramento IIoT 24/7 em ativos rotativos críticos no Brasil.
@@ -620,18 +1031,15 @@ footer{
 </section>
 
 <!-- ═══ CONTRATOS ═══ -->
-<section id="contratos" aria-label="Modelos Contratuais">
+<section id="contratos" aria-label="Modelos Contratuais e Jornada de Evolução">
   <div class="section-inner">
     <div class="section-tag fade-in">Portfólio</div>
-    <h2 class="section-title fade-in">Modelos <em>Contratuais</em></h2>
-    <p class="section-desc fade-in">Sete modelos estruturados em três níveis de maturidade operacional. Do fornecimento de materiais à confiabilidade integrada com IIoT.</p>
-    <div class="filter-tabs fade-in" role="tablist">
-      <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">Todos</button>
-      <button class="filter-tab" data-filter="basic" role="tab" aria-selected="false">Básico</button>
-      <button class="filter-tab" data-filter="intermediate" role="tab" aria-selected="false">Intermediário</button>
-      <button class="filter-tab" data-filter="advanced" role="tab" aria-selected="false">Avançado</button>
+    <h2 class="section-title fade-in">Modelos <em>Contratuais</em> e Jornada de Evolução</h2>
+    <p class="section-desc fade-in">Soluções desenhadas para diferentes contextos operacionais, com possibilidade de evolução até o modelo mais completo de gestão integrada.</p>
+    <div class="contracts-journey-header fade-in">
+      <p>Todos os modelos geram valor. Alguns atuam como <strong>porta de entrada</strong>, outros como <strong>expansão de escopo</strong>. O modelo 2.5 representa a <strong>configuração estratégica mais completa</strong>, reunindo governança, previsibilidade e confiabilidade em uma única estrutura.</p>
     </div>
-    <div class="contracts-grid" id="contracts-grid"></div>
+    <div id="contracts-journey-grid"></div>
   </div>
 </section>
 
@@ -639,9 +1047,23 @@ footer{
 <section id="contratos-ativos" aria-label="Contratos Ativos">
   <div class="section-inner">
     <div class="section-tag fade-in">Presença Nacional</div>
-    <h2 class="section-title fade-in">Contratos <em>Ativos</em></h2>
-    <p class="section-desc fade-in">Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do país.</p>
-    <div class="clients-grid" id="clients-grid"></div>
+    <h2 class="section-title fade-in">Clientes & <em>Contratos Ativos</em></h2>
+    <p class="section-desc fade-in">Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do Brasil.</p>
+    <div class="clients-stats-bar fade-in" id="clients-stats-bar"></div>
+    <div class="clients-table-wrap fade-in">
+      <table class="clients-table" id="clients-table">
+        <thead>
+          <tr>
+            <th>Empresa</th>
+            <th>Programa</th>
+            <th>País · Cidade</th>
+            <th style="text-align:right">Equipamentos</th>
+            <th style="text-align:right">MTBF (meses)</th>
+          </tr>
+        </thead>
+        <tbody id="clients-tbody"></tbody>
+      </table>
+    </div>
   </div>
 </section>
 
@@ -683,7 +1105,7 @@ footer{
 <!-- ═══ FOOTER ═══ -->
 <footer>
   <div class="footer-brand">CHESTERTON<span>.</span></div>
-  <div class="footer-meta">Confiabilidade: Gestão de Ativos Selados · Documento Interno · 2025</div>
+  <div class="footer-meta">Confiabilidade: Gestão de Ativos Rotativos · Documento Interno · 2025</div>
   <div class="footer-notice">Uso Restrito · Não Compartilhar</div>
 </footer>
 
@@ -695,8 +1117,8 @@ footer{
 */
 (function(){
   const DICT = {
-    es: {"Chesterton | Confiabilidade: Gestão de Ativos Selados": "Chesterton | Confiabilidad: Gestión de Activos Sellados", "Acesso Restrito · Uso Institucional": "Acceso restringido · Uso institucional", "Portal de": "Portal de", "Confiabilidade": "Confiabilidad", "Conteúdo institucional de uso interno. Insira a senha de acesso para continuar.": "Contenido institucional de uso interno. Ingresa la contraseña de acceso para continuar.", "Acessar Portal →": "Acceder al portal →", "Senha incorreta. Tente novamente.": "Contraseña incorrecta. Inténtalo de nuevo.", "Acesso restrito ao público autorizado · Não compartilhar externamente": "Acceso restringido al público autorizado · No compartir externamente", "Gestão de Ativos Selados": "Gestión de Activos Sellados", "Visão Geral": "Visión general", "Entregas": "Entregas", "Ecossistema": "Ecosistema", "Contratos": "Contratos", "Clientes": "Clientes", "Acessos": "Accesos", "Programa Ativo desde 2019": "Programa activo desde 2019", "Confiabilidade:": "Confiabilidad:", "Gestão de Ativos": "Gestión de Activos", "Selados": "Sellados", "Mais de 7 anos transformando dados em decisões. Do campo ao dashboard executivo — rastreabilidade total, governança por KPIs e monitoramento IIoT 24/7 em ativos rotativos críticos no Brasil.": "Más de 7 años transformando datos en decisiones. Del campo al dashboard ejecutivo: trazabilidad total, gobernanza por KPI y monitoreo IIoT 24/7 en activos rotativos críticos en Brasil.", "Ativos Monitorados": "Activos monitoreados", "Intervenções Realizadas": "Intervenciones realizadas", "Modelos Contratuais": "Modelos contractuales", "Monitoramento IIoT": "Monitoreo IIoT", "Contratos Ativos": "Contratos activos", "Inspeção IIoT": "Inspección IIoT", "Equipe de Campo": "Equipo de campo", "Selos Mecânicos": "Sellos mecánicos", "Sensoriamento": "Sensorización", "Sala de Controle": "Sala de Control", "Treinamento": "Capacitación", "Convenção LATAM": "Convención LATAM", "Feira Industrial": "Feria industrial", "Nossa Entrega": "Nuestra entrega", "O que": "Qué", "Entregamos": "Entregamos", "Um modelo estruturado de parceria técnico-operacional — combinando expertise em selagem, tecnologia digital proprietária e governança por dados.": "Un modelo estructurado de alianza técnico-operativa — combinando expertise en sellado, tecnología digital propietaria y gobernanza por datos.", "Rastreabilidade Total por Ativo": "Trazabilidad total por activo", "TAG NFC em cada equipamento. Histórico completo de intervenções, causas de falha e consumo de materiais — auditável em tempo real.": "TAG NFC en cada equipo. Historial completo de intervenciones, causas de falla y consumo de materiales — auditable en tiempo real.", "Indicadores de Confiabilidade": "Indicadores de confiabilidad", "MTBF, MTTR, Disponibilidade e Bad Actors gerados automaticamente. Dashboards Power BI atualizados em tempo real via SGA.": "MTBF, MTTR, Disponibilidad y Bad Actors generados automáticamente. Dashboards de Power BI actualizados en tiempo real vía SGA.", "Monitoramento IIoT 24/7": "Monitoreo IIoT 24/7", "Sensores Chesterton Connect instalados em ativos críticos. Dados de pressão, temperatura, vibração e detecção de vazamento em tempo real.": "Sensores Chesterton Connect instalados en activos críticos. Datos de presión, temperatura, vibración y detección de fugas en tiempo real.", "Governança por Dados": "Gobernanza por datos", "Três camadas de governança: operacional diária, tática mensal e QBR trimestral — com relatórios automáticos e planos de ação estruturados.": "Tres capas de gobernanza: operativa diaria, táctica mensual y QBR trimestral — con informes automáticos y planes de acción estructurados.", "Inteligência Artificial Integrada": "Inteligencia artificial integrada", "IA treinada com dados reais de selagem: análise preditiva de falhas, correlação de causa raiz e recomendações técnicas automatizadas.": "IA entrenada con datos reales de sellado: análisis predictivo de fallas, correlación de causa raíz y recomendaciones técnicas automatizadas.", "Comunicação Inteligente": "Comunicación inteligente", "WhatsApp automatizado integrado ao SGA. Consulte histórico de ativos, estoque consignado e alertas de desempenho diretamente pelo smartphone.": "WhatsApp automatizado integrado al SGA. Consulta el historial de activos, inventario consignado y alertas de desempeño directamente desde el smartphone.", "Plataforma": "Plataforma", "Digital": "Digital", "SGA como núcleo. Power BI como camada de visualização. IA para predição. IIoT para monitoramento. Sala de Controle como centro de inteligência.": "SGA como núcleo. Power BI como capa de visualización. IA para predicción. IIoT para monitoreo. Sala de Control como centro de inteligencia.", "TAG NFC": "TAG NFC", "Identidade do Ativo": "Identidad del activo", "Rotas de Inspeção": "Rutas de inspección", "Ordens de Serviço": "Órdenes de servicio", "Registro Digital": "Registro digital", "Dashboards Online": "Dashboards online", "IA Integrada": "IA integrada", "Análise Preditiva": "Análisis predictivo", "WhatsApp Bot": "Bot de WhatsApp", "Comunicação Smart": "Comunicación smart", "IIoT 24/7": "IIoT 24/7", "SBC — Brasil": "SBC — Brasil", "Análise de Falha": "Análisis de falla", "Causa Raiz": "Causa raíz", "Ativos rotativos cadastrados e monitorados desde 2019": "Activos rotativos registrados y monitoreados desde 2019", "Monitoramento contínuo via Sala de Controle e sensores Chesterton Connect": "Monitoreo continuo vía Sala de Control y sensores Chesterton Connect", "Redução de vazamentos, emissões fugitivas e consumo energético — dados auditáveis": "Reducción de fugas, emisiones fugitivas y consumo energético — datos auditables", "Portfólio": "Portafolio", "Modelos": "Modelos", "Contratuais": "Contractuales", "Sete modelos estruturados em três níveis de maturidade operacional. Do fornecimento de materiais à confiabilidade integrada com IIoT.": "Siete modelos estructurados en tres niveles de madurez operativa. Desde el suministro de materiales hasta la confiabilidad integrada con IIoT.", "Todos": "Todos", "Básico": "Básico", "Intermediário": "Intermedio", "Avançado": "Avanzado", "Presença Nacional": "Presencia nacional", "Ativos": "Activos", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do país.": "Presencia en múltiples sectores industriales (Papel y Celulosa, Química y Minería) de norte a sur del país.", "Portais": "Portales", "Rápidos": "Rápidos", "Links diretos para as principais ferramentas do ecossistema digital Chesterton.": "Enlaces directos a las principales herramientas del ecosistema digital Chesterton.", "Dashboard de Overall Equipment Effectiveness em tempo real. Indicadores MTBF, MTTR e performance operacional auditáveis.": "Dashboard de Overall Equipment Effectiveness en tiempo real. Indicadores MTBF, MTTR y desempeño operativo auditables.", "Abrir Dashboard": "Abrir dashboard", "Matriz de Escopo": "Matriz de alcance", "Matriz interativa com os 7 modelos contratuais e 32 escopos técnicos detalhados. Filtros por categoria e tipo de contrato.": "Matriz interactiva con los 7 modelos contractuales y 32 alcances técnicos detallados. Filtros por categoría y tipo de contrato.", "Abrir Matriz": "Abrir matriz", "Agente IA · SGA": "Agente IA · SGA", "Agente inteligente via WhatsApp integrado ao SGA. Consulte contratos, histórico de ativos e indicadores direto pelo smartphone.": "Agente inteligente vía WhatsApp integrado al SGA. Consulta contratos, historial de activos e indicadores directamente desde el smartphone.", "Abrir WhatsApp": "Abrir WhatsApp", "Site Chesterton Brasil": "Sitio Chesterton Brasil", "Portal institucional da Chesterton do Brasil. Produtos, soluções, casos de sucesso e contatos da equipe técnica.": "Portal institucional de Chesterton Brasil. Productos, soluciones, casos de éxito y contactos del equipo técnico.", "Acessar Site": "Acceder al sitio", "Confiabilidade: Gestão de Ativos Selados · Documento Interno · 2025": "Confiabilidad: Gestión de Activos Sellados · Documento interno · 2025", "Uso Restrito · Não Compartilhar": "Uso restringido · No compartir", "Acesso restrito": "Acceso restringido", "Acessos Rápidos": "Accesos rápidos", "Chesterton Home": "Chesterton Home", "Ecossistema Digital": "Ecosistema digital", "Galeria de campo": "Galería de campo", "Navegação": "Navegación", "O Que Entregamos": "Qué entregamos", "Senha de acesso": "Contraseña de acceso", "Convenção Chesterton": "Convención Chesterton", "Dashboard SGA": "Dashboard SGA", "Equipe Chesterton": "Equipo Chesterton", "Inspeção em campo": "Inspección en campo", "Manutenção de selos": "Mantenimiento de sellos", "Sensor Connect": "Sensor Connect", "Stand Chesterton": "Stand Chesterton", "Técnico em campo": "Técnico en campo"},
-    en: {"Chesterton | Confiabilidade: Gestão de Ativos Selados": "Chesterton | Reliability: Sealed Assets Management", "Acesso Restrito · Uso Institucional": "Restricted access · Institutional use", "Portal de": "Portal of", "Confiabilidade": "Reliability", "Conteúdo institucional de uso interno. Insira a senha de acesso para continuar.": "Internal institutional content. Enter the access password to continue.", "Acessar Portal →": "Enter portal →", "Senha incorreta. Tente novamente.": "Incorrect password. Try again.", "Acesso restrito ao público autorizado · Não compartilhar externamente": "Restricted to authorized audience · Do not share externally", "Gestão de Ativos Selados": "Sealed Assets Management", "Visão Geral": "Overview", "Entregas": "Deliverables", "Ecossistema": "Ecosystem", "Contratos": "Contracts", "Clientes": "Clients", "Acessos": "Access", "Programa Ativo desde 2019": "Active program since 2019", "Confiabilidade:": "Reliability:", "Gestão de Ativos": "Asset Management", "Selados": "Sealed", "Mais de 7 anos transformando dados em decisões. Do campo ao dashboard executivo — rastreabilidade total, governança por KPIs e monitoramento IIoT 24/7 em ativos rotativos críticos no Brasil.": "Over 7 years turning data into decisions. From the field to the executive dashboard — full traceability, KPI governance, and 24/7 IIoT monitoring of critical rotating assets in Brazil.", "Ativos Monitorados": "Monitored assets", "Intervenções Realizadas": "Interventions performed", "Modelos Contratuais": "Contract models", "Monitoramento IIoT": "IIoT monitoring", "Contratos Ativos": "Active contracts", "Inspeção IIoT": "IIoT inspection", "Equipe de Campo": "Field team", "Selos Mecânicos": "Mechanical seals", "Sensoriamento": "Sensorization", "Sala de Controle": "Control Room", "Treinamento": "Training", "Convenção LATAM": "LATAM Convention", "Feira Industrial": "Industrial Fair", "Nossa Entrega": "Our deliverables", "O que": "What", "Entregamos": "We deliver", "Um modelo estruturado de parceria técnico-operacional — combinando expertise em selagem, tecnologia digital proprietária e governança por dados.": "A structured technical-operational partnership model — combining sealing expertise, proprietary digital technology, and data governance.", "Rastreabilidade Total por Ativo": "Full asset traceability", "TAG NFC em cada equipamento. Histórico completo de intervenções, causas de falha e consumo de materiais — auditável em tempo real.": "NFC tag on each asset. Full history of interventions, failure causes, and material consumption — auditable in real time.", "Indicadores de Confiabilidade": "Reliability indicators", "MTBF, MTTR, Disponibilidade e Bad Actors gerados automaticamente. Dashboards Power BI atualizados em tempo real via SGA.": "MTBF, MTTR, Availability and Bad Actors generated automatically. Power BI dashboards updated in real time via SGA.", "Monitoramento IIoT 24/7": "24/7 IIoT monitoring", "Sensores Chesterton Connect instalados em ativos críticos. Dados de pressão, temperatura, vibração e detecção de vazamento em tempo real.": "Chesterton Connect sensors installed on critical assets. Real-time pressure, temperature, vibration and leak detection data.", "Governança por Dados": "Data governance", "Três camadas de governança: operacional diária, tática mensal e QBR trimestral — com relatórios automáticos e planos de ação estruturados.": "Three governance layers: daily operational, monthly tactical, and quarterly QBR — with automated reports and structured action plans.", "Inteligência Artificial Integrada": "Integrated artificial intelligence", "IA treinada com dados reais de selagem: análise preditiva de falhas, correlação de causa raiz e recomendações técnicas automatizadas.": "AI trained on real sealing data: predictive failure analysis, root-cause correlation, and automated technical recommendations.", "Comunicação Inteligente": "Smart communication", "WhatsApp automatizado integrado ao SGA. Consulte histórico de ativos, estoque consignado e alertas de desempenho diretamente pelo smartphone.": "Automated WhatsApp integrated with SGA. Check asset history, consignment stock, and performance alerts directly from your smartphone.", "Plataforma": "Platform", "Digital": "Digital", "SGA como núcleo. Power BI como camada de visualização. IA para predição. IIoT para monitoramento. Sala de Controle como centro de inteligência.": "SGA as the core. Power BI as the visualization layer. AI for prediction. IIoT for monitoring. Control Room as the intelligence center.", "TAG NFC": "NFC tag", "Identidade do Ativo": "Asset identity", "Rotas de Inspeção": "Inspection routes", "Ordens de Serviço": "Work orders", "Registro Digital": "Digital records", "Dashboards Online": "Online dashboards", "IA Integrada": "Integrated AI", "Análise Preditiva": "Predictive analytics", "WhatsApp Bot": "WhatsApp bot", "Comunicação Smart": "Smart communication", "IIoT 24/7": "IIoT 24/7", "SBC — Brasil": "SBC — Brazil", "Análise de Falha": "Failure analysis", "Causa Raiz": "Root cause", "Ativos rotativos cadastrados e monitorados desde 2019": "Rotating assets registered and monitored since 2019", "Monitoramento contínuo via Sala de Controle e sensores Chesterton Connect": "Continuous monitoring via Control Room and Chesterton Connect sensors", "Redução de vazamentos, emissões fugitivas e consumo energético — dados auditáveis": "Reduced leaks, fugitive emissions and energy consumption — auditable data", "Portfólio": "Portfolio", "Modelos": "Models", "Contratuais": "Contract", "Sete modelos estruturados em três níveis de maturidade operacional. Do fornecimento de materiais à confiabilidade integrada com IIoT.": "Seven models structured across three operational maturity levels — from materials supply to IIoT-integrated reliability.", "Todos": "All", "Básico": "Basic", "Intermediário": "Intermediate", "Avançado": "Advanced", "Presença Nacional": "National presence", "Ativos": "Active", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do país.": "Presence across multiple industrial sectors — Pulp & Paper, Chemicals, and Mining — from north to south of the country.", "Portais": "Portals", "Rápidos": "Quick", "Links diretos para as principais ferramentas do ecossistema digital Chesterton.": "Direct links to the main tools in the Chesterton digital ecosystem.", "Dashboard de Overall Equipment Effectiveness em tempo real. Indicadores MTBF, MTTR e performance operacional auditáveis.": "Real-time Overall Equipment Effectiveness dashboard. Auditable MTBF, MTTR and operational performance indicators.", "Abrir Dashboard": "Open dashboard", "Matriz de Escopo": "Scope matrix", "Matriz interativa com os 7 modelos contratuais e 32 escopos técnicos detalhados. Filtros por categoria e tipo de contrato.": "Interactive matrix with the 7 contract models and 32 detailed technical scopes. Filters by category and contract type.", "Abrir Matriz": "Open matrix", "Agente IA · SGA": "AI Agent · SGA", "Agente inteligente via WhatsApp integrado ao SGA. Consulte contratos, histórico de ativos e indicadores direto pelo smartphone.": "Smart WhatsApp agent integrated with SGA. Check contracts, asset history and indicators directly from your smartphone.", "Abrir WhatsApp": "Open WhatsApp", "Site Chesterton Brasil": "Chesterton Brazil website", "Portal institucional da Chesterton do Brasil. Produtos, soluções, casos de sucesso e contatos da equipe técnica.": "Institutional portal of Chesterton Brazil. Products, solutions, success cases and technical team contacts.", "Acessar Site": "Open website", "Confiabilidade: Gestão de Ativos Selados · Documento Interno · 2025": "Reliability: Sealed Assets Management · Internal Document · 2025", "Uso Restrito · Não Compartilhar": "Restricted use · Do not share", "Acesso restrito": "Restricted access", "Acessos Rápidos": "Quick access", "Chesterton Home": "Chesterton Home", "Ecossistema Digital": "Digital ecosystem", "Galeria de campo": "Field gallery", "Navegação": "Navigation", "O Que Entregamos": "What we deliver", "Senha de acesso": "Access password", "Convenção Chesterton": "Chesterton convention", "Dashboard SGA": "SGA dashboard", "Equipe Chesterton": "Chesterton team", "Inspeção em campo": "Field inspection", "Manutenção de selos": "Seal maintenance", "Sensor Connect": "Connect sensor", "Stand Chesterton": "Chesterton booth", "Técnico em campo": "Field technician"}
+    es: {"Chesterton | Confiabilidade: Gestão de Ativos Rotativos": "Chesterton | Confiabilidad: Gestión de Activos Rotativos", "Acesso Restrito · Uso Institucional": "Acceso restringido · Uso institucional", "Portal de": "Portal de", "Confiabilidade": "Confiabilidad", "Conteúdo institucional de uso interno. Insira a senha de acesso para continuar.": "Contenido institucional de uso interno. Ingresa la contraseña de acceso para continuar.", "Acessar Portal →": "Acceder al portal →", "Senha incorreta. Tente novamente.": "Contraseña incorrecta. Inténtalo de nuevo.", "Acesso restrito ao público autorizado · Não compartilhar externamente": "Acceso restringido al público autorizado · No compartir externamente", "Gestão de Ativos Rotativos": "Gestión de Activos Rotativos", "Visão Geral": "Visión general", "Entregas": "Entregas", "Ecossistema": "Ecosistema", "Contratos": "Contratos", "Clientes": "Clientes", "Acessos": "Accesos", "Programa Ativo desde 2019": "Programa activo desde 2019", "Confiabilidade:": "Confiabilidad:", "Gestão de Ativos": "Gestión de Activos", "Gestão de Ativos": "Gestión de Activos", "Mais de 7 anos transformando dados em decisões. Do campo ao dashboard executivo — rastreabilidade total, governança por KPIs e monitoramento IIoT 24/7 em ativos rotativos críticos no Brasil.": "Más de 7 años transformando datos en decisiones. Del campo al dashboard ejecutivo: trazabilidad total, gobernanza por KPI y monitoreo IIoT 24/7 en activos rotativos críticos en Brasil.", "Ativos Monitorados": "Activos monitoreados", "Intervenções Realizadas": "Intervenciones realizadas", "Modelos Contratuais": "Modelos contractuales", "Monitoramento IIoT": "Monitoreo IIoT", "Contratos Ativos": "Contratos activos", "Inspeção IIoT": "Inspección IIoT", "Equipe de Campo": "Equipo de campo", "Selos Mecânicos": "Sellos mecánicos", "Sensoriamento": "Sensorización", "Sala de Controle": "Sala de Control", "Treinamento": "Capacitación", "Convenção LATAM": "Convención LATAM", "Feira Industrial": "Feria industrial", "Nossa Entrega": "Nuestra entrega", "O que": "Qué", "Entregamos": "Entregamos", "Um modelo estruturado de parceria técnico-operacional — combinando expertise em selagem, tecnologia digital proprietária e governança por dados.": "Un modelo estructurado de alianza técnico-operativa — combinando expertise en sellado, tecnología digital propietaria y gobernanza por datos.", "Rastreabilidade Total por Ativo": "Trazabilidad total por activo", "TAG NFC em cada equipamento. Histórico completo de intervenções, causas de falha e consumo de materiais — auditável em tempo real.": "TAG NFC en cada equipo. Historial completo de intervenciones, causas de falla y consumo de materiales — auditable en tiempo real.", "Indicadores de Confiabilidade": "Indicadores de confiabilidad", "MTBF, MTTR, Disponibilidade e Bad Actors gerados automaticamente. Dashboards Power BI atualizados em tempo real via SGA.": "MTBF, MTTR, Disponibilidad y Bad Actors generados automáticamente. Dashboards de Power BI actualizados en tiempo real vía SGA.", "Monitoramento IIoT 24/7": "Monitoreo IIoT 24/7", "Sensores Chesterton Connect instalados em ativos críticos. Dados de pressão, temperatura, vibração e detecção de vazamento em tempo real.": "Sensores Chesterton Connect instalados en activos críticos. Datos de presión, temperatura, vibración y detección de fugas en tiempo real.", "Governança por Dados": "Gobernanza por datos", "Três camadas de governança: operacional diária, tática mensal e QBR trimestral — com relatórios automáticos e planos de ação estruturados.": "Tres capas de gobernanza: operativa diaria, táctica mensual y QBR trimestral — con informes automáticos y planes de acción estructurados.", "Inteligência Artificial Integrada": "Inteligencia artificial integrada", "IA treinada com dados reais de selagem: análise preditiva de falhas, correlação de causa raiz e recomendações técnicas automatizadas.": "IA entrenada con datos reales de sellado: análisis predictivo de fallas, correlación de causa raíz y recomendaciones técnicas automatizadas.", "Comunicação Inteligente": "Comunicación inteligente", "WhatsApp automatizado integrado ao SGA. Consulte histórico de ativos, estoque consignado e alertas de desempenho diretamente pelo smartphone.": "WhatsApp automatizado integrado al SGA. Consulta el historial de activos, inventario consignado y alertas de desempeño directamente desde el smartphone.", "Plataforma": "Plataforma", "Digital": "Digital", "SGA como núcleo. Power BI como camada de visualização. IA para predição. IIoT para monitoramento. Sala de Controle como centro de inteligência.": "SGA como núcleo. Power BI como capa de visualización. IA para predicción. IIoT para monitoreo. Sala de Control como centro de inteligencia.", "TAG NFC": "TAG NFC", "Identidade do Ativo": "Identidad del activo", "Rotas de Inspeção": "Rutas de inspección", "Ordens de Serviço": "Órdenes de servicio", "Registro Digital": "Registro digital", "Dashboards Online": "Dashboards online", "IA Integrada": "IA integrada", "Análise Preditiva": "Análisis predictivo", "WhatsApp Bot": "Bot de WhatsApp", "Comunicação Smart": "Comunicación smart", "IIoT 24/7": "IIoT 24/7", "SBC — Brasil": "SBC — Brasil", "Análise de Falha": "Análisis de falla", "Causa Raiz": "Causa raíz", "Ativos rotativos cadastrados e monitorados desde 2019": "Activos rotativos registrados y monitoreados desde 2019", "Monitoramento contínuo via Sala de Controle e sensores Chesterton Connect": "Monitoreo continuo vía Sala de Control y sensores Chesterton Connect", "Redução de vazamentos, emissões fugitivas e consumo energético — dados auditáveis": "Reducción de fugas, emisiones fugitivas y consumo energético — datos auditables", "Portfólio": "Portafolio", "Modelos": "Modelos", "Contratuais": "Contractuales", "Sete modelos estruturados em três níveis de maturidade operacional. Do fornecimento de materiais à confiabilidade integrada com IIoT.": "Siete modelos estructurados en tres niveles de madurez operativa. Desde el suministro de materiales hasta la confiabilidad integrada con IIoT.", "Modelos Contratuais e Jornada de Evolução": "Modelos Contractuales y Jornada de Evolución", "Soluções desenhadas para diferentes contextos operacionais, com possibilidade de evolução até o modelo mais completo de gestão integrada.": "Soluciones diseñadas para diferentes contextos operativos, con posibilidad de evolución hasta el modelo más completo de gestión integrada.", "Todos os modelos geram valor. Alguns atuam como porta de entrada, outros como expansão de escopo. O modelo 2.5 representa a configuração estratégica mais completa, reunindo governança, previsibilidade e confiabilidade em uma única estrutura.": "Todos los modelos generan valor. Algunos actúan como puerta de entrada, otros como expansión de alcance. El modelo 2.5 representa la configuración estratégica más completa, reuniendo gobernanza, previsibilidad y confiabilidad en una sola estructura.", "Clientes & Contratos Ativos": "Clientes y Contratos Activos", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do Brasil.": "Presencia en múltiples sectores industriales (Papel y Celulosa, Química y Minería) de norte a sur de Brasil.", "Contratos Ativos": "Contratos Activos", "Equipamentos Gerenciados": "Equipos gestionados", "MTBF Médio": "MTBF promedio", "Em análise": "En análisis", "Improving Reliability and Efficiency Worldwide": "Mejorando la confiabilidad y eficiencia en todo el mundo", "140+ anos": "140+ años", "113 países": "113 países", "500+ centros de serviço": "500+ centros de servicio", "MODELO-ALVO": "MODELO-OBJETIVO", "Objetivo estratégico — convergência de todos os modelos": "Objetivo estratégico — convergencia de todos los modelos", "Grupo 1 — Base": "Grupo 1 — Base", "Grupo 2 — Evolução": "Grupo 2 — Evolución", "Grupo 3 — Estratégico · Modelo-Alvo": "Grupo 3 — Estratégico · Modelo-Objetivo", "BASE": "BASE", "EVOLUÇÃO": "EVOLUCIÓN", "ESTRATÉGICO": "ESTRATÉGICO", "Todos": "Todos", "Básico": "Básico", "Intermediário": "Intermedio", "Avançado": "Avanzado", "Presença Nacional": "Presencia nacional", "Ativos": "Activos", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do país.": "Presencia en múltiples sectores industriales (Papel y Celulosa, Química y Minería) de norte a sur del país.", "Portais": "Portales", "Rápidos": "Rápidos", "Links diretos para as principais ferramentas do ecossistema digital Chesterton.": "Enlaces directos a las principales herramientas del ecosistema digital Chesterton.", "Dashboard de Overall Equipment Effectiveness em tempo real. Indicadores MTBF, MTTR e performance operacional auditáveis.": "Dashboard de Overall Equipment Effectiveness en tiempo real. Indicadores MTBF, MTTR y desempeño operativo auditables.", "Abrir Dashboard": "Abrir dashboard", "Matriz de Escopo": "Matriz de alcance", "Matriz interativa com os 7 modelos contratuais e 32 escopos técnicos detalhados. Filtros por categoria e tipo de contrato.": "Matriz interactiva con los 7 modelos contractuales y 32 alcances técnicos detallados. Filtros por categoría y tipo de contrato.", "Abrir Matriz": "Abrir matriz", "Agente IA · SGA": "Agente IA · SGA", "Agente inteligente via WhatsApp integrado ao SGA. Consulte contratos, histórico de ativos e indicadores direto pelo smartphone.": "Agente inteligente vía WhatsApp integrado al SGA. Consulta contratos, historial de activos e indicadores directamente desde el smartphone.", "Abrir WhatsApp": "Abrir WhatsApp", "Site Chesterton Brasil": "Sitio Chesterton Brasil", "Portal institucional da Chesterton do Brasil. Produtos, soluções, casos de sucesso e contatos da equipe técnica.": "Portal institucional de Chesterton Brasil. Productos, soluciones, casos de éxito y contactos del equipo técnico.", "Acessar Site": "Acceder al sitio", "Confiabilidade: Gestão de Ativos Rotativos · Documento Interno · 2025": "Confiabilidad: Gestión de Activos Sellados · Documento interno · 2025", "Uso Restrito · Não Compartilhar": "Uso restringido · No compartir", "Acesso restrito": "Acceso restringido", "Acessos Rápidos": "Accesos rápidos", "Chesterton Home": "Chesterton Home", "Ecossistema Digital": "Ecosistema digital", "Galeria de campo": "Galería de campo", "Navegação": "Navegación", "O Que Entregamos": "Qué entregamos", "Senha de acesso": "Contraseña de acceso", "Convenção Chesterton": "Convención Chesterton", "Dashboard SGA": "Dashboard SGA", "Equipe Chesterton": "Equipo Chesterton", "Inspeção em campo": "Inspección en campo", "Manutenção de selos": "Mantenimiento de sellos", "Sensor Connect": "Sensor Connect", "Stand Chesterton": "Stand Chesterton", "Técnico em campo": "Técnico en campo"},
+    en: {"Chesterton | Confiabilidade: Gestão de Ativos Rotativos": "Chesterton | Reliability: Rotating Assets Management", "Acesso Restrito · Uso Institucional": "Restricted access · Institutional use", "Portal de": "Portal of", "Confiabilidade": "Reliability", "Conteúdo institucional de uso interno. Insira a senha de acesso para continuar.": "Internal institutional content. Enter the access password to continue.", "Acessar Portal →": "Enter portal →", "Senha incorreta. Tente novamente.": "Incorrect password. Try again.", "Acesso restrito ao público autorizado · Não compartilhar externamente": "Restricted to authorized audience · Do not share externally", "Gestão de Ativos Rotativos": "Rotating Assets Management", "Visão Geral": "Overview", "Entregas": "Deliverables", "Ecossistema": "Ecosystem", "Contratos": "Contracts", "Clientes": "Clients", "Acessos": "Access", "Programa Ativo desde 2019": "Active program since 2019", "Confiabilidade:": "Reliability:", "Gestão de Ativos": "Asset Management", "Gestão de Ativos": "Asset Management", "Mais de 7 anos transformando dados em decisões. Do campo ao dashboard executivo — rastreabilidade total, governança por KPIs e monitoramento IIoT 24/7 em ativos rotativos críticos no Brasil.": "Over 7 years turning data into decisions. From the field to the executive dashboard — full traceability, KPI governance, and 24/7 IIoT monitoring of critical rotating assets in Brazil.", "Ativos Monitorados": "Monitored assets", "Intervenções Realizadas": "Interventions performed", "Modelos Contratuais": "Contract models", "Monitoramento IIoT": "IIoT monitoring", "Contratos Ativos": "Active contracts", "Inspeção IIoT": "IIoT inspection", "Equipe de Campo": "Field team", "Selos Mecânicos": "Mechanical seals", "Sensoriamento": "Sensorization", "Sala de Controle": "Control Room", "Treinamento": "Training", "Convenção LATAM": "LATAM Convention", "Feira Industrial": "Industrial Fair", "Nossa Entrega": "Our deliverables", "O que": "What", "Entregamos": "We deliver", "Um modelo estruturado de parceria técnico-operacional — combinando expertise em selagem, tecnologia digital proprietária e governança por dados.": "A structured technical-operational partnership model — combining sealing expertise, proprietary digital technology, and data governance.", "Rastreabilidade Total por Ativo": "Full asset traceability", "TAG NFC em cada equipamento. Histórico completo de intervenções, causas de falha e consumo de materiais — auditável em tempo real.": "NFC tag on each asset. Full history of interventions, failure causes, and material consumption — auditable in real time.", "Indicadores de Confiabilidade": "Reliability indicators", "MTBF, MTTR, Disponibilidade e Bad Actors gerados automaticamente. Dashboards Power BI atualizados em tempo real via SGA.": "MTBF, MTTR, Availability and Bad Actors generated automatically. Power BI dashboards updated in real time via SGA.", "Monitoramento IIoT 24/7": "24/7 IIoT monitoring", "Sensores Chesterton Connect instalados em ativos críticos. Dados de pressão, temperatura, vibração e detecção de vazamento em tempo real.": "Chesterton Connect sensors installed on critical assets. Real-time pressure, temperature, vibration and leak detection data.", "Governança por Dados": "Data governance", "Três camadas de governança: operacional diária, tática mensal e QBR trimestral — com relatórios automáticos e planos de ação estruturados.": "Three governance layers: daily operational, monthly tactical, and quarterly QBR — with automated reports and structured action plans.", "Inteligência Artificial Integrada": "Integrated artificial intelligence", "IA treinada com dados reais de selagem: análise preditiva de falhas, correlação de causa raiz e recomendações técnicas automatizadas.": "AI trained on real sealing data: predictive failure analysis, root-cause correlation, and automated technical recommendations.", "Comunicação Inteligente": "Smart communication", "WhatsApp automatizado integrado ao SGA. Consulte histórico de ativos, estoque consignado e alertas de desempenho diretamente pelo smartphone.": "Automated WhatsApp integrated with SGA. Check asset history, consignment stock, and performance alerts directly from your smartphone.", "Plataforma": "Platform", "Digital": "Digital", "SGA como núcleo. Power BI como camada de visualização. IA para predição. IIoT para monitoramento. Sala de Controle como centro de inteligência.": "SGA as the core. Power BI as the visualization layer. AI for prediction. IIoT for monitoring. Control Room as the intelligence center.", "TAG NFC": "NFC tag", "Identidade do Ativo": "Asset identity", "Rotas de Inspeção": "Inspection routes", "Ordens de Serviço": "Work orders", "Registro Digital": "Digital records", "Dashboards Online": "Online dashboards", "IA Integrada": "Integrated AI", "Análise Preditiva": "Predictive analytics", "WhatsApp Bot": "WhatsApp bot", "Comunicação Smart": "Smart communication", "IIoT 24/7": "IIoT 24/7", "SBC — Brasil": "SBC — Brazil", "Análise de Falha": "Failure analysis", "Causa Raiz": "Root cause", "Ativos rotativos cadastrados e monitorados desde 2019": "Rotating assets registered and monitored since 2019", "Monitoramento contínuo via Sala de Controle e sensores Chesterton Connect": "Continuous monitoring via Control Room and Chesterton Connect sensors", "Redução de vazamentos, emissões fugitivas e consumo energético — dados auditáveis": "Reduced leaks, fugitive emissions and energy consumption — auditable data", "Portfólio": "Portfolio", "Modelos": "Models", "Contratuais": "Contract", "Sete modelos estruturados em três níveis de maturidade operacional. Do fornecimento de materiais à confiabilidade integrada com IIoT.": "Seven models structured across three operational maturity levels — from materials supply to IIoT-integrated reliability.", "Modelos Contratuais e Jornada de Evolução": "Contract Models and Evolution Journey", "Soluções desenhadas para diferentes contextos operacionais, com possibilidade de evolução até o modelo mais completo de gestão integrada.": "Solutions designed for different operational contexts, with the possibility of evolution towards the most complete integrated management model.", "Todos os modelos geram valor. Alguns atuam como porta de entrada, outros como expansão de escopo. O modelo 2.5 representa a configuração estratégica mais completa, reunindo governança, previsibilidade e confiabilidade em uma única estrutura.": "Every model delivers value. Some serve as entry points, others as scope expansion. Model 2.5 represents the most complete strategic configuration, bringing together governance, predictability, and reliability in a single structure.", "Clientes & Contratos Ativos": "Clients & Active Contracts", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do Brasil.": "Presence across multiple industrial sectors — Pulp & Paper, Chemicals, and Mining — throughout Brazil.", "Contratos Ativos": "Active Contracts", "Equipamentos Gerenciados": "Managed equipment", "MTBF Médio": "Average MTBF", "Em análise": "Under analysis", "Improving Reliability and Efficiency Worldwide": "Improving Reliability and Efficiency Worldwide", "140+ anos": "140+ years", "113 países": "113 countries", "500+ centros de serviço": "500+ service centers", "MODELO-ALVO": "TARGET MODEL", "Objetivo estratégico — convergência de todos os modelos": "Strategic objective — convergence of all models", "Grupo 1 — Base": "Group 1 — Foundation", "Grupo 2 — Evolução": "Group 2 — Evolution", "Grupo 3 — Estratégico · Modelo-Alvo": "Group 3 — Strategic · Target Model", "BASE": "FOUNDATION", "EVOLUÇÃO": "EVOLUTION", "ESTRATÉGICO": "STRATEGIC", "Todos": "All", "Básico": "Basic", "Intermediário": "Intermediate", "Avançado": "Advanced", "Presença Nacional": "National presence", "Ativos": "Active", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do país.": "Presence across multiple industrial sectors — Pulp & Paper, Chemicals, and Mining — from north to south of the country.", "Portais": "Portals", "Rápidos": "Quick", "Links diretos para as principais ferramentas do ecossistema digital Chesterton.": "Direct links to the main tools in the Chesterton digital ecosystem.", "Dashboard de Overall Equipment Effectiveness em tempo real. Indicadores MTBF, MTTR e performance operacional auditáveis.": "Real-time Overall Equipment Effectiveness dashboard. Auditable MTBF, MTTR and operational performance indicators.", "Abrir Dashboard": "Open dashboard", "Matriz de Escopo": "Scope matrix", "Matriz interativa com os 7 modelos contratuais e 32 escopos técnicos detalhados. Filtros por categoria e tipo de contrato.": "Interactive matrix with the 7 contract models and 32 detailed technical scopes. Filters by category and contract type.", "Abrir Matriz": "Open matrix", "Agente IA · SGA": "AI Agent · SGA", "Agente inteligente via WhatsApp integrado ao SGA. Consulte contratos, histórico de ativos e indicadores direto pelo smartphone.": "Smart WhatsApp agent integrated with SGA. Check contracts, asset history and indicators directly from your smartphone.", "Abrir WhatsApp": "Open WhatsApp", "Site Chesterton Brasil": "Chesterton Brazil website", "Portal institucional da Chesterton do Brasil. Produtos, soluções, casos de sucesso e contatos da equipe técnica.": "Institutional portal of Chesterton Brazil. Products, solutions, success cases and technical team contacts.", "Acessar Site": "Open website", "Confiabilidade: Gestão de Ativos Rotativos · Documento Interno · 2025": "Reliability: Sealed Assets Management · Internal Document · 2025", "Uso Restrito · Não Compartilhar": "Restricted use · Do not share", "Acesso restrito": "Restricted access", "Acessos Rápidos": "Quick access", "Chesterton Home": "Chesterton Home", "Ecossistema Digital": "Digital ecosystem", "Galeria de campo": "Field gallery", "Navegação": "Navigation", "O Que Entregamos": "What we deliver", "Senha de acesso": "Access password", "Convenção Chesterton": "Chesterton convention", "Dashboard SGA": "SGA dashboard", "Equipe Chesterton": "Chesterton team", "Inspeção em campo": "Field inspection", "Manutenção de selos": "Seal maintenance", "Sensor Connect": "Connect sensor", "Stand Chesterton": "Chesterton booth", "Técnico em campo": "Field technician"}
   };
   const ATTRS = ["aria-label","title","placeholder","alt","value"];
 
@@ -747,8 +1169,8 @@ footer{
     }
 
     // translate document title if we can
-    if(map["Chesterton | Confiabilidade: Gestão de Ativos Selados"]) {
-      document.title = map["Chesterton | Confiabilidade: Gestão de Ativos Selados"];
+    if(map["Chesterton | Confiabilidade: Gestão de Ativos Rotativos"]) {
+      document.title = map["Chesterton | Confiabilidade: Gestão de Ativos Rotativos"];
     }
 
     // translate text nodes
@@ -809,94 +1231,186 @@ document.body.style.overflow = 'hidden';
 authBtn.addEventListener('click', tryAuth);
 passInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryAuth(); });
 
-// ═══ CONTRACTS DATA ═══
-const contracts = [
-  { num:'2.1', title:'Acordo de Preços — Produto', category:'basic',
-    desc:'Fornecimento estruturado de selos mecânicos, gaxetas e vedações com tabela de preços acordada. Previsibilidade de custo e canal dedicado.',
-    tags:['CAPEX','Fill Rate','OTIF'], sga:'Não incluso' },
-  { num:'2.3', title:'Estoque em Consignação', category:'basic',
-    desc:'Materiais Chesterton armazenados na planta do cliente. Faturamento pós-consumo. Ruptura zero garantida.',
-    tags:['Consignação','Giro de Estoque','Ruptura Zero'], sga:'Parcial' },
-  { num:'2.2', title:'Acordo de Preços + Mão de Obra', category:'intermediate',
-    desc:'Fornecimento + execução técnica + rastreabilidade SGA. TAG NFC em cada ativo, rotas de inspeção e MTBF gerado automaticamente.',
-    tags:['MTBF','MTTR','Power BI','SGA Ativo'], sga:'Ativado' },
-  { num:'2.4', title:'Recuperação de Selos', category:'intermediate',
-    desc:'Recuperação, retrofit e requalificação de selos mecânicos. Análise dimensional, causa raiz e retorno ao estoque ativo.',
-    tags:['Recuperação','FMEA','Análise de Falha'], sga:'Analítico' },
-  { num:'2.6', title:'Consultoria em Confiabilidade', category:'intermediate',
-    desc:'Diagnóstico técnico, levantamento de ativos, análise de Bad Actors e estruturação do programa de confiabilidade.',
-    tags:['Bad Actors','KPIs','Plano de Ação'], sga:'Ferramenta' },
-  { num:'2.5', title:'Gestão de Confiabilidade + Valor Fixo', category:'advanced',
-    desc:'Modelo mais abrangente. Produto + serviço + SGA completo + IA + Power BI + Sala de Controle + governança por KPIs. Valor fixo mensal.',
-    tags:['Full SGA','IA Preditiva','QBR','Valor Fixo'], sga:'Estruturante' },
-  { num:'2.7', title:'Sensoriamento IIoT', category:'advanced',
-    desc:'Sensores Chesterton Connect instalados nos ativos críticos. Monitoramento 24/7 com alertas automáticos, IA e integração total ao SGA.',
-    tags:['IIoT','Connect','Preditivo','Tempo Real'], sga:'Integrador' },
+// ═══ CONTRACTS DATA (v2 — journey groups) ═══
+const contractGroups = [
+  {
+    id: 'base',
+    label: 'Grupo 1 — Base',
+    badge: 'BASE',
+    badgeCls: 'cbadge-base',
+    gridCls: 'cgroup-grid-base',
+    items: [
+      { num:'2.1', title:'Acordo de Preços — Produto',
+        desc:'Fornecimento estruturado de selos mecânicos, gaxetas e vedações com tabela de preços acordada. Previsibilidade de custo e canal dedicado.',
+        tags:['CAPEX','Fill Rate','OTIF'], sga:'Não incluso' },
+      { num:'2.3', title:'Estoque em Consignação',
+        desc:'Materiais Chesterton armazenados na planta do cliente. Faturamento pós-consumo. Ruptura zero garantida.',
+        tags:['Consignação','Giro de Estoque','Ruptura Zero'], sga:'Parcial' },
+    ]
+  },
+  {
+    id: 'evolucao',
+    label: 'Grupo 2 — Evolução',
+    badge: 'EVOLUÇÃO',
+    badgeCls: 'cbadge-evolucao',
+    gridCls: 'cgroup-grid-evolucao',
+    items: [
+      { num:'2.2', title:'Acordo de Preços + Mão de Obra',
+        desc:'Fornecimento + execução técnica + rastreabilidade SGA. TAG NFC em cada ativo, rotas de inspeção e MTBF gerado automaticamente.',
+        tags:['MTBF','MTTR','Power BI','SGA Ativo'], sga:'Ativado' },
+      { num:'2.4', title:'Recuperação de Selos',
+        desc:'Recuperação, retrofit e requalificação de selos mecânicos. Análise dimensional, causa raiz e retorno ao estoque ativo.',
+        tags:['Recuperação','FMEA','Análise de Falha'], sga:'Analítico' },
+      { num:'2.6', title:'Consultoria em Confiabilidade',
+        desc:'Diagnóstico técnico, levantamento de ativos, análise de Bad Actors e estruturação do programa de confiabilidade.',
+        tags:['Bad Actors','KPIs','Plano de Ação'], sga:'Ferramenta' },
+      { num:'2.7', title:'Sensoriamento IIoT',
+        desc:'Sensores Chesterton Connect instalados nos ativos críticos. Monitoramento 24/7 com alertas automáticos, IA e integração total ao SGA.',
+        tags:['IIoT','Connect','Preditivo','Tempo Real'], sga:'Integrador' },
+    ]
+  }
 ];
 
+const contract25 = {
+  num:'2.5', title:'Gestão de Confiabilidade · custo determinado',
+  desc:'O modelo mais abrangente do portfólio. Produto + serviço + SGA completo + IA preditiva + Power BI online + Sala de Controle + governança por KPIs em três camadas. Previsibilidade total com valor fixo mensal.',
+  tags:['Full SGA','IA Preditiva','QBR Trimestral','custo determinado','Power BI','Sala de Controle'],
+  sga:'Estruturante — Núcleo de toda a governança de dados'
+};
+
 function buildContracts() {
-  const grid = document.getElementById('contracts-grid');
-  const badgeMap = { basic:'badge-basic Básico', intermediate:'badge-intermediate Intermediário', advanced:'badge-advanced Avançado' };
-  contracts.forEach(c => {
-    const [cls, label] = badgeMap[c.category].split(' ');
-    const badgeLabel = badgeMap[c.category].replace(cls+' ','');
-    const tags = c.tags.map(t => `<span class="ctag">${t}</span>`).join('');
-    grid.innerHTML += `
-      <div class="contract-card" data-category="${c.category}">
-        <div class="contract-badge ${cls}">${badgeLabel}</div>
+  const container = document.getElementById('contracts-journey-grid');
+  if(!container) return;
+
+  // Build group sections
+  contractGroups.forEach(group => {
+    const itemCards = group.items.map((c, idx) => {
+      const tags = c.tags.map(t => `<span class="ctag">${t}</span>`).join('');
+      return `<div class="contract-card-v2" style="transition-delay:${idx*0.08}s">
+        <div class="contract-badge ${group.badgeCls}">${group.badge}</div>
         <div class="contract-num">${c.num}</div>
         <div class="contract-title">${c.title}</div>
         <div class="contract-desc">${c.desc}</div>
-        <div class="contract-tags">${tags}</div>
+        <div class="contract-tags" style="margin-top:14px">${tags}</div>
+      </div>`;
+    }).join('');
+
+    container.innerHTML += `
+      <div class="cgroup-section">
+        <div class="cgroup-header">
+          <span class="cgroup-badge ${group.badgeCls}">${group.badge}</span>
+          <span class="cgroup-title">${group.label}</span>
+          <span class="cgroup-line"></span>
+        </div>
+        <div class="${group.gridCls}">${itemCards}</div>
+      </div>
+      <div style="display:flex;justify-content:center;padding:8px 0;opacity:0.5">
+        <svg width="24" height="32" viewBox="0 0 24 32" fill="none">
+          <line x1="12" y1="0" x2="12" y2="28" stroke="#F5C200" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <polyline points="6,22 12,30 18,22" stroke="#F5C200" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+        </svg>
       </div>`;
   });
+
+  // Build 2.5 core section
+  const coreTags = contract25.tags.map(t => `<span class="core-tag">${t}</span>`).join('');
+  container.innerHTML += `
+    <div class="cgroup-section">
+      <div class="cgroup-header">
+        <span class="cgroup-badge cbadge-core">ESTRATÉGICO</span>
+        <span class="cgroup-title">Grupo 3 — Estratégico · Modelo-Alvo</span>
+        <span class="cgroup-line"></span>
+      </div>
+      <div class="cgroup-grid-core">
+        <div class="contract-card-core">
+          <div class="core-card-left">
+            <div class="badge-modelo-alvo">MODELO-ALVO</div>
+            <div class="contract-num" style="color:var(--gold2);font-size:12px">${contract25.num}</div>
+            <div class="contract-title" style="font-size:32px;margin-bottom:12px;color:var(--white)">${contract25.title}</div>
+            <div class="contract-desc" style="font-size:14px;color:var(--white2);line-height:1.7">${contract25.desc}</div>
+            <div class="core-tag-list">${coreTags}</div>
+            <div class="objetivo-est">Objetivo estratégico — convergência de todos os modelos</div>
+          </div>
+          <div class="core-card-right">
+            <div class="core-stat-item">
+              <span class="lbl">SGA</span>
+              <span class="val" style="font-size:18px;line-height:1.3">Estruturante</span>
+            </div>
+            <div class="core-sep"></div>
+            <div class="core-stat-item">
+              <span class="lbl">Governança</span>
+              <span class="val" style="font-size:16px;line-height:1.3">3 Camadas</span>
+            </div>
+            <div class="core-sep"></div>
+            <div class="core-stat-item">
+              <span class="lbl">Modelo de negócio</span>
+              <span class="val" style="font-size:18px">custo determinado</span>
+            </div>
+            <div class="core-sep"></div>
+            <div class="core-stat-item">
+              <span class="lbl">Tecnologia</span>
+              <span class="val blue" style="font-size:14px;line-height:1.4">IA · IIoT · Power BI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
 }
 
-// ═══ CONTRACT FILTER ═══
-function initContractFilter() {
-  document.querySelectorAll('.filter-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.filter-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
-      tab.classList.add('active'); tab.setAttribute('aria-selected','true');
-      const filter = tab.dataset.filter;
-      document.querySelectorAll('.contract-card').forEach(card => {
-        card.classList.toggle('hidden', filter !== 'all' && card.dataset.category !== filter);
-      });
-    });
-  });
-}
+function initContractFilter() { /* filter replaced by journey groups — no-op */ }
 
-// ═══ CLIENTS ═══
+// ═══ CLIENTS (v2 — with equipment & MTBF data) ═══
 const clients = [
-  { name:'Unipar Cubatão', status:'Mechanical Seal', city:'Cubatão', seg:'Chemical Company' },
-  { name:'Unipar Santo André', status:'Mechanical Seal', city:'Santo André', seg:'Chemical Company' },
-  { name:'Klabin Monte Alegre Selo', status:'Mechanical Seal', city:'Telêmaco Borba', seg:'Paper Company' },
-  { name:'Klabin Monte Alegre Gaxeta', status:'Packing', city:'Telêmaco Borba', seg:'Paper Company' },
-  { name:'Klabin Ortigueira', status:'Mechanical Seal', city:'Ortigueira', seg:'Paper Company' },
-  { name:'Klabin Correia Pinto', status:'Mechanical Seal', city:'Correia Pinto', seg:'Paper Company' },
-  { name:'Klabin Otacilio Costa', status:'Mechanical Seal', city:'Otacilio Costa', seg:'Paper Company' },
-  { name:'MD Limeira', status:'Packing', city:'Limeira', seg:'Paper Company' },
-  { name:'Munksjo Caieiras', status:'Packing', city:'Caieiras', seg:'Paper Company' },
-  { name:'Nexa 3 Marias', status:'Packing', city:'Três Marias', seg:'Mining Company' },
-  { name:'CMPC', status:'Packing', city:'Porto Alegre', seg:'Paper Company' },
-  { name:'Clariant S.A', status:'Mechanical Seal', city:'Suzano', seg:'Chemical Company' },
-  { name:'Ajinomoto', status:'Mechanical Seal', city:'Limeira', seg:'Chemical Company' },
-  { name:'Alpek Recife', status:'Monitoring', city:'Cabo de Santo Agostinho', seg:'Chemical Company' },
-  { name:'Eurochem', status:'Mechanical Seal', city:'Serra do Salitre', seg:'Chemical Company' },
+  { name:'Unipar Cubatão',             status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Cubatão',                   equip:283,  mtbf:51.28 },
+  { name:'Unipar Santo André',          status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Santo André',               equip:352,  mtbf:47.77 },
+  { name:'Klabin Monte Alegre Selo',    status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Telêmaco Borba',            equip:747,  mtbf:74.77 },
+  { name:'Klabin Monte Alegre Gaxeta',  status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Telêmaco Borba',            equip:1103, mtbf:30.4  },
+  { name:'Klabin Ortigueira',           status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Ortigueira',                equip:1500, mtbf:77.39 },
+  { name:'Klabin Correia Pinto',        status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Correia Pinto',             equip:160,  mtbf:43.36 },
+  { name:'Klabin Otacilio Costa',       status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Otacílio Costa',            equip:111,  mtbf:77.47 },
+  { name:'MD Limeira',                  status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Limeira',                   equip:204,  mtbf:36.99 },
+  { name:'Munksjö Caieiras',            status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Caieiras',                  equip:285,  mtbf:32.3  },
+  { name:'Nexa 3 Marias',              status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Três Marias',               equip:232,  mtbf:16.8  },
+  { name:'CMPC',                        status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Porto Alegre',              equip:250,  mtbf:32.3  },
+  { name:'Clariant S.A',               status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Suzano',                    equip:200,  mtbf:null  },
+  { name:'Ajinomoto',                   status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Limeira',                   equip:253,  mtbf:null  },
+  { name:'Alpek Recife',                status:'Monitoring',      country:'Brasil', flag:'🇧🇷', city:'Cabo de Santo Agostinho',  equip:210,  mtbf:null  },
+  { name:'Eurochem',                    status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Serra do Salitre',          equip:224,  mtbf:null  },
 ];
 
+function mtbfClass(v){ if(v===null) return 'mtbf-none'; if(v>=60) return 'mtbf-high'; if(v>=30) return 'mtbf-mid'; return 'mtbf-low'; }
+function mtbfDisplay(v){ if(v===null) return '<span class="mtbf-none">Em análise</span>'; return `<span class="${mtbfClass(v)}">${v}</span>`; }
+
 function buildClients() {
-  const grid = document.getElementById('clients-grid');
-  const typeMap = { 'Mechanical Seal':'type-seal', 'Packing':'type-gasket', 'Monitoring':'type-monitor' };
+  const tbody = document.getElementById('clients-tbody');
+  const statsBar = document.getElementById('clients-stats-bar');
+  if(!tbody) return;
+
+  const statusCls = { 'Mechanical Seal':'td-status-seal', 'Gasket':'td-status-gasket', 'Monitoring':'td-status-monitor' };
+  const totalEquip = clients.reduce((a,c)=>a+c.equip,0);
+  const mtbfClients = clients.filter(c=>c.mtbf!==null);
+  const avgMtbf = mtbfClients.length ? (mtbfClients.reduce((a,c)=>a+c.mtbf,0)/mtbfClients.length).toFixed(1) : '-';
+  const topEquip = Math.max(...clients.map(c=>c.equip));
+
+  if(statsBar){
+    statsBar.innerHTML = [
+      { val: clients.length,       label: 'Contratos Ativos' },
+      { val: totalEquip.toLocaleString('pt-BR'), label: 'Equipamentos Gerenciados' },
+      { val: avgMtbf + ' meses',   label: 'MTBF Médio' },
+      { val: '🇧🇷 Brasil',         label: 'País' },
+    ].map(s=>`<div class="cstat-item"><div class="cstat-val">${s.val}</div><div class="cstat-label">${s.label}</div></div>`).join('');
+  }
+
   clients.forEach((c, i) => {
-    const cls = typeMap[c.status] || 'type-seal';
-    grid.innerHTML += `
-      <div class="client-card" style="transition-delay:${(i%3)*0.08}s">
-        <div class="client-type ${cls}"><span class="client-dot"></span>${c.status}</div>
-        <div class="client-name">${c.name}</div>
-        <div class="client-city">${c.city}</div>
-        <div class="client-seg">${c.seg}</div>
-      </div>`;
+    const cls = statusCls[c.status] || 'td-status-seal';
+    tbody.innerHTML += `
+      <tr style="animation-delay:${i*0.04}s">
+        <td class="td-company">${c.name}</td>
+        <td><span class="td-status-badge ${cls}">${c.status}</span></td>
+        <td class="td-country">${c.flag} ${c.country} <span class="td-city">· ${c.city}</span></td>
+        <td class="td-equip">${c.equip.toLocaleString('pt-BR')}</td>
+        <td class="td-mtbf">${mtbfDisplay(c.mtbf)}</td>
+      </tr>`;
   });
 }
 
@@ -943,7 +1457,573 @@ document.addEventListener('DOMContentLoaded', () => {
   buildClients();
   initScrollSpy();
   initFadeIn();
+  // observe new contract cards after build
+  setTimeout(() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.contract-card-v2, .contract-card-core').forEach(el => obs.observe(el));
+  }, 100);
 });
+
+// ═══ POWER BI — ACESSO RESTRITO ═══
+(function() {
+  const SENHA_CORRETA = 'Contratos01';
+
+  const reports = [
+    {
+      id: 'nexa',
+      label: 'Contrato Nexa',
+      icon: '📊',
+      color: '#1a6fbf',
+      url: 'https://app.powerbi.com/view?r=eyJrIjoiYjVjYzYxMjctNTE3Ni00Yjc4LWJjZTMtZWMzYmUyODY2ZGQzIiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9&pageName=26905ab0b5169acbbde4'
+    },
+    {
+      id: 'klabin-selo',
+      label: 'Contrato Klabin Monte Alegre Selo',
+      icon: '📊',
+      color: '#0e7c4a',
+      url: 'https://app.powerbi.com/view?r=eyJrIjoiYTYxNmE2YTgtNjY3ZS00NDdmLTg3YzktMDViYzE4ZGFlYWZjIiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9&pageName=967f19c6065e9727d0bb'
+    },
+    {
+      id: 'klabin-gaxeta',
+      label: 'Contrato Klabin Monte Alegre Gaxeta',
+      icon: '📊',
+      color: '#7b3fa0',
+      url: 'https://app.powerbi.com/view?r=eyJrIjoiNzY4MTI1NzgtZTczNC00MmY4LTlhNmMtNTE4NWI2YjAxZDE2IiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9&pageName=647dcb2ac43eccacd5e2'
+    }
+  ];
+
+  // ── Inject CSS ──
+  const style = document.createElement('style');
+  style.textContent = `
+    /* ─── SEÇÃO POWER BI ─── */
+    #pbi-section {
+      background: linear-gradient(135deg, #0a0f1e 0%, #0f1c2e 60%, #091525 100%);
+      border-top: 2px solid #F5C200;
+      padding: 72px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    #pbi-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(245,194,0,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .pbi-section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .pbi-badge-restricted {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245,194,0,0.12);
+      border: 1px solid rgba(245,194,0,0.4);
+      border-radius: 50px;
+      padding: 6px 18px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #F5C200;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .pbi-badge-restricted svg { width:14px; height:14px; }
+    .pbi-section-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+    .pbi-section-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ── GATE DE SENHA ── */
+    #pbi-gate {
+      max-width: 420px;
+      margin: 0 auto 60px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(245,194,0,0.25);
+      border-radius: 16px;
+      padding: 36px 32px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+    .pbi-gate-icon {
+      font-size: 36px;
+      margin-bottom: 14px;
+    }
+    .pbi-gate-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .pbi-gate-hint {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 24px;
+    }
+    .pbi-input-wrap {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    #pbi-password-input {
+      width: 100%;
+      padding: 13px 44px 13px 16px;
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+    #pbi-password-input:focus {
+      border-color: #F5C200;
+    }
+    #pbi-password-input.error {
+      border-color: #e74c3c;
+      animation: pbi-shake 0.35s ease;
+    }
+    @keyframes pbi-shake {
+      0%,100%{transform:translateX(0)}
+      25%{transform:translateX(-6px)}
+      75%{transform:translateX(6px)}
+    }
+    .pbi-eye-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,0.4);
+      padding: 4px;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .pbi-eye-btn:hover { color: #F5C200; }
+    #pbi-error-msg {
+      font-size: 12px;
+      color: #e74c3c;
+      min-height: 16px;
+      margin-bottom: 12px;
+      display: none;
+    }
+    #pbi-submit-btn {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #F5C200 0%, #e6a800 100%);
+      border: none;
+      border-radius: 10px;
+      color: #0a0f1e;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: opacity 0.2s, transform 0.15s;
+      font-family: inherit;
+    }
+    #pbi-submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    #pbi-submit-btn:active { transform: translateY(0); }
+
+    /* ── RELATÓRIOS ── */
+    #pbi-reports {
+      display: none;
+      animation: pbi-fadein 0.5s ease;
+    }
+    @keyframes pbi-fadein {
+      from { opacity:0; transform: translateY(20px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    .pbi-access-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: 0 auto 32px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .pbi-access-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+    }
+    .pbi-dot-green {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #2ecc71;
+      box-shadow: 0 0 6px #2ecc71;
+      flex-shrink: 0;
+    }
+    #pbi-logout-btn {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 7px 16px;
+      color: rgba(255,255,255,0.6);
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    #pbi-logout-btn:hover {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+    }
+
+    /* Tabs de seleção de relatório */
+    .pbi-tabs {
+      display: flex;
+      gap: 8px;
+      max-width: 1100px;
+      margin: 0 auto 24px;
+      flex-wrap: wrap;
+    }
+    .pbi-tab {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      flex: 1;
+      min-width: 180px;
+      justify-content: center;
+    }
+    .pbi-tab:hover {
+      border-color: rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.07);
+    }
+    .pbi-tab.active {
+      border-color: var(--tab-color, #F5C200);
+      background: rgba(255,255,255,0.09);
+      color: #fff;
+      box-shadow: 0 0 16px rgba(245,194,0,0.15);
+    }
+    .pbi-tab-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--tab-color, #F5C200);
+      flex-shrink: 0;
+    }
+
+    /* ── Container de painéis com iframe ── */
+    .pbi-panel {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: none;
+    }
+    .pbi-panel.active { display: block; }
+
+    /* Cabeçalho do painel */
+    .pbi-panel-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 22px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-bottom: none;
+      border-radius: 14px 14px 0 0;
+    }
+    .pbi-ph-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .pbi-ph-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      flex: 1;
+    }
+    .pbi-ph-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 12px;
+      border-radius: 50px;
+      border: 1px solid;
+      opacity: 0.65;
+    }
+    .pbi-ph-extlink {
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      text-decoration: none;
+      padding: 5px 11px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .pbi-ph-extlink:hover { color:#F5C200; border-color:rgba(245,194,0,0.4); }
+
+    /* Wrapper do iframe */
+    .pbi-frame-wrap {
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 0 0 14px 14px;
+      overflow: hidden;
+      height: 620px;
+      background: #fff;
+    }
+    .pbi-frame-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .pbi-frame-wrap iframe.ready { opacity: 1; }
+
+    /* Overlay de carregamento */
+    .pbi-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #0a0f1e 0%, #0f1c2e 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      z-index: 3;
+      transition: opacity 0.45s ease;
+    }
+    .pbi-overlay.gone { opacity: 0; pointer-events: none; }
+    .pbi-spin {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(245,194,0,0.15);
+      border-top-color: #F5C200;
+      border-radius: 50%;
+      animation: pbi-spin 0.9s linear infinite;
+    }
+    @keyframes pbi-spin { to { transform: rotate(360deg); } }
+    .pbi-overlay-label { font-size:12px; color:rgba(255,255,255,0.4); }
+    .pbi-overlay-sub   { font-size:11px; color:rgba(255,255,255,0.2); }
+  `;
+  document.head.appendChild(style);
+
+  // ── Inject HTML ──
+  const section = document.createElement('section');
+  section.id = 'pbi-section';
+  section.innerHTML = `
+    <div class="pbi-section-header">
+      <div class="pbi-badge-restricted">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        Acesso Restrito
+      </div>
+      <div class="pbi-section-title">Relatórios de Performance — Power BI</div>
+      <div class="pbi-section-sub">Área exclusiva para visualização de dashboards contratuais. Acesso mediante senha.</div>
+    </div>
+
+    <!-- Gate de senha -->
+    <div id="pbi-gate">
+      <div class="pbi-gate-icon">🔒</div>
+      <div class="pbi-gate-title">Área Restrita</div>
+      <div class="pbi-gate-hint">Insira a senha de acesso aos relatórios</div>
+      <div class="pbi-input-wrap">
+        <input id="pbi-password-input" type="password" placeholder="Senha de acesso…" autocomplete="off" />
+        <button class="pbi-eye-btn" id="pbi-eye-btn" type="button" title="Mostrar/ocultar senha">
+          <svg id="pbi-eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+      <div id="pbi-error-msg">Senha incorreta. Verifique e tente novamente.</div>
+      <button id="pbi-submit-btn" type="button">Acessar Relatórios</button>
+    </div>
+
+    <!-- Painel de relatórios (oculto até autenticar) -->
+    <div id="pbi-reports">
+      <div class="pbi-access-bar">
+        <div class="pbi-access-info">
+          <div class="pbi-dot-green"></div>
+          <span>Sessão autenticada · Relatórios contratuais</span>
+        </div>
+        <button id="pbi-logout-btn" type="button">🔒 Bloquear acesso</button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="pbi-tabs" id="pbi-tabs"></div>
+
+      <!-- Painéis de iframe -->
+      <div id="pbi-panels"></div>
+    </div>
+  `;
+  document.body.appendChild(section);
+
+  // ── Lógica ──
+  const gate      = document.getElementById('pbi-gate');
+  const reportsEl = document.getElementById('pbi-reports');
+  const input     = document.getElementById('pbi-password-input');
+  const errorMsg  = document.getElementById('pbi-error-msg');
+  const submitBtn = document.getElementById('pbi-submit-btn');
+  const logoutBtn = document.getElementById('pbi-logout-btn');
+  const eyeBtn    = document.getElementById('pbi-eye-btn');
+  const tabsEl    = document.getElementById('pbi-tabs');
+  const panelsEl  = document.getElementById('pbi-panels');
+
+  let activeTab = null;
+
+  // ── Build tabs + panels ──
+  reports.forEach((r) => {
+
+    // Tab
+    const tab = document.createElement('button');
+    tab.className = 'pbi-tab';
+    tab.dataset.id = r.id;
+    tab.style.setProperty('--tab-color', r.color);
+    tab.innerHTML = `<span class="pbi-tab-dot" style="background:${r.color}"></span>${r.label}`;
+    tab.addEventListener('click', () => activateTab(r.id));
+    tabsEl.appendChild(tab);
+
+    // Painel com iframe
+    const panel = document.createElement('div');
+    panel.className = 'pbi-panel';
+    panel.id = 'pbi-panel-' + r.id;
+    panel.innerHTML = `
+      <div class="pbi-panel-header">
+        <div class="pbi-ph-dot" style="background:${r.color};box-shadow:0 0 7px ${r.color}99"></div>
+        <div class="pbi-ph-label">${r.label}</div>
+        <span class="pbi-ph-tag" style="color:${r.color};border-color:${r.color}66">Power BI</span>
+        <a class="pbi-ph-extlink" href="${r.url}" target="_blank" rel="noopener">↗ Tela cheia</a>
+      </div>
+      <div class="pbi-frame-wrap">
+        <div class="pbi-overlay" id="pbi-ov-${r.id}">
+          <div class="pbi-spin"></div>
+          <div class="pbi-overlay-label">Carregando relatório…</div>
+          <div class="pbi-overlay-sub">${r.label}</div>
+        </div>
+        <iframe
+          id="pbi-fr-${r.id}"
+          data-src="${r.url}"
+          allowfullscreen
+          allow="fullscreen"
+          title="${r.label}">
+        </iframe>
+      </div>
+    `;
+    panelsEl.appendChild(panel);
+  });
+
+  // ── Ativa aba e carrega iframe com onload ANTES de definir src ──
+  function activateTab(id) {
+    if (activeTab === id) return;
+    activeTab = id;
+
+    // Atualiza visual das tabs
+    tabsEl.querySelectorAll('.pbi-tab').forEach(t =>
+      t.classList.toggle('active', t.dataset.id === id)
+    );
+    // Mostra painel correto
+    panelsEl.querySelectorAll('.pbi-panel').forEach(p =>
+      p.classList.toggle('active', p.id === 'pbi-panel-' + id)
+    );
+
+    const iframe  = document.getElementById('pbi-fr-' + id);
+    const overlay = document.getElementById('pbi-ov-' + id);
+    if (!iframe || iframe.dataset.loaded) return;
+
+    // ── FIX CRÍTICO: onload deve ser registrado ANTES de atribuir src ──
+    iframe.onload = function() {
+      iframe.dataset.loaded = '1';
+      iframe.classList.add('ready');           // fade-in do iframe
+      if (overlay) overlay.classList.add('gone'); // some o overlay
+    };
+
+    // Fallback: se onload não disparar em 20s, some o overlay mesmo assim
+    const fallback = setTimeout(() => {
+      iframe.dataset.loaded = '1';
+      iframe.classList.add('ready');
+      if (overlay) overlay.classList.add('gone');
+    }, 20000);
+
+    // Cancela fallback se onload disparar antes
+    const origOnload = iframe.onload;
+    iframe.onload = function() {
+      clearTimeout(fallback);
+      origOnload.call(this);
+    };
+
+    // Só agora atribui o src — garante que handler está pronto
+    iframe.src = iframe.dataset.src;
+  }
+
+  // Mostrar/ocultar senha
+  eyeBtn.addEventListener('click', () => {
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    document.getElementById('pbi-eye-icon').innerHTML = show
+      ? '<line x1="1" y1="1" x2="23" y2="23"/><path d="M10.5 6.5a5 5 0 0 1 7 7"/><path d="M9.9 1.3C7.5 2.4 5.3 4.3 3.3 7 1 10.1 1 12 1 12s4 8 11 8c1.9 0 3.7-.5 5.3-1.3"/><path d="M6.1 6.1A10.2 10.2 0 0 0 1 12s4 8 11 8c2.4 0 4.6-.8 6.4-2.1"/>'
+      : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  });
+
+  // Validar senha
+  function tryUnlock() {
+    if (input.value === SENHA_CORRETA) {
+      errorMsg.style.display = 'none';
+      input.classList.remove('error');
+      gate.style.display = 'none';
+      reportsEl.style.display = 'block';
+      // Activate first tab
+      if (reports.length > 0) activateTab(reports[0].id);
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      errorMsg.style.display = 'block';
+      input.classList.add('error');
+      setTimeout(() => input.classList.remove('error'), 400);
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  submitBtn.addEventListener('click', tryUnlock);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+
+  // Logout — reseta iframes para forçar recarga no próximo acesso
+  logoutBtn.addEventListener('click', () => {
+    reportsEl.style.display = 'none';
+    gate.style.display = 'block';
+    activeTab = null;
+    reports.forEach(r => {
+      const iframe  = document.getElementById('pbi-fr-' + r.id);
+      const overlay = document.getElementById('pbi-ov-' + r.id);
+      if (iframe)  { iframe.src = 'about:blank'; iframe.removeAttribute('data-loaded'); iframe.classList.remove('ready'); }
+      if (overlay) { overlay.classList.remove('gone'); }
+    });
+    // Remove active de todos os painéis e tabs
+    panelsEl.querySelectorAll('.pbi-panel').forEach(p => p.classList.remove('active'));
+    tabsEl.querySelectorAll('.pbi-tab').forEach(t => t.classList.remove('active'));
+    input.value = '';
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+})();
 </script>
 </body>
 </html>
