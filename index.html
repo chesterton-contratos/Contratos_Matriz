@@ -1641,7 +1641,7 @@ function setConnStatus(msg, color) {
 // ── Fetch com fallback XHR ─────────────────────────────────────
 function fetchCSV(url) {
   // Tenta fetch nativo primeiro
-  return fetch(url, { method:'GET', mode:'cors', credentials:'omit', cache:'no-store' })
+  return fetch(url, { method:'GET', mode:'cors', credentials:'omit', cache:'no-store', redirect:'follow' })
     .then(function(r){
       if (!r.ok) throw new Error('HTTP '+r.status);
       return r.text();
@@ -1669,7 +1669,7 @@ function loadUsers() {
   if (_loadPromise) return _loadPromise;
   _loadError = null;
 
-  setConnStatus('⟳ Conectando à planilha...', '#F5C200');
+  setConnStatus('⟳ Verificando planilha de acesso...', '#F5C200');
 
   _loadPromise = fetchCSV(SHEET_URL)
     .then(function(csv){
@@ -1678,7 +1678,8 @@ function loadUsers() {
         window.usersData = parsed;
         cacheUsers(parsed); // salva cache para uso offline
         _loadError = null;
-        console.log('[Auth] '+parsed.length+' usuário(s) carregado(s). Colunas:', Object.keys(parsed[0]));
+        console.log('[Auth] '+parsed.length+' usuário(s) carregado(s). Colunas: ['+Object.keys(parsed[0]).join(', ')+']');
+        console.log('[Auth] Amostra do 1º registro:', JSON.stringify(parsed[0]));
         setConnStatus('✓ Planilha conectada', '#4ade80');
         setTimeout(function(){ setConnStatus(''); }, 2000);
       } else {
@@ -1759,12 +1760,35 @@ function tryAuth() {
       return;
     }
 
-    // ── Verifica credenciais ──
+    // ── Verifica credenciais (matching robusto case-insensitive) ──
+    // Helper: encontra campo por lista de nomes candidatos (ignora maiúsculas/minúsculas)
+    function findField(obj, candidates) {
+      var keys = Object.keys(obj);
+      // 1) match exato case-insensitive
+      for (var ci=0; ci<candidates.length; ci++) {
+        for (var ki=0; ki<keys.length; ki++) {
+          if (keys[ki].toLowerCase() === candidates[ci].toLowerCase()) {
+            return (obj[keys[ki]] || '').trim();
+          }
+        }
+      }
+      // 2) match parcial (contém)
+      for (var ci=0; ci<candidates.length; ci++) {
+        for (var ki=0; ki<keys.length; ki++) {
+          if (keys[ki].toLowerCase().indexOf(candidates[ci].toLowerCase()) > -1) {
+            return (obj[keys[ki]] || '').trim();
+          }
+        }
+      }
+      return '';
+    }
+
     var user = null;
     for (var i=0; i<window.usersData.length; i++){
       var u = window.usersData[i];
-      var uLogin = (u['login']||u['Login']||u['EMAIL']||u['email']||'').toLowerCase();
-      var uSenha = (u['senha']||u['Senha']||u['SENHA']||'');
+      var uLogin = findField(u, ['email','login','mail','usuario','user','e-mail','Login','Email']).toLowerCase();
+      var uSenha = findField(u, ['senha','password','pass','Senha','SENHA','secret']);
+      console.log('[Auth] Comparando:', uLogin, '==', email, '|', uSenha === senha ? 'senha OK' : 'senha errada');
       if (uLogin === email && uSenha === senha){ user = u; break; }
     }
 
