@@ -2035,7 +2035,7 @@ function initContractFilter() { /* replaced by hub layout — no-op */ }
 
 // ═══ CLIENTS (v2 — with equipment & MTBF data) ═══
 // ─── CLIENTES DINÂMICOS — Google Sheets CSV ───────────────────
-const CLIENTS_CSV_URL =  + CSV_URL + ;
+const CLIENTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ4DZwUXuzkN-9HhjQehMBU4SnXgju3wnwv22kuStRuyi-W4CPzCJ34L_KHp50_8o3KNMoMsvITx0fK/pub?gid=508331772&single=true&output=csv';
 
 // Fallback local data (usado se o fetch falhar)
 const clientsFallback = [
@@ -3324,7 +3324,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── HTML da seção ──
   var section = document.createElement('section');
   section.id = 'matriz-section';
-  section.innerHTML = \`
+  section.innerHTML = `
     <div class="matriz-header">
       <div class="matriz-badge">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -3370,7 +3370,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <!-- Botão fechar tela cheia (sobreposto) -->
     <button id="matriz-fs-close">✕ Sair da Tela Cheia</button>
-  \`;
+  `;
 
   // Insere a seção antes do widget WhatsApp
   var wa = document.getElementById('wa-widget');
