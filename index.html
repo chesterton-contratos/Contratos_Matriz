@@ -33,7 +33,8 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px}
-body{background:var(--black);color:var(--white);font-family:"DM Sans",sans-serif;font-weight:300;overflow-x:hidden;line-height:1.6}
+html,body{max-width:100%;overflow-x:hidden}
+body{background:var(--black);color:var(--white);font-family:"DM Sans",sans-serif;font-weight:300;line-height:1.6}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:var(--dark)}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
@@ -121,9 +122,10 @@ body{background:var(--black);color:var(--white);font-family:"DM Sans",sans-serif
 #topbar{
   position:fixed;top:0;left:0;right:0;z-index:1000;
   height:64px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 40px;
+  padding:0 32px;
   background:rgba(8,10,15,0.92);backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);transition:var(--t);
+  box-sizing:border-box;width:100%;
 }
 #topbar.scrolled{background:rgba(8,10,15,0.98);border-bottom-color:var(--gold)}
 .brand{display:flex;align-items:center;gap:14px;text-decoration:none}
@@ -139,7 +141,7 @@ nav{
   border-radius:999px;
   padding:4px;
   overflow-x:auto;
-  max-width:calc(100vw - 400px);
+  max-width:calc(100vw - 380px);
   scrollbar-width:none;
 }
 nav::-webkit-scrollbar{display:none}
@@ -165,6 +167,7 @@ nav .nav-restricted:hover{color:#fff}
 #hero{
   min-height:100vh;display:flex;flex-direction:column;justify-content:center;
   padding:100px 40px 60px;position:relative;overflow:hidden;
+  max-width:100%;
 }
 .hero-bg{
   position:absolute;inset:0;z-index:0;
@@ -421,16 +424,30 @@ footer{
   .access-grid{grid-template-columns:repeat(2,1fr)}
   .clients-grid{grid-template-columns:repeat(2,1fr)}
 }
+@media(max-width:1024px){
+  #topbar{padding:0 20px}
+  nav{max-width:calc(100vw - 320px)}
+  #langSwitch{gap:4px}
+  #langSwitch button{padding:5px 8px;font-size:9px}
+}
 @media(max-width:768px){
   section{padding:60px 20px}
-  #topbar{padding:0 20px}
+  #topbar{padding:0 14px;gap:8px}
   nav{display:none}
+  #langSwitch{display:none}
   .hero-kpis{flex-direction:column}
   .delivers-grid{grid-template-columns:1fr}
   .contracts-grid{grid-template-columns:1fr}
   .access-grid{grid-template-columns:1fr}
   .clients-grid{grid-template-columns:1fr}
   footer{flex-direction:column;text-align:center}
+  .auth-wrap{padding:32px 24px 28px}
+  #hero{padding:80px 20px 40px}
+  .section-inner{padding:0 4px}
+}
+@media(max-width:480px){
+  .sec-acc-hdr{padding:16px 16px}
+  #topbar{height:56px}
 }
 
 /* ── CHESTERTON BRAND STRIP ─────────────────────────────────── */
@@ -1145,10 +1162,16 @@ footer{
 <!-- ═══ AUTH OVERLAY ═══ -->
 <div id="authOverlay" role="dialog" aria-modal="true" aria-label="Acesso restrito">
   <div class="auth-wrap">
+    <!-- Language selector on login -->
+    <div id="loginLangSwitch" style="display:flex;gap:6px;justify-content:flex-end;margin-bottom:20px;">
+      <button type="button" class="login-lang-btn" data-lang="pt" style="cursor:pointer;border:1px solid rgba(245,194,0,0.4);background:rgba(245,194,0,0.15);color:#F5C200;border-radius:999px;padding:5px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s;font-weight:700;">PT</button>
+      <button type="button" class="login-lang-btn" data-lang="es" style="cursor:pointer;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.4);border-radius:999px;padding:5px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s;">ES</button>
+      <button type="button" class="login-lang-btn" data-lang="en" style="cursor:pointer;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.4);border-radius:999px;padding:5px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s;">EN</button>
+    </div>
     <div class="auth-logo">CHESTERTON<span>.</span></div>
-    <div class="auth-badge">Acesso Restrito · Uso Institucional</div>
-    <div class="auth-title">Portal de<br><em>Confiabilidade</em></div>
-    <div class="auth-sub">Conteúdo institucional de uso interno. Insira seu e-mail e senha para continuar.</div>
+    <div class="auth-badge" id="auth-badge-text">Acesso Restrito · Uso Institucional</div>
+    <div class="auth-title" id="auth-title-text">Portal de<br><em>Confiabilidade</em></div>
+    <div class="auth-sub" id="auth-sub-text">Conteúdo institucional de uso interno. Insira seu e-mail e senha para continuar.</div>
     <input id="authLogin" class="auth-input" type="email" placeholder="seu@email.com" aria-label="E-mail de acesso" autocomplete="off" style="margin-bottom:10px">
     <input id="authPass" class="auth-input" type="password" placeholder="••••••••••••••" aria-label="Senha de acesso" autocomplete="off">
     <button id="authBtn" class="auth-btn" type="button">Acessar Portal →</button>
@@ -1310,43 +1333,43 @@ footer{
   <div class="section-inner">
     <div class="section-tag fade-in">Nossa Entrega</div>
     <h2 class="section-title fade-in">O que <em>Entregamos</em></h2>
-    <p class="section-desc fade-in">Um modelo estruturado de parceria técnico-operacional — combinando expertise em selagem, tecnologia digital proprietária e governança por dados.</p>
+    <p class="section-desc fade-in">Uma parceria técnico-operacional completa — do produto de selagem ao dashboard executivo. Combinamos excelência em materiais, engenharia especializada e tecnologia proprietária para garantir confiabilidade real nos seus ativos rotativos.</p>
     <div class="delivers-grid">
       <div class="deliver-card">
-        <div class="deliver-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+        <div class="deliver-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
         <div class="deliver-num">01</div>
-        <div class="deliver-title">Rastreabilidade Total por Ativo</div>
-        <div class="deliver-desc">TAG NFC em cada equipamento. Histórico completo de intervenções, causas de falha e consumo de materiais — auditável em tempo real.</div>
+        <div class="deliver-title">Excelência em Produtos de Selagem</div>
+        <div class="deliver-desc">Selos mecânicos, gaxetas e vedações de alto desempenho com materiais certificados para ambientes corrosivos, alta temperatura e pressão crítica — garantia de durabilidade em campo.</div>
       </div>
       <div class="deliver-card">
-        <div class="deliver-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="deliver-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
         <div class="deliver-num">02</div>
-        <div class="deliver-title">Indicadores de Confiabilidade</div>
-        <div class="deliver-desc">MTBF, MTTR, Disponibilidade e Bad Actors gerados automaticamente. Dashboards Power BI atualizados em tempo real via SGA.</div>
+        <div class="deliver-title">Capacidade Técnica Especializada</div>
+        <div class="deliver-desc">Engenheiros certificados em selagem aplicada a ativos rotativos. Diagnóstico preciso, especificação correta e análise de causa raiz — presença técnica onde o processo mais exige.</div>
       </div>
       <div class="deliver-card">
         <div class="deliver-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
         <div class="deliver-num">03</div>
+        <div class="deliver-title">Entregáveis Digitais & Rastreabilidade</div>
+        <div class="deliver-desc">TAG NFC em cada ativo. Histórico completo de intervenções, causa de falha e consumo de materiais — relatórios auditáveis em tempo real via SGA, com governança por dados estruturada.</div>
+      </div>
+      <div class="deliver-card">
+        <div class="deliver-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="deliver-num">04</div>
+        <div class="deliver-title">Engenharia de Alta Performance</div>
+        <div class="deliver-desc">MTBF, MTTR, Disponibilidade e Bad Actors calculados automaticamente. Programas estruturados para eliminar falhas repetitivas e maximizar a vida útil de cada equipamento.</div>
+      </div>
+      <div class="deliver-card">
+        <div class="deliver-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="6" height="6" rx="1"/><rect x="16" y="3" width="6" height="6" rx="1"/><rect x="9" y="10" width="6" height="6" rx="1"/><rect x="2" y="17" width="6" height="4" rx="1"/><rect x="16" y="17" width="6" height="4" rx="1"/><line x1="5" y1="9" x2="12" y2="12"/><line x1="19" y1="9" x2="12" y2="12"/></svg></div>
+        <div class="deliver-num">05</div>
         <div class="deliver-title">Monitoramento IIoT 24/7</div>
-        <div class="deliver-desc">Sensores Chesterton Connect instalados em ativos críticos. Dados de pressão, temperatura, vibração e detecção de vazamento em tempo real.</div>
+        <div class="deliver-desc">Sensores Chesterton Connect em ativos críticos. Dados de temperatura, vibração, pressão e detecção de vazamento em tempo real — com alertas automáticos via Sala de Controle.</div>
       </div>
       <div class="deliver-card">
         <div class="deliver-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <div class="deliver-num">04</div>
-        <div class="deliver-title">Governança por Dados</div>
-        <div class="deliver-desc">Três camadas de governança: operacional diária, tática mensal e QBR trimestral — com relatórios automáticos e planos de ação estruturados.</div>
-      </div>
-      <div class="deliver-card">
-        <div class="deliver-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3M6.343 6.343l-.707-.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div>
-        <div class="deliver-num">05</div>
-        <div class="deliver-title">Inteligência Artificial Integrada</div>
-        <div class="deliver-desc">IA treinada com dados reais de selagem: análise preditiva de falhas, correlação de causa raiz e recomendações técnicas automatizadas.</div>
-      </div>
-      <div class="deliver-card">
-        <div class="deliver-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
         <div class="deliver-num">06</div>
-        <div class="deliver-title">Comunicação Inteligente</div>
-        <div class="deliver-desc">WhatsApp automatizado integrado ao SGA. Consulte histórico de ativos, estoque consignado e alertas de desempenho diretamente pelo smartphone.</div>
+        <div class="deliver-title">Governança Contratual por Dados</div>
+        <div class="deliver-desc">Três camadas de governança: operacional diária, revisão tática mensal e QBR trimestral. Relatórios automáticos e planos de ação estruturados — com visibilidade total para gestores e operação.</div>
       </div>
     </div>
   </div>
@@ -2003,23 +2026,97 @@ function drawContractArrows() {
 function initContractFilter() { /* replaced by hub layout — no-op */ }
 
 // ═══ CLIENTS (v2 — with equipment & MTBF data) ═══
-const clients = [
-  { name:'Unipar Cubatão',             status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Cubatão',                   equip:283,  mtbf:51.28 },
-  { name:'Unipar Santo André',          status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Santo André',               equip:352,  mtbf:47.77 },
-  { name:'Klabin Monte Alegre Selo',    status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Telêmaco Borba',            equip:747,  mtbf:74.77 },
-  { name:'Klabin Monte Alegre Gaxeta',  status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Telêmaco Borba',            equip:1103, mtbf:30.4  },
-  { name:'Klabin Ortigueira',           status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Ortigueira',                equip:1500, mtbf:77.39 },
-  { name:'Klabin Correia Pinto',        status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Correia Pinto',             equip:160,  mtbf:43.36 },
-  { name:'Klabin Otacilio Costa',       status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Otacílio Costa',            equip:111,  mtbf:77.47 },
-  { name:'MD Limeira',                  status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Limeira',                   equip:204,  mtbf:36.99 },
-  { name:'Munksjö Caieiras',            status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Caieiras',                  equip:285,  mtbf:32.3  },
-  { name:'Nexa 3 Marias',              status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Três Marias',               equip:232,  mtbf:16.8  },
-  { name:'CMPC',                        status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Porto Alegre',              equip:250,  mtbf:32.3  },
-  { name:'Clariant S.A',               status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Suzano',                    equip:200,  mtbf:null  },
-  { name:'Ajinomoto',                   status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Limeira',                   equip:253,  mtbf:null  },
-  { name:'Alpek Recife',                status:'Monitoring',      country:'Brasil', flag:'🇧🇷', city:'Cabo de Santo Agostinho',  equip:210,  mtbf:null  },
-  { name:'Eurochem',                    status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Serra do Salitre',          equip:224,  mtbf:null  },
+// ─── CLIENTES DINÂMICOS — Google Sheets CSV ───────────────────
+const CLIENTS_CSV_URL =  + CSV_URL + ;
+
+// Fallback local data (usado se o fetch falhar)
+const clientsFallback = [
+  { name:'Unipar Cubatão',            status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Cubatão',                  equip:286,  mtbf:51.28 },
+  { name:'Unipar Santo André',         status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Santo André',              equip:352,  mtbf:47.77 },
+  { name:'Klabin Monte Alegre Selo',   status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Telêmaco Borba',           equip:747,  mtbf:74.77 },
+  { name:'Klabin Monte Alegre Gaxeta', status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Telêmaco Borba',           equip:1103, mtbf:30.40 },
+  { name:'Klabin Ortigueira',          status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Ortigueira',               equip:1500, mtbf:77.39 },
+  { name:'Klabin Correia Pinto',       status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Correia Pinto',            equip:160,  mtbf:43.36 },
+  { name:'Klabin Otacílio Costa',      status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Otacílio Costa',           equip:111,  mtbf:77.47 },
+  { name:'MD Limeira',                 status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Limeira',                  equip:204,  mtbf:36.99 },
+  { name:'Munksjö Caieiras',           status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Caieiras',                 equip:285,  mtbf:32.03 },
+  { name:'Nexa 3 Marias',             status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Três Marias',              equip:232,  mtbf:16.80 },
+  { name:'CMPC',                       status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Porto Alegre',             equip:250,  mtbf:32.03 },
+  { name:'Clariant S.A',              status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Suzano',                   equip:200,  mtbf:null  },
+  { name:'Ajinomoto',                  status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Limeira',                  equip:253,  mtbf:null  },
+  { name:'Alpek Recife',               status:'Monitoring',      country:'Brasil', flag:'🇧🇷', city:'Cabo de Santo Agostinho', equip:210,  mtbf:null  },
+  { name:'Eurochem',                   status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Serra do Salitre',         equip:224,  mtbf:null  },
 ];
+
+// Mapa país → bandeira
+var COUNTRY_FLAGS = { 'Brasil':'🇧🇷','Argentina':'🇦🇷','Chile':'🇨🇱','Colombia':'🇨🇴','Peru':'🇵🇪','Mexico':'🇲🇽','USA':'🇺🇸' };
+
+// Parse CSV simples (suporta campos com aspas e vírgula decimal)
+function parseClientsCSV(csvText) {
+  var lines = csvText.trim().split('\n');
+  if (lines.length < 2) return clientsFallback;
+  // Headers: Empresa,Programa,Pais,Cidade,Numero de equipamento,MTBF (meses)
+  var result = [];
+  for (var i = 1; i < lines.length; i++) {
+    var row = lines[i];
+    // Handle quoted fields
+    var fields = [];
+    var inQuote = false;
+    var cur = '';
+    for (var j = 0; j < row.length; j++) {
+      if (row[j] === '"') { inQuote = !inQuote; continue; }
+      if (row[j] === ',' && !inQuote) { fields.push(cur.trim()); cur = ''; continue; }
+      cur += row[j];
+    }
+    fields.push(cur.trim());
+    if (fields.length < 5) continue;
+    var empresa = fields[0] || '';
+    var programa = fields[1] || '';
+    var pais    = fields[2] || 'Brasil';
+    var cidade  = fields[3] || '';
+    var equip   = parseInt((fields[4]||'0').replace(/[^0-9]/g,''),10) || 0;
+    // MTBF: handle "51,28" (comma as decimal) or "-" or empty
+    var mtbfRaw = (fields[5]||'').replace(/"/g,'').trim();
+    var mtbf = null;
+    if (mtbfRaw && mtbfRaw !== '-') {
+      mtbf = parseFloat(mtbfRaw.replace(',','.'));
+      if (isNaN(mtbf)) mtbf = null;
+    }
+    result.push({
+      name: empresa,
+      status: programa,
+      country: pais,
+      flag: COUNTRY_FLAGS[pais] || '🌎',
+      city: cidade,
+      equip: equip,
+      mtbf: mtbf
+    });
+  }
+  return result.length > 0 ? result : clientsFallback;
+}
+
+var clients = clientsFallback; // será substituído pelo fetch
+
+function loadClientsFromSheet() {
+  var tbody = document.getElementById('clients-tbody');
+  // Show loading
+  if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--muted);font-family:Space Mono,monospace;font-size:11px;letter-spacing:1px;">⟳ Carregando dados da planilha…</td></tr>';
+
+  fetch(CLIENTS_CSV_URL)
+    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(function(csv) {
+      clients = parseClientsCSV(csv);
+      if (tbody) tbody.innerHTML = '';
+      buildClients();
+      // Sync i18n if active
+      try { var lang = localStorage.getItem('portal_lang'); if(lang && lang!=='pt' && window.i18nApply) window.i18nApply(lang); } catch(e){}
+    })
+    .catch(function(err) {
+      console.warn('Sheets CSV fetch failed, usando fallback:', err);
+      if (tbody) tbody.innerHTML = '';
+      buildClients(); // usa clientsFallback
+    });
+}
 
 function mtbfClass(v){ if(v===null) return 'mtbf-none'; if(v>=60) return 'mtbf-high'; if(v>=30) return 'mtbf-mid'; return 'mtbf-low'; }
 function mtbfDisplay(v){ if(v===null) return '<span class="mtbf-none">Em análise</span>'; return `<span class="${mtbfClass(v)}">${v}</span>`; }
@@ -2097,7 +2194,7 @@ function initFadeIn() {
 document.addEventListener('DOMContentLoaded', () => {
   buildContracts();
   initContractFilter();
-  buildClients();
+  loadClientsFromSheet();
   initScrollSpy();
   initFadeIn();
   // observe new contract cards after build
@@ -3765,6 +3862,89 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     initAll();
   }
+})();
+</script>
+
+
+<script>
+/* ═══ LOGIN LANG SWITCH ═══ */
+(function() {
+  var LOGIN_TEXTS = {
+    pt: {
+      badge: 'Acesso Restrito · Uso Institucional',
+      title: 'Portal de<br><em>Confiabilidade</em>',
+      sub: 'Conteúdo institucional de uso interno. Insira seu e-mail e senha para continuar.',
+      email: 'seu@email.com',
+      pass: '••••••••••••••',
+      btn: 'Acessar Portal →',
+      error: 'E-mail ou senha incorretos. Tente novamente.',
+      hint: 'Acesso restrito ao público autorizado · Não compartilhar externamente'
+    },
+    es: {
+      badge: 'Acceso Restringido · Uso Institucional',
+      title: 'Portal de<br><em>Confiabilidad</em>',
+      sub: 'Contenido institucional de uso interno. Ingresa tu correo y contraseña para continuar.',
+      email: 'tu@correo.com',
+      pass: '••••••••••••••',
+      btn: 'Acceder al Portal →',
+      error: 'Correo o contraseña incorrectos. Inténtalo de nuevo.',
+      hint: 'Acceso restringido al público autorizado · No compartir externamente'
+    },
+    en: {
+      badge: 'Restricted Access · Institutional Use',
+      title: 'Reliability<br><em>Portal</em>',
+      sub: 'Institutional content for internal use. Enter your email and password to continue.',
+      email: 'your@email.com',
+      pass: '••••••••••••••',
+      btn: 'Access Portal →',
+      error: 'Incorrect email or password. Please try again.',
+      hint: 'Restricted access · Do not share externally'
+    }
+  };
+
+  function applyLoginLang(lang) {
+    var t = LOGIN_TEXTS[lang] || LOGIN_TEXTS['pt'];
+    var badge = document.getElementById('auth-badge-text');
+    var title = document.getElementById('auth-title-text');
+    var sub   = document.getElementById('auth-sub-text');
+    var emailInput = document.getElementById('authLogin');
+    var passInput  = document.getElementById('authPass');
+    var btn   = document.getElementById('authBtn');
+    var hint  = document.querySelector('.auth-hint');
+    if (badge) badge.textContent = t.badge;
+    if (title) title.innerHTML  = t.title;
+    if (sub)   sub.textContent   = t.sub;
+    if (emailInput) emailInput.placeholder = t.email;
+    if (passInput)  passInput.placeholder  = t.pass;
+    if (btn)   btn.textContent   = t.btn;
+    if (hint)  hint.textContent  = t.hint;
+
+    // Update button styles
+    document.querySelectorAll('.login-lang-btn').forEach(function(b) {
+      var isActive = b.dataset.lang === lang;
+      b.style.background = isActive ? 'rgba(245,194,0,0.15)' : 'transparent';
+      b.style.color       = isActive ? '#F5C200' : 'rgba(255,255,255,0.4)';
+      b.style.borderColor = isActive ? 'rgba(245,194,0,0.4)' : 'rgba(255,255,255,0.12)';
+      b.style.fontWeight  = isActive ? '700' : '400';
+    });
+    try { localStorage.setItem('portal_lang', lang); } catch(e) {}
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.login-lang-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var lang = this.dataset.lang;
+        applyLoginLang(lang);
+        // Also apply to full page if i18nApply is available
+        if (window.i18nApply) window.i18nApply(lang);
+      });
+    });
+    // Apply saved language
+    var saved = (function(){ try{ return localStorage.getItem('portal_lang'); }catch(e){ return null; } })();
+    if (saved && saved !== 'pt') applyLoginLang(saved);
+    else applyLoginLang('pt');
+  });
+  window.applyLoginLang = applyLoginLang;
 })();
 </script>
 
