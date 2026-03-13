@@ -762,6 +762,391 @@ footer{
 @media(max-width:1100px){.hero-tetris{opacity:0.5;right:-2%}}
 @media(max-width:768px){.hero-tetris{display:none}}
 
+
+/* ── CONTRACTS HUB LAYOUT (v3) ──────────────────────────────── */
+.contracts-hub-layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1.7fr;
+  gap: 0;
+  align-items: center;
+}
+.contracts-satellites-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  z-index: 2;
+  padding-right: 0;
+}
+.contracts-core-col {
+  position: relative;
+  z-index: 2;
+  padding-left: 80px;
+}
+.contracts-arrows-svg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1;
+}
+.sat-card {
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  transition: var(--t-slow);
+  cursor: default;
+  opacity: 0;
+  transform: translateY(14px);
+}
+.sat-card.visible { opacity: 1; transform: translateY(0); }
+.sat-card:hover {
+  border-color: rgba(245,194,0,0.38);
+  transform: translateX(7px);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.35);
+}
+.sat-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.sat-card-title { font-family: "Bebas Neue",sans-serif; font-size: 15px; color: var(--white); margin-bottom: 4px; line-height: 1.1; }
+.sat-card-desc { font-size: 11px; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+.sat-card-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+@keyframes dash-flow { to { stroke-dashoffset: -30; } }
+@keyframes core-pulse {
+  0%,100% { box-shadow: 0 0 80px rgba(245,194,0,0.12), 0 0 0 4px rgba(245,194,0,0.05); }
+  50%      { box-shadow: 0 0 130px rgba(245,194,0,0.28), 0 0 0 8px rgba(245,194,0,0.10); }
+}
+.contract-core-v3 { animation: core-pulse 3s ease infinite; }
+@keyframes arrow-appear { from { opacity:0; } to { opacity:1; } }
+@media(max-width:900px) {
+  .contracts-hub-layout { grid-template-columns: 1fr; }
+  .contracts-core-col { padding-left: 0; margin-top: 32px; }
+  .contracts-arrows-svg { display: none; }
+}
+
+/* ══════════════════════════════════════════════════
+   WHATSAPP CHAT WIDGET — Flutuante em tela
+══════════════════════════════════════════════════ */
+#wa-widget {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9500;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  font-family: "DM Sans", sans-serif;
+}
+
+/* ── TOGGLE BUTTON ── */
+#wa-toggle {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 28px rgba(37,211,102,0.50);
+  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s ease;
+  position: relative;
+  outline: none;
+}
+#wa-toggle:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 36px rgba(37,211,102,0.65);
+}
+#wa-toggle::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(37,211,102,0.35);
+  animation: wa-ring 2.8s ease infinite;
+}
+@keyframes wa-ring {
+  0%   { transform: scale(0.90); opacity: 0.7; }
+  65%  { transform: scale(1.22); opacity: 0; }
+  100% { transform: scale(0.90); opacity: 0; }
+}
+#wa-toggle .wa-icon-wa  { display: block; transition: opacity 0.2s, transform 0.2s; }
+#wa-toggle .wa-icon-close { display: none;  opacity: 0; transform: rotate(-90deg); transition: opacity 0.2s, transform 0.2s; }
+#wa-widget.open #wa-toggle .wa-icon-wa    { display: none; }
+#wa-widget.open #wa-toggle .wa-icon-close { display: block; opacity: 1; transform: rotate(0deg); }
+
+/* ── UNREAD BADGE ── */
+#wa-badge {
+  position: absolute;
+  top: -3px; right: -3px;
+  width: 18px; height: 18px;
+  background: #FF3B30;
+  border-radius: 50%;
+  border: 2px solid #080A0F;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  animation: badge-pop 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes badge-pop { from { transform: scale(0); } to { transform: scale(1); } }
+#wa-badge.hidden { display: none; }
+
+/* ── PANEL ── */
+#wa-panel {
+  width: 340px;
+  background: #111318;
+  border: 1px solid rgba(37,211,102,0.18);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.04);
+  transform-origin: bottom right;
+  transform: scale(0.85) translateY(16px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.32s cubic-bezier(0.16,1,0.3,1), opacity 0.28s ease;
+  display: flex;
+  flex-direction: column;
+  max-height: 520px;
+}
+#wa-widget.open #wa-panel {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── PANEL HEADER ── */
+.wa-header {
+  background: linear-gradient(135deg, #075E54, #128C7E);
+  padding: 18px 18px 20px;
+  position: relative;
+  flex-shrink: 0;
+}
+.wa-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0; height: 20px;
+  background: #111318;
+  clip-path: ellipse(60% 100% at 50% 100%);
+}
+.wa-header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.wa-avatar {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #25D366, #075E54);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  flex-shrink: 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+.wa-info { flex: 1; min-width: 0; }
+.wa-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+}
+.wa-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  margin-top: 3px;
+}
+.wa-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #4cff91;
+  box-shadow: 0 0 6px #4cff91;
+  animation: wa-dot-pulse 2s ease infinite;
+  flex-shrink: 0;
+}
+@keyframes wa-dot-pulse {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0.4; }
+}
+.wa-secure {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 10px;
+}
+
+/* ── PANEL BODY ── */
+.wa-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(37,211,102,0.2) transparent;
+}
+.wa-body::-webkit-scrollbar { width: 3px; }
+.wa-body::-webkit-scrollbar-thumb { background: rgba(37,211,102,0.2); border-radius: 2px; }
+
+/* Bot message bubble */
+.wa-bubble-bot {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+.wa-bubble-bot-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #25D366, #075E54);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.wa-bubble-text {
+  background: #1e2430;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px 16px 16px 4px;
+  padding: 10px 13px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.55;
+  max-width: 240px;
+}
+.wa-bubble-text strong { color: #25D366; font-weight: 600; }
+.wa-bubble-time {
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  margin-left: 4px;
+  align-self: flex-end;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+
+/* Quick replies */
+.wa-chips-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding-left: 4px;
+  margin-top: 4px;
+}
+.wa-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-left: 36px;
+}
+.wa-chip {
+  background: rgba(37,211,102,0.08);
+  border: 1px solid rgba(37,211,102,0.25);
+  border-radius: 100px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: #4cff91;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, transform 0.15s;
+  line-height: 1;
+  user-select: none;
+}
+.wa-chip:hover {
+  background: rgba(37,211,102,0.18);
+  border-color: rgba(37,211,102,0.5);
+  transform: translateY(-1px);
+}
+.wa-chip:active { transform: translateY(0); }
+
+/* User message bubble (appears when typing and sending) */
+.wa-bubble-user {
+  display: flex;
+  justify-content: flex-end;
+  animation: bubble-in 0.2s ease;
+}
+@keyframes bubble-in { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.wa-bubble-user-text {
+  background: linear-gradient(135deg, #075E54, #128C7E);
+  border-radius: 16px 16px 4px 16px;
+  padding: 10px 13px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.92);
+  line-height: 1.55;
+  max-width: 240px;
+  border: 1px solid rgba(37,211,102,0.2);
+}
+
+/* ── PANEL FOOTER (input) ── */
+.wa-footer {
+  padding: 12px 14px 14px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  background: #0e1016;
+  flex-shrink: 0;
+}
+.wa-input-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  background: #1a1f2b;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 8px 10px 8px 14px;
+  transition: border-color 0.18s;
+}
+.wa-input-row:focus-within {
+  border-color: rgba(37,211,102,0.35);
+}
+#wa-msg-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgba(255,255,255,0.88);
+  font-size: 13px;
+  font-family: "DM Sans", sans-serif;
+  line-height: 1.5;
+  resize: none;
+  min-height: 22px;
+  max-height: 88px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+#wa-msg-input::-webkit-scrollbar { display: none; }
+#wa-msg-input::placeholder { color: rgba(255,255,255,0.25); }
+#wa-send-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: #25D366;
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.18s, transform 0.18s;
+  opacity: 0.45;
+}
+#wa-send-btn.active { opacity: 1; }
+#wa-send-btn:hover.active { background: #20c55c; transform: scale(1.08); }
+#wa-send-btn svg { width: 17px; height: 17px; }
+.wa-footer-note {
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  text-align: center;
+  margin-top: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+}
+
+@media(max-width:480px) {
+  #wa-panel { width: calc(100vw - 40px); }
+  #wa-widget { right: 16px; bottom: 16px; }
+}
 </style>
 </head>
 <body>
@@ -772,10 +1157,13 @@ footer{
     <div class="auth-logo">CHESTERTON<span>.</span></div>
     <div class="auth-badge">Acesso Restrito · Uso Institucional</div>
     <div class="auth-title">Portal de<br><em>Confiabilidade</em></div>
-    <div class="auth-sub">Conteúdo institucional de uso interno. Insira a senha de acesso para continuar.</div>
+    <div class="auth-sub">Conteúdo institucional de uso interno. Insira seu e-mail e senha para continuar.</div>
+    <input id="authLogin" class="auth-input" type="email" placeholder="seu@email.com" aria-label="E-mail de acesso" autocomplete="off" style="margin-bottom:10px">
     <input id="authPass" class="auth-input" type="password" placeholder="••••••••••••••" aria-label="Senha de acesso" autocomplete="off">
     <button id="authBtn" class="auth-btn" type="button">Acessar Portal →</button>
-    <div id="authError" class="auth-error">Senha incorreta. Tente novamente.</div>
+    <div id="authError" class="auth-error" style="display:none">E-mail ou senha incorretos. Tente novamente.</div>
+    <div id="authLoading" style="font-size:12px;color:#F5C200;margin-top:10px;display:none;text-align:center;">⟳ Verificando credenciais…</div>
+    <div id="authConnStatus" style="font-size:11px;color:rgba(90,100,128,0.8);margin-top:8px;text-align:center;display:none;font-family:'Space Mono',monospace;letter-spacing:0.5px;"></div>
     <div class="auth-hint">Acesso restrito ao público autorizado · Não compartilhar externamente</div>
   </div>
 </div>
@@ -793,7 +1181,9 @@ footer{
     <a href="#ecossistema">Ecossistema</a>
     <a href="#contratos">Contratos</a>
     <a href="#contratos-ativos">Clientes</a>
-    <a href="#acessos">Acessos</a>
+    <a href="#pbi-section">Relatórios Power-BI</a>
+    <a href="#sga-section">Acesso SGA</a>
+    <a href="#matriz-section">Matriz Contratos</a>
   </nav>
 
   <!-- ═══ LANG SWITCH (added) -->
@@ -803,6 +1193,10 @@ footer{
     <button type="button" class="lang-btn" data-lang="en" aria-label="English" style="cursor:pointer;border:1px solid rgba(245,194,0,0.25);background:rgba(245,194,0,0.10);color:#F0F4FF;border-radius:999px;padding:6px 10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">EN</button>
   </div>
 
+  <div id="user-name-wrap" style="display:none;align-items:center;gap:8px;margin-left:8px;padding-left:12px;border-left:1px solid rgba(245,194,0,0.2);">
+    <div style="width:7px;height:7px;border-radius:50%;background:#0e9e5a;flex-shrink:0;animation:pulse 2s ease infinite;"></div>
+    <span id="user-display-name" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(240,244,255,0.7);white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis;"></span>
+  </div>
 </header>
 
 <!-- ═══ BRAND IDENTITY STRIP ═══ -->
@@ -1067,41 +1461,6 @@ footer{
   </div>
 </section>
 
-<!-- ═══ ACESSOS RÁPIDOS ═══ -->
-<section id="acessos" aria-label="Acessos Rápidos">
-  <div class="section-inner">
-    <div class="section-tag fade-in">Portais</div>
-    <h2 class="section-title fade-in"><em>Acessos</em> Rápidos</h2>
-    <p class="section-desc fade-in">Links diretos para as principais ferramentas do ecossistema digital Chesterton.</p>
-    <div class="access-grid">
-      <a href="https://app.powerbi.com/view?r=eyJrIjoiMWUwOTVkMjItZjc4Ni00NzE0LWE5NjYtZDYwMjZkMjQ3YjhlIiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9&pageName=716e6a04e0489d8146d1" target="_blank" rel="noopener" class="access-card fade-in" data-delay="1">
-        <div class="access-icon icon-gold"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 17V11"/><path d="M12 17V7"/><path d="M17 17v-4"/></svg></div>
-        <div class="access-title">OEE · Power BI</div>
-        <div class="access-desc">Dashboard de Overall Equipment Effectiveness em tempo real. Indicadores MTBF, MTTR e performance operacional auditáveis.</div>
-        <div class="access-btn">Abrir Dashboard <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
-      </a>
-      <a href="https://chesterton-contratos.github.io/Matriz_de_Contratos/" target="_blank" rel="noopener" class="access-card fade-in" data-delay="2">
-        <div class="access-icon icon-blue"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
-        <div class="access-title">Matriz de Escopo</div>
-        <div class="access-desc">Matriz interativa com os 7 modelos contratuais e 32 escopos técnicos detalhados. Filtros por categoria e tipo de contrato.</div>
-        <div class="access-btn">Abrir Matriz <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
-      </a>
-      <a href="https://wa.me/5511912469471?text=Ola%2C%20gostaria%20de%20consultar%20um%20contrato!" target="_blank" rel="noopener" class="access-card fade-in" data-delay="3">
-        <div class="access-icon icon-gold"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="12" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg></div>
-        <div class="access-title">Agente IA · SGA</div>
-        <div class="access-desc">Agente inteligente via WhatsApp integrado ao SGA. Consulte contratos, histórico de ativos e indicadores direto pelo smartphone.</div>
-        <div class="access-btn">Abrir WhatsApp <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
-      </a>
-      <a href="https://www.chesterton.com.br/" target="_blank" rel="noopener" class="access-card fade-in" data-delay="4">
-        <div class="access-icon icon-blue"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-        <div class="access-title">Site Chesterton Brasil</div>
-        <div class="access-desc">Portal institucional da Chesterton do Brasil. Produtos, soluções, casos de sucesso e contatos da equipe técnica.</div>
-        <div class="access-btn">Acessar Site <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
-      </a>
-    </div>
-  </div>
-</section>
-
 <!-- ═══ FOOTER ═══ -->
 <footer>
   <div class="footer-brand">CHESTERTON<span>.</span></div>
@@ -1195,6 +1554,9 @@ footer{
     try{ localStorage.setItem('portal_lang', lang); }catch(e){}
   }
 
+  // Expose apply globally so dynamic content builders can re-trigger translation
+  window.i18nApply = apply;
+
   window.addEventListener('DOMContentLoaded', function(){
     document.querySelectorAll('#langSwitch .lang-btn').forEach(btn=>{
       btn.addEventListener('click', function(){ apply(this.dataset.lang); });
@@ -1208,28 +1570,233 @@ footer{
 </script>
 
 <script>
-// ═══ AUTH ═══
-const AUTH_PASS = 'Chesterton01';
-const overlay = document.getElementById('authOverlay');
-const passInput = document.getElementById('authPass');
-const authBtn = document.getElementById('authBtn');
-const authErr = document.getElementById('authError');
+// ═══ AUTH — Google Sheets dinâmico ═══
+// URL da planilha publicada (aba User_Site).
+// Se retornar a aba errada, adicione &gid=NUMERO_DO_GID ao final da URL.
+// Para encontrar o GID: abra a planilha > clique na aba "User_Site" > copie o número após #gid= na URL.
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1731PjXn-Isww5FCyVml2Yq8D0QGv7Z96VIYJfQ8RVkURa00ukOzLNWlvcGOWAnM8Ku7onrORE0sT/pub?gid=177019262&single=true&output=csv';
 
-function tryAuth() {
-  if (passInput.value === AUTH_PASS) {
-    overlay.classList.add('hidden');
-    document.body.style.overflow = '';
-  } else {
-    authErr.style.display = 'block';
-    passInput.value = '';
-    passInput.focus();
-    passInput.style.borderColor = '#FF6B6B';
-    setTimeout(() => { passInput.style.borderColor = ''; }, 1200);
-  }
+window.currentUser  = null;
+window.usersData    = [];
+window._unlockQueue = [];
+var _loadPromise    = null;   // deduplicação: evita múltiplas requisições simultâneas
+var _loadError      = null;   // 'network' | 'empty' | null
+var CACHE_KEY       = 'ches_auth_v2'; // chave do localStorage para cache offline
+
+// ── Registra / desbloqueia seções ──────────────────────────────
+window.registerUnlock = function(fn) {
+  window._unlockQueue.push(fn);
+  if (window.currentUser) fn();
+};
+window.unlockAllSections = function() {
+  window._unlockQueue.forEach(function(fn){ try{ fn(); }catch(e){} });
+};
+
+// ── Parse CSV (suporta aspas, CRLF e BOM) ─────────────────────
+function parseCSV(text) {
+  // Remove BOM se presente
+  text = text.replace(/^\uFEFF/, '');
+  var lines = text.split(/\r?\n/).filter(function(l){ return l.trim(); });
+  if (lines.length < 2) return [];
+  var headers = lines[0].split(',').map(function(h){
+    return h.replace(/^"|"$/g,'').trim().toLowerCase();
+  });
+  return lines.slice(1).map(function(line){
+    var cols=[], cur='', inQ=false;
+    for (var i=0;i<line.length;i++){
+      var c=line[i];
+      if (c==='"'){ inQ=!inQ; }
+      else if (c===','&&!inQ){ cols.push(cur.trim()); cur=''; }
+      else cur+=c;
+    }
+    cols.push(cur.trim());
+    var obj={};
+    headers.forEach(function(h,i){ obj[h]=(cols[i]||'').replace(/^"|"$/g,'').trim(); });
+    return obj;
+  });
 }
+
+// ── Cache localStorage (fallback offline) ─────────────────────
+function cacheUsers(data) {
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch(e){}
+}
+function getCachedUsers() {
+  try {
+    var raw = localStorage.getItem(CACHE_KEY);
+    if (raw) { var d=JSON.parse(raw); if (Array.isArray(d)&&d.length) return d; }
+  } catch(e){}
+  return [];
+}
+
+// ── Atualiza indicador de status na tela ──────────────────────
+var connStatus = document.getElementById('authConnStatus');
+function setConnStatus(msg, color) {
+  if (!connStatus) return;
+  connStatus.textContent = msg;
+  connStatus.style.color = color || 'rgba(90,100,128,0.8)';
+  connStatus.style.display = msg ? 'block' : 'none';
+}
+
+// ── Fetch com fallback XHR ─────────────────────────────────────
+function fetchCSV(url) {
+  // Tenta fetch nativo primeiro
+  return fetch(url, { method:'GET', mode:'cors', credentials:'omit', cache:'no-store' })
+    .then(function(r){
+      if (!r.ok) throw new Error('HTTP '+r.status);
+      return r.text();
+    })
+    .catch(function(fetchErr){
+      console.warn('[Auth] fetch falhou ('+fetchErr.message+'), tentando XHR...');
+      // Fallback: XMLHttpRequest
+      return new Promise(function(resolve, reject){
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.timeout = 12000;
+        xhr.onload = function(){
+          if (xhr.status>=200 && xhr.status<300) resolve(xhr.responseText);
+          else reject(new Error('XHR HTTP '+xhr.status));
+        };
+        xhr.onerror   = function(){ reject(new Error('XHR network error')); };
+        xhr.ontimeout = function(){ reject(new Error('XHR timeout')); };
+        xhr.send();
+      });
+    });
+}
+
+// ── Carrega usuários (online → cache → erro) ──────────────────
+function loadUsers() {
+  if (_loadPromise) return _loadPromise;
+  _loadError = null;
+
+  setConnStatus('⟳ Conectando à planilha...', '#F5C200');
+
+  _loadPromise = fetchCSV(SHEET_URL)
+    .then(function(csv){
+      var parsed = parseCSV(csv);
+      if (parsed.length > 0) {
+        window.usersData = parsed;
+        cacheUsers(parsed); // salva cache para uso offline
+        _loadError = null;
+        console.log('[Auth] '+parsed.length+' usuário(s) carregado(s). Colunas:', Object.keys(parsed[0]));
+        setConnStatus('✓ Planilha conectada', '#4ade80');
+        setTimeout(function(){ setConnStatus(''); }, 2000);
+      } else {
+        console.warn('[Auth] CSV retornou 0 usuários — verifique se a planilha está publicada.');
+        var cached = getCachedUsers();
+        if (cached.length > 0) {
+          window.usersData = cached;
+          setConnStatus('⚠ Planilha vazia — usando cache local', '#F5C200');
+        } else {
+          _loadError = 'empty';
+          setConnStatus('⚠ Nenhum usuário encontrado na planilha', '#FF6B6B');
+        }
+      }
+    })
+    .catch(function(e){
+      console.error('[Auth] Falha ao carregar planilha:', e.message);
+      var cached = getCachedUsers();
+      if (cached.length > 0) {
+        window.usersData = cached;
+        _loadError = null;
+        console.log('[Auth] Usando credenciais em cache ('+cached.length+' usuários).');
+        setConnStatus('⚠ Offline — usando cache local', '#F5C200');
+        setTimeout(function(){ setConnStatus(''); }, 3000);
+      } else {
+        window.usersData = [];
+        _loadError = 'network';
+        _loadPromise = null; // permite nova tentativa
+        setConnStatus('✗ Sem conexão com a planilha', '#FF6B6B');
+      }
+    });
+
+  return _loadPromise;
+}
+
+// ── Elementos do formulário ────────────────────────────────────
+const overlay    = document.getElementById('authOverlay');
+const loginInput = document.getElementById('authLogin');
+const passInput  = document.getElementById('authPass');
+const authBtn    = document.getElementById('authBtn');
+const authErr    = document.getElementById('authError');
+const authLoad   = document.getElementById('authLoading');
+
+// ── Autenticação ───────────────────────────────────────────────
+function tryAuth() {
+  var email = (loginInput.value||'').trim().toLowerCase();
+  var senha = (passInput.value||'');
+
+  authErr.style.display = 'none';
+
+  if (!email || !senha) {
+    authErr.textContent = 'Preencha e-mail e senha.';
+    authErr.style.display = 'block';
+    return;
+  }
+
+  // Sempre aguarda o carregamento (instantâneo se já carregou, aguarda se ainda em progresso)
+  authLoad.textContent   = '⟳ Verificando credenciais...';
+  authLoad.style.display = 'block';
+  authBtn.disabled = true;
+
+  loadUsers().then(function(){
+    authLoad.style.display = 'none';
+    authBtn.disabled = false;
+
+    // ── Erro de rede (sem cache disponível) ──
+    if (_loadError === 'network') {
+      authErr.innerHTML = '⚠ Não foi possível acessar a planilha de usuários.<br>'
+        + '<small style="font-size:10px;opacity:.7;">Verifique sua internet. Se o problema persistir, '
+        + 'abra o arquivo via servidor local (ex: VSCode Live Server).</small>';
+      authErr.style.display = 'block';
+      return;
+    }
+
+    // ── Planilha vazia ──
+    if (_loadError === 'empty' || window.usersData.length === 0) {
+      authErr.textContent = '⚠ Lista de usuários não encontrada. Verifique se a planilha está publicada.';
+      authErr.style.display = 'block';
+      return;
+    }
+
+    // ── Verifica credenciais ──
+    var user = null;
+    for (var i=0; i<window.usersData.length; i++){
+      var u = window.usersData[i];
+      var uLogin = (u['login']||u['Login']||u['EMAIL']||u['email']||'').toLowerCase();
+      var uSenha = (u['senha']||u['Senha']||u['SENHA']||'');
+      if (uLogin === email && uSenha === senha){ user = u; break; }
+    }
+
+    if (user) {
+      window.currentUser = user;
+      overlay.classList.add('hidden');
+      document.body.style.overflow = '';
+      // Exibe nome do usuário no topbar
+      var nome = user['nome']||user['Nome']||user['NOME']||email;
+      var nameEl   = document.getElementById('user-display-name');
+      var nameWrap = document.getElementById('user-name-wrap');
+      if (nameEl)   nameEl.textContent = nome;
+      if (nameWrap) nameWrap.style.display = 'flex';
+      // Desbloqueia todas as seções restritas (Power BI, SGA, Matriz)
+      window.unlockAllSections();
+    } else {
+      authErr.textContent = 'E-mail ou senha incorretos. Tente novamente.';
+      authErr.style.display = 'block';
+      passInput.value = '';
+      passInput.focus();
+      passInput.style.borderColor = '#FF6B6B';
+      setTimeout(function(){ passInput.style.borderColor = ''; }, 1200);
+    }
+  });
+}
+
 document.body.style.overflow = 'hidden';
 authBtn.addEventListener('click', tryAuth);
-passInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryAuth(); });
+passInput.addEventListener('keydown', function(e){ if(e.key==='Enter') tryAuth(); });
+loginInput.addEventListener('keydown', function(e){ if(e.key==='Enter') passInput.focus(); });
+
+// Pré-carrega usuários assim que a página abre
+loadUsers();
 
 // ═══ CONTRACTS DATA (v2 — journey groups) ═══
 const contractGroups = [
@@ -1278,86 +1845,184 @@ const contract25 = {
   sga:'Estruturante — Núcleo de toda a governança de dados'
 };
 
+// All satellite contracts (2.1–2.7 except 2.5)
+const allSatellites = [
+  { num:'2.1', title:'Acordo de Preços — Produto',        badge:'BASE',    badgeCls:'cbadge-base',
+    desc:'Fornecimento de selos mecânicos, gaxetas e vedações com tabela acordada. Previsibilidade de custo e canal dedicado.',
+    tags:['CAPEX','Fill Rate','OTIF'] },
+  { num:'2.2', title:'Acordo de Preços + Mão de Obra',    badge:'BASE',    badgeCls:'cbadge-base',
+    desc:'Fornecimento + execução técnica + rastreabilidade SGA. TAG NFC em cada ativo e MTBF gerado automaticamente.',
+    tags:['MTBF','MTTR','Power BI','SGA'] },
+  { num:'2.3', title:'Estoque em Consignação',             badge:'BASE',    badgeCls:'cbadge-base',
+    desc:'Materiais na planta do cliente. Faturamento pós-consumo. Ruptura zero garantida.',
+    tags:['Consignação','Giro de Estoque','Ruptura Zero'] },
+  { num:'2.4', title:'Recuperação de Selos',              badge:'EVOLUÇÃO', badgeCls:'cbadge-evolucao',
+    desc:'Recuperação, retrofit e requalificação de selos mecânicos. Análise dimensional, causa raiz e retorno ao estoque.',
+    tags:['Recuperação','FMEA','Análise de Falha'] },
+  { num:'2.6', title:'Consultoria em Confiabilidade',     badge:'EVOLUÇÃO', badgeCls:'cbadge-evolucao',
+    desc:'Diagnóstico técnico, levantamento de ativos, análise de Bad Actors e estruturação do programa de confiabilidade.',
+    tags:['Bad Actors','KPIs','Plano de Ação'] },
+  { num:'2.7', title:'Sensoriamento IIoT',                badge:'EVOLUÇÃO', badgeCls:'cbadge-evolucao',
+    desc:'Sensores Chesterton Connect instalados nos ativos críticos. Monitoramento 24/7 com alertas automáticos e IA.',
+    tags:['IIoT','Connect','Preditivo','Tempo Real'] },
+];
+
 function buildContracts() {
   const container = document.getElementById('contracts-journey-grid');
   if(!container) return;
 
-  // Build group sections
-  contractGroups.forEach(group => {
-    const itemCards = group.items.map((c, idx) => {
-      const tags = c.tags.map(t => `<span class="ctag">${t}</span>`).join('');
-      return `<div class="contract-card-v2" style="transition-delay:${idx*0.08}s">
-        <div class="contract-badge ${group.badgeCls}">${group.badge}</div>
-        <div class="contract-num">${c.num}</div>
-        <div class="contract-title">${c.title}</div>
-        <div class="contract-desc">${c.desc}</div>
-        <div class="contract-tags" style="margin-top:14px">${tags}</div>
-      </div>`;
-    }).join('');
-
-    container.innerHTML += `
-      <div class="cgroup-section">
-        <div class="cgroup-header">
-          <span class="cgroup-badge ${group.badgeCls}">${group.badge}</span>
-          <span class="cgroup-title">${group.label}</span>
-          <span class="cgroup-line"></span>
-        </div>
-        <div class="${group.gridCls}">${itemCards}</div>
+  const satCards = allSatellites.map((c, i) => `
+    <div class="sat-card" id="sat-${i}" style="transition-delay:${i * 0.07}s">
+      <div class="sat-card-header">
+        <span class="contract-badge ${c.badgeCls}" style="margin:0;font-size:8px;padding:3px 8px">${c.badge}</span>
+        <span class="contract-num" style="font-size:10px;margin:0">${c.num}</span>
       </div>
-      <div style="display:flex;justify-content:center;padding:8px 0;opacity:0.5">
-        <svg width="24" height="32" viewBox="0 0 24 32" fill="none">
-          <line x1="12" y1="0" x2="12" y2="28" stroke="#F5C200" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <polyline points="6,22 12,30 18,22" stroke="#F5C200" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
-        </svg>
-      </div>`;
-  });
+      <div class="sat-card-title">${c.title}</div>
+      <div class="sat-card-desc">${c.desc}</div>
+      <div class="sat-card-tags">${c.tags.map(t=>`<span class="ctag" style="font-size:9px;padding:2px 7px">${t}</span>`).join('')}</div>
+    </div>
+  `).join('');
 
-  // Build 2.5 core section
   const coreTags = contract25.tags.map(t => `<span class="core-tag">${t}</span>`).join('');
-  container.innerHTML += `
-    <div class="cgroup-section">
-      <div class="cgroup-header">
-        <span class="cgroup-badge cbadge-core">ESTRATÉGICO</span>
-        <span class="cgroup-title">Grupo 3 — Estratégico · Modelo-Alvo</span>
-        <span class="cgroup-line"></span>
+
+  container.innerHTML = `
+    <div class="contracts-hub-layout" id="contracts-hub">
+      <svg class="contracts-arrows-svg" id="arrows-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+      <!-- LEFT: satellite contracts -->
+      <div class="contracts-satellites-col" id="satellites-col">
+        <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:10px">
+          <span>TODOS OS MODELOS</span>
+          <span style="flex:1;height:1px;background:var(--border)"></span>
+        </div>
+        ${satCards}
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-top:10px;padding:10px 14px;background:rgba(245,194,0,0.04);border:1px solid rgba(245,194,0,0.12);border-radius:8px;line-height:1.6">
+          Todos os contratos podem ser combinados entre si e todos convergem para o <strong style="color:var(--gold)">2.5</strong>.
+        </div>
       </div>
-      <div class="cgroup-grid-core">
-        <div class="contract-card-core">
+
+      <!-- RIGHT: core 2.5 -->
+      <div class="contracts-core-col" id="core-col">
+        <div class="contract-core-v3 contract-card-core">
           <div class="core-card-left">
-            <div class="badge-modelo-alvo">MODELO-ALVO</div>
-            <div class="contract-num" style="color:var(--gold2);font-size:12px">${contract25.num}</div>
-            <div class="contract-title" style="font-size:32px;margin-bottom:12px;color:var(--white)">${contract25.title}</div>
-            <div class="contract-desc" style="font-size:14px;color:var(--white2);line-height:1.7">${contract25.desc}</div>
-            <div class="core-tag-list">${coreTags}</div>
+            <div class="badge-modelo-alvo">⬡ MODELO-ALVO</div>
+            <div class="contract-num" style="color:var(--gold2);font-size:12px;margin-bottom:6px">${contract25.num}</div>
+            <div class="contract-title" style="font-size:28px;margin-bottom:12px;color:var(--white)">${contract25.title}</div>
+            <div class="contract-desc" style="font-size:13px;color:var(--white2);line-height:1.7;margin-bottom:16px">${contract25.desc}</div>
+            <div class="core-tag-list" style="margin-bottom:16px">${coreTags}</div>
             <div class="objetivo-est">Objetivo estratégico — convergência de todos os modelos</div>
-          </div>
-          <div class="core-card-right">
-            <div class="core-stat-item">
-              <span class="lbl">SGA</span>
-              <span class="val" style="font-size:18px;line-height:1.3">Estruturante</span>
-            </div>
-            <div class="core-sep"></div>
-            <div class="core-stat-item">
-              <span class="lbl">Governança</span>
-              <span class="val" style="font-size:16px;line-height:1.3">3 Camadas</span>
-            </div>
-            <div class="core-sep"></div>
-            <div class="core-stat-item">
-              <span class="lbl">Modelo de negócio</span>
-              <span class="val" style="font-size:18px">custo determinado</span>
-            </div>
-            <div class="core-sep"></div>
-            <div class="core-stat-item">
-              <span class="lbl">Tecnologia</span>
-              <span class="val blue" style="font-size:14px;line-height:1.4">IA · IIoT · Power BI</span>
+            <div style="margin-top:20px;background:var(--dark3);border:1px solid var(--border2);border-radius:10px;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="core-stat-item"><span class="lbl">SGA</span><span class="val" style="font-size:18px;line-height:1.3">Estruturante</span></div>
+              <div class="core-stat-item"><span class="lbl">Governança</span><span class="val" style="font-size:18px">3 Camadas</span></div>
+              <div class="core-stat-item"><span class="lbl">Modelo</span><span class="val" style="font-size:15px;line-height:1.3">custo determinado</span></div>
+              <div class="core-stat-item"><span class="lbl">Tecnologia</span><span class="val blue" style="font-size:14px;line-height:1.4">IA · IIoT · Power BI</span></div>
             </div>
           </div>
         </div>
       </div>
-    </div>`;
+    </div>
+  `;
+
+  // Draw animated arrows after layout renders
+  requestAnimationFrame(() => {
+    setTimeout(drawContractArrows, 150);
+  });
+  window.addEventListener('resize', () => {
+    clearTimeout(window._arrowResize);
+    window._arrowResize = setTimeout(drawContractArrows, 200);
+  });
 }
 
-function initContractFilter() { /* filter replaced by journey groups — no-op */ }
+function drawContractArrows() {
+  const svg = document.getElementById('arrows-svg');
+  const hub = document.getElementById('contracts-hub');
+  const coreCol = document.getElementById('core-col');
+  if (!svg || !hub || !coreCol) return;
+
+  const satEls = hub.querySelectorAll('.sat-card');
+  if (!satEls.length) return;
+
+  const hubRect = hub.getBoundingClientRect();
+  const coreRect = coreCol.getBoundingClientRect();
+
+  const W = hubRect.width;
+  const H = hubRect.height;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('width', W);
+  svg.setAttribute('height', H);
+
+  // Target: left-center of the core card
+  const targetX = coreRect.left - hubRect.left;
+  const targetY = coreRect.top + coreRect.height * 0.42 - hubRect.top;
+
+  // Build defs for arrowhead markers and glow filter
+  const ns = 'http://www.w3.org/2000/svg';
+  svg.innerHTML = `
+    <defs>
+      <marker id="ah-base" markerWidth="9" markerHeight="7" refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 9 3.5, 0 7" fill="rgba(26,127,212,0.7)" />
+      </marker>
+      <marker id="ah-evolucao" markerWidth="9" markerHeight="7" refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 9 3.5, 0 7" fill="rgba(245,194,0,0.75)" />
+      </marker>
+      <filter id="glow-gold" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur stdDeviation="6" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>`;
+
+  satEls.forEach((card, i) => {
+    const cardRect = card.getBoundingClientRect();
+    const startX = cardRect.right - hubRect.left;
+    const startY = cardRect.top + cardRect.height / 2 - hubRect.top;
+
+    const isBase = i < 3;
+    const strokeColor = isBase ? 'rgba(26,127,212,0.45)' : 'rgba(245,194,0,0.45)';
+    const markerId    = isBase ? 'ah-base' : 'ah-evolucao';
+    const dashSpeed   = 1.6 + i * 0.22;
+
+    // Cubic bezier: start right, curve toward target
+    const cpMid = startX + (targetX - startX) * 0.55;
+    const d = `M ${startX} ${startY} C ${cpMid} ${startY}, ${cpMid} ${targetY}, ${targetX} ${targetY}`;
+
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('stroke', strokeColor);
+    path.setAttribute('stroke-width', '1.5');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke-dasharray', '8 5');
+    path.setAttribute('marker-end', `url(#${markerId})`);
+    path.style.animation = `dash-flow ${dashSpeed}s linear infinite`;
+    path.style.animationDelay = `${i * 0.1}s`;
+    svg.appendChild(path);
+  });
+
+  // Glowing target circle at the convergence point
+  const glow = document.createElementNS(ns, 'circle');
+  glow.setAttribute('cx', targetX);
+  glow.setAttribute('cy', targetY);
+  glow.setAttribute('r', '12');
+  glow.setAttribute('fill', 'rgba(245,194,0,0.12)');
+  glow.setAttribute('stroke', 'rgba(245,194,0,0.6)');
+  glow.setAttribute('stroke-width', '1.5');
+  glow.setAttribute('filter', 'url(#glow-gold)');
+  glow.style.animation = 'core-pulse 2.5s ease infinite';
+  svg.appendChild(glow);
+
+  // Label near target point
+  const label = document.createElementNS(ns, 'text');
+  label.setAttribute('x', targetX - 16);
+  label.setAttribute('y', targetY + 26);
+  label.setAttribute('text-anchor', 'middle');
+  label.setAttribute('fill', 'rgba(245,194,0,0.5)');
+  label.setAttribute('font-size', '9');
+  label.setAttribute('font-family', 'Space Mono, monospace');
+  label.setAttribute('letter-spacing', '1.5');
+  label.textContent = '2.5';
+  svg.appendChild(label);
+}
+
+function initContractFilter() { /* replaced by hub layout — no-op */ }
 
 // ═══ CLIENTS (v2 — with equipment & MTBF data) ═══
 const clients = [
@@ -1462,15 +2127,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
-    document.querySelectorAll('.contract-card-v2, .contract-card-core').forEach(el => obs.observe(el));
+    document.querySelectorAll('.contract-card-v2, .contract-card-core, .sat-card').forEach(el => obs.observe(el));
   }, 100);
+
+  // Re-apply i18n after dynamic content is built (contracts, clients were not in DOM at i18n init time)
+  setTimeout(() => {
+    try {
+      const savedLang = localStorage.getItem('portal_lang');
+      if (savedLang && savedLang !== 'pt' && typeof window.i18nApply === 'function') {
+        window.i18nApply(savedLang);
+      }
+    } catch(e) {}
+  }, 200);
 });
 
 // ═══ POWER BI — ACESSO RESTRITO ═══
 (function() {
-  const SENHA_CORRETA = 'Contratos01';
-
   const reports = [
+    {
+      id: 'oee',
+      label: 'OEE — Overall Equipment Effectiveness',
+      icon: '📊',
+      color: '#F5C200',
+      url: 'https://app.powerbi.com/view?r=eyJrIjoiMWUwOTVkMjItZjc4Ni00NzE0LWE5NjYtZDYwMjZkMjQ3YjhlIiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9&pageName=716e6a04e0489d8146d1'
+    },
     {
       id: 'nexa',
       label: 'Contrato Nexa',
@@ -1483,14 +2163,14 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'Contrato Klabin Monte Alegre Selo',
       icon: '📊',
       color: '#0e7c4a',
-      url: 'https://app.powerbi.com/view?r=eyJrIjoiYTYxNmE2YTgtNjY3ZS00NDdmLTg3YzktMDViYzE4ZGFlYWZjIiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9&pageName=967f19c6065e9727d0bb'
+      url: 'https://app.powerbi.com/view?r=eyJrIjoiMGQxY2RlYjYtOGIwYi00NjJkLThlNjgtNGM2YjZiODRlZjdkIiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9&pageName=967f19c6065e9727d0bb'
     },
     {
       id: 'klabin-gaxeta',
       label: 'Contrato Klabin Monte Alegre Gaxeta',
       icon: '📊',
       color: '#7b3fa0',
-      url: 'https://app.powerbi.com/view?r=eyJrIjoiNzY4MTI1NzgtZTczNC00MmY4LTlhNmMtNTE4NWI2YjAxZDE2IiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9&pageName=647dcb2ac43eccacd5e2'
+      url: 'https://app.powerbi.com/view?r=eyJrIjoiMTAyZDgyNWMtMWE3NC00MGVmLWI5OGYtZjFiNTBhZDlkYzA1IiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9'
     }
   ];
 
@@ -1838,25 +2518,16 @@ document.addEventListener('DOMContentLoaded', () => {
         </svg>
         Acesso Restrito
       </div>
-      <div class="pbi-section-title">Relatórios de Performance — Power BI</div>
+      <div class="pbi-section-title">Relatórios Compilados em Power-Bi</div>
       <div class="pbi-section-sub">Área exclusiva para visualização de dashboards contratuais. Acesso mediante senha.</div>
     </div>
 
-    <!-- Gate de senha -->
+    <!-- Gate de acesso — desbloqueia via sessão do portal -->
     <div id="pbi-gate">
       <div class="pbi-gate-icon">🔒</div>
-      <div class="pbi-gate-title">Área Restrita</div>
-      <div class="pbi-gate-hint">Insira a senha de acesso aos relatórios</div>
-      <div class="pbi-input-wrap">
-        <input id="pbi-password-input" type="password" placeholder="Senha de acesso…" autocomplete="off" />
-        <button class="pbi-eye-btn" id="pbi-eye-btn" type="button" title="Mostrar/ocultar senha">
-          <svg id="pbi-eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-          </svg>
-        </button>
-      </div>
-      <div id="pbi-error-msg">Senha incorreta. Verifique e tente novamente.</div>
-      <button id="pbi-submit-btn" type="button">Acessar Relatórios</button>
+      <div class="pbi-gate-title">Área Restrita · Power BI</div>
+      <div class="pbi-gate-hint" id="pbi-gate-hint">Autenticando sessão…</div>
+      <button id="pbi-unlock-btn" type="button" style="display:none;margin-top:16px;width:100%;padding:13px;background:linear-gradient(135deg,#F5C200 0%,#e6a800 100%);border:none;border-radius:10px;color:#0a0f1e;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:0.5px;transition:opacity .2s;">▶ Abrir Relatórios</button>
     </div>
 
     <!-- Painel de relatórios (oculto até autenticar) -->
@@ -1881,13 +2552,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── Lógica ──
   const gate      = document.getElementById('pbi-gate');
   const reportsEl = document.getElementById('pbi-reports');
-  const input     = document.getElementById('pbi-password-input');
-  const errorMsg  = document.getElementById('pbi-error-msg');
-  const submitBtn = document.getElementById('pbi-submit-btn');
   const logoutBtn = document.getElementById('pbi-logout-btn');
-  const eyeBtn    = document.getElementById('pbi-eye-btn');
   const tabsEl    = document.getElementById('pbi-tabs');
   const panelsEl  = document.getElementById('pbi-panels');
+  const gateHint  = document.getElementById('pbi-gate-hint');
+  const unlockBtn = document.getElementById('pbi-unlock-btn');
 
   let activeTab = null;
 
@@ -1912,7 +2581,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="pbi-ph-dot" style="background:${r.color};box-shadow:0 0 7px ${r.color}99"></div>
         <div class="pbi-ph-label">${r.label}</div>
         <span class="pbi-ph-tag" style="color:${r.color};border-color:${r.color}66">Power BI</span>
-        <a class="pbi-ph-extlink" href="${r.url}" target="_blank" rel="noopener">↗ Tela cheia</a>
+
       </div>
       <div class="pbi-frame-wrap">
         <div class="pbi-overlay" id="pbi-ov-${r.id}">
@@ -1975,41 +2644,33 @@ document.addEventListener('DOMContentLoaded', () => {
     iframe.src = iframe.dataset.src;
   }
 
-  // Mostrar/ocultar senha
-  eyeBtn.addEventListener('click', () => {
-    const show = input.type === 'password';
-    input.type = show ? 'text' : 'password';
-    document.getElementById('pbi-eye-icon').innerHTML = show
-      ? '<line x1="1" y1="1" x2="23" y2="23"/><path d="M10.5 6.5a5 5 0 0 1 7 7"/><path d="M9.9 1.3C7.5 2.4 5.3 4.3 3.3 7 1 10.1 1 12 1 12s4 8 11 8c1.9 0 3.7-.5 5.3-1.3"/><path d="M6.1 6.1A10.2 10.2 0 0 0 1 12s4 8 11 8c2.4 0 4.6-.8 6.4-2.1"/>'
-      : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
-  });
-
-  // Validar senha
-  function tryUnlock() {
-    if (input.value === SENHA_CORRETA) {
-      errorMsg.style.display = 'none';
-      input.classList.remove('error');
-      gate.style.display = 'none';
+  // Desbloqueio baseado em sessão do portal
+  function checkPbiSession() {
+    if (window.currentUser) {
+      gate.style.display    = 'none';
       reportsEl.style.display = 'block';
-      // Activate first tab
       if (reports.length > 0) activateTab(reports[0].id);
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
-      errorMsg.style.display = 'block';
-      input.classList.add('error');
-      setTimeout(() => input.classList.remove('error'), 400);
-      input.value = '';
-      input.focus();
+      gateHint.textContent = 'Acesse o portal principal para visualizar os relatórios.';
+      unlockBtn.style.display = 'none';
     }
   }
 
-  submitBtn.addEventListener('click', tryUnlock);
-  input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+  // Registra no sistema global de desbloqueio
+  window.registerUnlock(function(){ checkPbiSession(); });
 
-  // Logout — reseta iframes para forçar recarga no próximo acesso
+  // Botão de reabrir após "Bloquear"
+  if (unlockBtn) unlockBtn.addEventListener('click', function(){ checkPbiSession(); });
+
+  // Verifica ao carregar (caso auth já tenha ocorrido)
+  checkPbiSession();
+
+  // Bloquear — recolhe a seção (unlock instantâneo via sessão)
   logoutBtn.addEventListener('click', () => {
     reportsEl.style.display = 'none';
     gate.style.display = 'block';
+    gateHint.textContent  = 'Clique para reabrir os relatórios.';
+    unlockBtn.style.display = 'block';
     activeTab = null;
     reports.forEach(r => {
       const iframe  = document.getElementById('pbi-fr-' + r.id);
@@ -2017,10 +2678,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (iframe)  { iframe.src = 'about:blank'; iframe.removeAttribute('data-loaded'); iframe.classList.remove('ready'); }
       if (overlay) { overlay.classList.remove('gone'); }
     });
-    // Remove active de todos os painéis e tabs
     panelsEl.querySelectorAll('.pbi-panel').forEach(p => p.classList.remove('active'));
     tabsEl.querySelectorAll('.pbi-tab').forEach(t => t.classList.remove('active'));
-    input.value = '';
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 })();
@@ -2029,8 +2688,6 @@ document.addEventListener('DOMContentLoaded', () => {
 <!-- ═══ SGA — SISTEMA DE GESTÃO DE ATIVOS ═══ -->
 <script>
 (function() {
-  const SENHA_SGA = 'Contratos01';
-
   const sistemas = [
     {
       id: 'klabin-selo',
@@ -2071,6 +2728,54 @@ document.addEventListener('DOMContentLoaded', () => {
       color: '#1a6fbf',
       icon: 'U',
       url: 'https://www.appsheet.com/start/9fa24309-6357-4b44-9023-b989bd236ca3?platform=desktop#appName=SGA-GerenciamentodeAtivos-136726047&vss=H4sIAAAAAAAAA62POw7CMBBErxJNbS7gMoECIWj4NJjCxBvJIrGj2AEiy3fH4SNEG1HujN7TbMBV023rZXkBP4bvtaIBHEFgN7QkwAUKa3xnawEmsJHNK8zn2SzbG93KLitygYh4Yh-LJwcepkj4P5YwaEXG60pTNxpHPpnedKpHNgW_JCJD03t5run5QiJjTFlly96ROqRZk-e4pVncW2nU2qokrmTtKD4AW9HbcoMBAAA=&view=BD%20-%20Unipar%20CB'
+    },
+    {
+      id: 'klabin-correia-pinto',
+      label: 'Klabin Correia Pinto',
+      sub: 'Gestão de Ativos',
+      color: '#2e7d32',
+      icon: 'K',
+      url: 'https://www.appsheet.com/start/9fa24309-6357-4b44-9023-b989bd236ca3?platform=desktop#appName=AppGallery-10305&vss=H4sIAAAAAAAAA62PvQ7CIBSGX6X5Zp6A1TgYo0uNizhguU2JLTSFWhvCuwv-xLg2jpybc_IRcNM0lV5WV_BT-L62NIMjCBzmngS4wMoaP9hWgAnsZfeCZSMHUsWkfVNkFBHP7FPx5MDDkgj_xxIGrch4XWsacjH7qfS20zm7CfyaiAzd6OWlpecXkhljYrWtRkfqmGYtnuM2Zn3vpVE7q1K4lq2j-ADEhBwBgwEAAA==&view=Shared%20with%20me'
+    },
+    {
+      id: 'klabin-otacilio-costa',
+      label: 'Klabin Otacílio Costa',
+      sub: 'Gestão de Ativos',
+      color: '#1b5e20',
+      icon: 'K',
+      url: 'https://www.appsheet.com/start/9fa24309-6357-4b44-9023-b989bd236ca3?platform=desktop#appName=SGA-OTACILIOCOSTA-136726047&vss=H4sIAAAAAAAAA52OvQ7CMBCD38VzniBjKQNCsIBYCENorlJEm1RNWqiivDtXfsQKjOfzZzthtHTdRV1dII_pc61pgkRS2E8dKUiFhXex942CUNjq9ikWpUJGPok3GSlApm9B-W-jgDXkoq0t9XPKzDD9Ivg9-1koSmSBdoj63NBjHrtzZq321RDIHLj-p9qwcstbp53ZeMNhtW4C5Ts6xi4ERwEAAA==&view=BD'
+    },
+    {
+      id: 'md-limeira',
+      label: 'MD Limeira',
+      sub: 'Gestão de Ativos',
+      color: '#e65100',
+      icon: 'M',
+      url: 'https://www.appsheet.com/start/9fa24309-6357-4b44-9023-b989bd236ca3?platform=desktop#appName=MDLimeira-136726047&vss=H4sIAAAAAAAAA52OvQ7CMBCD38VzniBjKQNCsIBYCENorlJEm1RNWqiivDtXfsQKjOfzZzthtHTdRV1dII_pc61pgkRS2E8dKUiFhXex942CUNjq9ikWpUJGPok3GSlApm9B-W-jgDXkoq0t9XPKzDD9Ivg9-1koSmSBdoj63NBjHrtzZq321RDIHLj-p9qwcstbp53ZeMNhtW4C5Ts6xi4ERwEAAA==&view=BD'
+    },
+    {
+      id: 'munksjo',
+      label: 'Munksjö',
+      sub: 'Gestão de Ativos',
+      color: '#4a148c',
+      icon: 'MJ',
+      url: 'https://www.appsheet.com/start/9fa24309-6357-4b44-9023-b989bd236ca3?platform=desktop#appName=SGA-Munksjo-136726047&vss=H4sIAAAAAAAAA52OvQ7CMBCD38VzniBjKQNCsIBYCENorlJEm1RNWqiivDtXfsQKjOfzZzthtHTdRV1dII_pc61pgkRS2E8dKUiFhXex942CUNjq9ikWpUJGPok3GSlApm9B-W-jgDXkoq0t9XPKzDD9Ivg9-1koSmSBdoj63NBjHrtzZq321RDIHLj-p9qwcstbp53ZeMNhtW4C5Ts6xi4ERwEAAA==&view=BD'
+    },
+    {
+      id: 'alpek',
+      label: 'Alpek',
+      sub: 'Gestão de Ativos',
+      color: '#01579b',
+      icon: 'A',
+      url: 'https://www.appsheet.com/start/9fa24309-6357-4b44-9023-b989bd236ca3?platform=desktop#appName=SGA-Alpek-136726047&vss=H4sIAAAAAAAAA52OvQ7CMBCD38VzniBjKQNCsIBYCENorlJEm1RNWqiivDtXfsQKjOfzZzthtHTdRV1dII_pc61pgkRS2E8dKUiFhXex942CUNjq9ikWpUJGPok3GSlApm9B-W-jgDXkoq0t9XPKzDD9Ivg9-1koSmSBdoj63NBjHrtzZq321RDIHLj-p9qwcstbp53ZeMNhtW4C5Ts6xi4ERwEAAA==&view=BD'
+    },
+    {
+      id: 'eurochem',
+      label: 'Eurochem',
+      sub: 'Gestão de Ativos',
+      color: '#b71c1c',
+      icon: 'EC',
+      url: 'https://www.appsheet.com/start/9fa24309-6357-4b44-9023-b989bd236ca3?platform=desktop#appName=SGA-EuroChem-136726047&vss=H4sIAAAAAAAAA52OvQ7CMBCD38VzniBjKQNCsIBYCENorlJEm1RNWqiivDtXfsQKjOfzZzthtHTdRV1dII_pc61pgkRS2E8dKUiFhXex942CUNjq9ikWpUJGPok3GSlApm9B-W-jgDXkoq0t9XPKzDD9Ivg9-1koSmSBdoj63NBjHrtzZq321RDIHLj-p9qwcstbp53ZeMNhtW4C5Ts6xi4ERwEAAA==&view=BD'
     }
   ];
 
@@ -2328,21 +3033,12 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="sga-section-sub">Acesso direto aos sistemas AppSheet por contrato. Área exclusiva mediante senha.</div>
     </div>
 
-    <!-- Gate de senha -->
+    <!-- Gate de acesso — desbloqueia via sessão do portal -->
     <div id="sga-gate">
       <div class="sga-gate-icon">🛡️</div>
       <div class="sga-gate-title">Área Restrita — SGA</div>
-      <div class="sga-gate-hint">Insira a senha para acessar os sistemas</div>
-      <div class="sga-input-wrap">
-        <input id="sga-password-input" type="password" placeholder="Senha de acesso…" autocomplete="off" />
-        <button class="sga-eye-btn" id="sga-eye-btn" type="button" title="Mostrar/ocultar senha">
-          <svg id="sga-eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-          </svg>
-        </button>
-      </div>
-      <div id="sga-error-msg">Senha incorreta. Verifique e tente novamente.</div>
-      <button id="sga-submit-btn" type="button">Acessar Sistemas SGA</button>
+      <div class="sga-gate-hint" id="sga-gate-hint">Autenticando sessão…</div>
+      <button id="sga-unlock-btn" type="button" style="display:none;margin-top:16px;width:100%;padding:13px;background:linear-gradient(135deg,#0e9e5a 0%,#0a7a44 100%);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:0.5px;transition:opacity .2s;">▶ Acessar Sistemas SGA</button>
     </div>
 
     <!-- Painel de sistemas (oculto até autenticar) -->
@@ -2414,50 +3110,475 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btn) openSGA(btn.dataset.url);
   });
 
-  // ── Lógica de senha ──
+  // ── Lógica de acesso baseada em sessão ──
   const gate       = document.getElementById('sga-gate');
   const sistemasEl = document.getElementById('sga-sistemas');
-  const input      = document.getElementById('sga-password-input');
-  const errorMsg   = document.getElementById('sga-error-msg');
-  const submitBtn  = document.getElementById('sga-submit-btn');
   const logoutBtn  = document.getElementById('sga-logout-btn');
-  const eyeBtn     = document.getElementById('sga-eye-btn');
+  const sgaGateHint = document.getElementById('sga-gate-hint');
+  const sgaUnlockBtn = document.getElementById('sga-unlock-btn');
 
-  // Mostrar/ocultar senha
-  eyeBtn.addEventListener('click', () => {
-    const show = input.type === 'password';
-    input.type = show ? 'text' : 'password';
-    document.getElementById('sga-eye-icon').innerHTML = show
-      ? '<line x1="1" y1="1" x2="23" y2="23"/><path d="M10.5 6.5a5 5 0 0 1 7 7"/><path d="M9.9 1.3C7.5 2.4 5.3 4.3 3.3 7 1 10.1 1 12 1 12s4 8 11 8c1.9 0 3.7-.5 5.3-1.3"/><path d="M6.1 6.1A10.2 10.2 0 0 0 1 12s4 8 11 8c2.4 0 4.6-.8 6.4-2.1"/>'
-      : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
-  });
-
-  function tryUnlockSGA() {
-    if (input.value === SENHA_SGA) {
-      errorMsg.style.display  = 'none';
-      input.classList.remove('error');
+  function checkSgaSession() {
+    if (window.currentUser) {
       gate.style.display       = 'none';
       sistemasEl.style.display = 'block';
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
-      errorMsg.style.display = 'block';
-      input.classList.add('error');
-      setTimeout(() => input.classList.remove('error'), 400);
-      input.value = '';
-      input.focus();
+      sgaGateHint.textContent  = 'Acesse o portal principal para usar o SGA.';
+      sgaUnlockBtn.style.display = 'none';
     }
   }
 
-  submitBtn.addEventListener('click', tryUnlockSGA);
-  input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlockSGA(); });
+  window.registerUnlock(function(){ checkSgaSession(); });
+  if (sgaUnlockBtn) sgaUnlockBtn.addEventListener('click', function(){ checkSgaSession(); });
+  checkSgaSession();
 
   logoutBtn.addEventListener('click', () => {
     sistemasEl.style.display = 'none';
     gate.style.display       = 'block';
-    input.value = '';
+    sgaGateHint.textContent  = 'Clique para reabrir os sistemas SGA.';
+    sgaUnlockBtn.style.display = 'block';
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 })();
 </script>
+
+
+<!-- ═══ MATRIZ DE CONTRATOS ═══ -->
+<script>
+(function() {
+  // ── CSS da seção Matriz ──
+  var style = document.createElement('style');
+  style.textContent = `
+    #matriz-section {
+      background: linear-gradient(135deg, #080e1c 0%, #0c1528 60%, #06101e 100%);
+      border-top: 2px solid #1A7FD4;
+      padding: 72px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    #matriz-section::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(26,127,212,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .matriz-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .matriz-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(26,127,212,0.12);
+      border: 1px solid rgba(26,127,212,0.4);
+      border-radius: 50px; padding: 6px 18px;
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      color: #1A7FD4; text-transform: uppercase; margin-bottom: 20px;
+    }
+    .matriz-title {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 32px; font-weight: 800; color: #fff;
+      letter-spacing: -0.5px; margin-bottom: 10px;
+    }
+    .matriz-sub {
+      font-size: 14px; color: rgba(255,255,255,0.45);
+      max-width: 480px; margin: 0 auto;
+    }
+    #matriz-gate {
+      max-width: 420px; margin: 0 auto 60px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(26,127,212,0.25);
+      border-radius: 16px; padding: 36px 32px;
+      text-align: center; backdrop-filter: blur(8px);
+    }
+    .matriz-gate-icon { font-size: 36px; margin-bottom: 14px; }
+    .matriz-gate-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .matriz-gate-hint { font-size: 12px; color: rgba(255,255,255,0.35); margin-bottom: 18px; }
+    #matriz-content { display: none; }
+    .matriz-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(26,127,212,0.2);
+      border-radius: 10px 10px 0 0; padding: 10px 18px;
+      max-width: 1300px; margin: 0 auto;
+    }
+    .matriz-toolbar-left { display: flex; align-items: center; gap: 10px; font-size: 12px; color: rgba(255,255,255,0.5); }
+    .matriz-toolbar-left .dot { width:8px;height:8px;border-radius:50%;background:#0e9e5a; animation: pulse 2s ease infinite; }
+    .matriz-toolbar-btns { display: flex; gap: 10px; }
+    .mtz-btn {
+      padding: 7px 14px; border-radius: 7px; font-size: 12px; font-weight: 600;
+      cursor: pointer; border: 1px solid; font-family: inherit; transition: opacity .2s;
+    }
+    .mtz-btn-fs  { background: rgba(26,127,212,0.15); color: #1A7FD4; border-color: rgba(26,127,212,0.4); }
+    .mtz-btn-lk  { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.15); }
+    .mtz-btn:hover { opacity: .8; }
+    #matriz-frame-wrap {
+      max-width: 1300px; margin: 0 auto;
+      border-radius: 0 0 12px 12px;
+      overflow: hidden; border: 1px solid rgba(26,127,212,0.2); border-top: none;
+      background: #fff;
+      height: 82vh; min-height: 600px;
+    }
+    #matriz-frame-wrap.fullscreen {
+      position: fixed; inset: 0; z-index: 8000; max-width: 100%;
+      border-radius: 0; height: 100vh; min-height: 100vh;
+    }
+    #matriz-frame-wrap.fullscreen ~ #matriz-fs-close { display: flex; }
+    #matriz-iframe {
+      width: 100%; height: 100%; border: none;
+      display: block;
+    }
+    #matriz-fs-close {
+      display: none; position: fixed; top: 12px; right: 16px; z-index: 8100;
+      align-items: center; gap: 8px;
+      background: rgba(8,10,15,0.92); border: 1px solid rgba(26,127,212,0.4);
+      border-radius: 8px; padding: 8px 14px;
+      font-size: 12px; color: #1A7FD4; cursor: pointer;
+      font-family: "Space Mono", monospace; letter-spacing: 1px;
+      backdrop-filter: blur(8px);
+    }
+  `;
+  document.head.appendChild(style);
+
+  // ── HTML da seção ──
+  var section = document.createElement('section');
+  section.id = 'matriz-section';
+  section.innerHTML = \`
+    <div class="matriz-header">
+      <div class="matriz-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <line x1="3" y1="9" x2="21" y2="9"/>
+          <line x1="9" y1="21" x2="9" y2="9"/>
+        </svg>
+        Acesso Restrito
+      </div>
+      <div class="matriz-title">Matriz de Contratos Chesterton</div>
+      <div class="matriz-sub">Visualização interativa da Matriz de Contratos. Filtre, navegue e analise os modelos contratuais.</div>
+    </div>
+
+    <!-- Gate -->
+    <div id="matriz-gate">
+      <div class="matriz-gate-icon">📋</div>
+      <div class="matriz-gate-title">Área Restrita — Matriz</div>
+      <div class="matriz-gate-hint" id="matriz-gate-hint">Autenticando sessão…</div>
+      <button id="matriz-unlock-btn" type="button" style="display:none;margin-top:16px;width:100%;padding:13px;background:linear-gradient(135deg,#1A7FD4 0%,#1466B0 100%);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:0.5px;transition:opacity .2s;">▶ Abrir Matriz de Contratos</button>
+    </div>
+
+    <!-- Conteúdo -->
+    <div id="matriz-content">
+      <div class="matriz-toolbar">
+        <div class="matriz-toolbar-left">
+          <div class="dot"></div>
+          <span id="matriz-user-label">Sessão autenticada · Matriz de Contratos</span>
+        </div>
+        <div class="matriz-toolbar-btns">
+          <button class="mtz-btn mtz-btn-fs" id="mtz-fs-btn">⛶ Tela Cheia</button>
+          <button class="mtz-btn mtz-btn-lk" id="mtz-lock-btn">🔒 Bloquear</button>
+        </div>
+      </div>
+      <div id="matriz-frame-wrap">
+        <iframe
+          id="matriz-iframe"
+          title="Matriz de Contratos Chesterton"
+          sandbox="allow-scripts allow-forms allow-same-origin"
+          allow="fullscreen"
+        ></iframe>
+      </div>
+    </div>
+
+    <!-- Botão fechar tela cheia (sobreposto) -->
+    <button id="matriz-fs-close">✕ Sair da Tela Cheia</button>
+  \`;
+
+  // Insere a seção antes do widget WhatsApp
+  var wa = document.getElementById('wa-widget');
+  if (wa) { document.body.insertBefore(section, wa); }
+  else { document.body.appendChild(section); }
+
+  // ── Lógica ──
+  var matrizGate    = document.getElementById('matriz-gate');
+  var matrizContent = document.getElementById('matriz-content');
+  var matrizGateHint = document.getElementById('matriz-gate-hint');
+  var matrizUnlockBtn = document.getElementById('matriz-unlock-btn');
+  var matrizIframe  = document.getElementById('matriz-iframe');
+  var matrizUserLbl = document.getElementById('matriz-user-label');
+  var frameWrap     = document.getElementById('matriz-frame-wrap');
+  var fsBtnOpen     = document.getElementById('mtz-fs-btn');
+  var fsBtnClose    = document.getElementById('matriz-fs-close');
+  var lockBtn       = document.getElementById('mtz-lock-btn');
+  var isFullscreen  = false;
+
+  function checkMatrizSession() {
+    if (window.currentUser) {
+      matrizGate.style.display    = 'none';
+      matrizContent.style.display = 'block';
+      if (matrizUserLbl && window.currentUser) {
+        var nome = window.currentUser['nome']||window.currentUser['Nome']||'Usuário';
+        matrizUserLbl.textContent = 'Sessão autenticada · ' + nome + ' · Matriz de Contratos';
+      }
+      // Carrega iframe apenas quando desbloqueado
+      if (!matrizIframe.src || matrizIframe.src === 'about:blank' || matrizIframe.src === '') {
+        matrizIframe.src = 'https://chesterton-contratos.github.io/Matriz_de_Contratos/';
+      }
+    } else {
+      matrizGateHint.textContent   = 'Acesse o portal principal para visualizar a Matriz.';
+      matrizUnlockBtn.style.display = 'none';
+    }
+  }
+
+  window.registerUnlock(function(){ checkMatrizSession(); });
+  if (matrizUnlockBtn) matrizUnlockBtn.addEventListener('click', function(){ checkMatrizSession(); });
+  checkMatrizSession();
+
+  // Bloquear
+  lockBtn.addEventListener('click', function() {
+    matrizContent.style.display = 'none';
+    matrizGate.style.display    = 'block';
+    matrizGateHint.textContent   = 'Clique para reabrir a Matriz de Contratos.';
+    matrizUnlockBtn.style.display = 'block';
+    exitFullscreen();
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // Tela cheia
+  function enterFullscreen() {
+    frameWrap.classList.add('fullscreen');
+    fsBtnClose.style.display = 'flex';
+    fsBtnOpen.textContent    = '⛶ Tela Cheia';
+    isFullscreen = true;
+  }
+  function exitFullscreen() {
+    frameWrap.classList.remove('fullscreen');
+    fsBtnClose.style.display = 'none';
+    isFullscreen = false;
+  }
+  fsBtnOpen.addEventListener('click', function() {
+    if (isFullscreen) { exitFullscreen(); }
+    else { enterFullscreen(); }
+  });
+  fsBtnClose.addEventListener('click', exitFullscreen);
+
+  // ESC sai da tela cheia
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && isFullscreen) exitFullscreen();
+  });
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════
+     WHATSAPP IA CHAT WIDGET
+     Painel flutuante — o usuário digita e envia via WA
+═══════════════════════════════════════════════════════ -->
+<div id="wa-widget" role="complementary" aria-label="Chat IA SGA via WhatsApp">
+
+  <!-- PAINEL CHAT -->
+  <div id="wa-panel" aria-live="polite">
+
+    <!-- HEADER -->
+    <div class="wa-header">
+      <div class="wa-header-row">
+        <div class="wa-avatar">🤖</div>
+        <div class="wa-info">
+          <div class="wa-name">IA Contratos · SGA</div>
+          <div class="wa-status">
+            <span class="wa-dot"></span>
+            Online agora
+          </div>
+        </div>
+      </div>
+      <div class="wa-secure">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Powered by n8n · Chesterton SGA
+      </div>
+    </div>
+
+    <!-- CORPO DA CONVERSA -->
+    <div class="wa-body" id="wa-body">
+      <!-- Mensagem de boas-vindas do bot -->
+      <div class="wa-bubble-bot">
+        <div class="wa-bubble-bot-avatar">🤖</div>
+        <div class="wa-bubble-text">
+          Olá! Sou a <strong>IA da Chesterton</strong> 👋<br>
+          Tenho acesso a todos os contratos e à <strong>Matriz SGA</strong>. Como posso ajudar?
+        </div>
+        <div class="wa-bubble-time" id="wa-time"></div>
+      </div>
+
+      <!-- Sugestões rápidas -->
+      <div class="wa-chips-label">Sugestões rápidas</div>
+      <div class="wa-chips">
+        <span class="wa-chip" data-msg="Quais contratos temos ativos atualmente?">📋 Contratos ativos</span>
+        <span class="wa-chip" data-msg="Me explique o modelo 2.5 de Gestão de Confiabilidade.">⭐ Modelo 2.5</span>
+        <span class="wa-chip" data-msg="Quais são os contratos Klabin e seus indicadores MTBF?">🏭 Klabin / MTBF</span>
+        <span class="wa-chip" data-msg="Como funciona a Matriz de Contratos SGA?">🗂️ Matriz SGA</span>
+        <span class="wa-chip" data-msg="O que é o SGA e como ele se integra ao Power BI?">📊 SGA + Power BI</span>
+      </div>
+    </div>
+
+    <!-- RODAPÉ: INPUT + ENVIO -->
+    <div class="wa-footer">
+      <div class="wa-input-row">
+        <textarea
+          id="wa-msg-input"
+          rows="1"
+          placeholder="Digite sua pergunta…"
+          aria-label="Digite sua mensagem para a IA SGA"
+        ></textarea>
+        <button id="wa-send-btn" type="button" aria-label="Enviar via WhatsApp">
+          <!-- Send arrow icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="wa-footer-note">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.896 16.696c-.346.974-1.685 1.798-2.33 1.908-.596.1-1.35.142-2.18-.136-.504-.17-1.149-.395-1.977-.773-3.48-1.502-5.749-5.006-5.921-5.239-.171-.234-1.4-1.862-1.4-3.553 0-1.69.886-2.518 1.2-2.862.313-.344.683-.431.91-.431.228 0 .456.002.656.012.21.01.492-.08.77.588.284.678.966 2.326 1.05 2.494.084.168.14.366.028.586-.112.22-.168.358-.336.553-.168.196-.354.437-.505.587-.168.168-.342.349-.147.684.195.336.868 1.43 1.862 2.317 1.278 1.14 2.358 1.493 2.694 1.661.336.168.531.14.726-.084.196-.224.84-.98 1.064-1.316.224-.337.448-.281.756-.169.308.112 1.96.925 2.297 1.093.336.168.56.252.644.392.084.14.084.812-.262 1.786z"/></svg>
+        Abrirá o WhatsApp com sua mensagem pronta
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTÃO FLUTUANTE -->
+  <button id="wa-toggle" type="button" aria-label="Abrir chat IA SGA" aria-expanded="false">
+    <span id="wa-badge" class="hidden" aria-hidden="true">1</span>
+    <!-- WA icon -->
+    <svg class="wa-icon-wa" width="30" height="30" viewBox="0 0 32 32" fill="none">
+      <path d="M16 3C9.373 3 4 8.373 4 15c0 2.385.68 4.61 1.857 6.5L4 29l7.737-1.83A11.94 11.94 0 0016 28c6.627 0 12-5.373 12-12S22.627 3 16 3z" fill="white"/>
+      <path d="M21.8 19.6c-.3-.15-1.77-.873-2.043-.972-.275-.098-.474-.148-.674.148-.2.294-.773.972-.947 1.17-.175.198-.35.223-.648.074-.3-.147-1.264-.465-2.407-1.485-.89-.793-1.49-1.772-1.664-2.07-.175-.3-.019-.46.131-.608.135-.133.3-.346.45-.52.15-.173.2-.297.3-.494.099-.198.05-.372-.025-.52-.075-.148-.674-1.624-.924-2.224-.243-.585-.49-.505-.674-.514-.174-.01-.373-.011-.572-.011-.2 0-.524.074-.798.372-.275.297-1.047 1.023-1.047 2.495 0 1.47 1.072 2.894 1.222 3.093.15.198 2.11 3.22 5.112 4.514.715.308 1.272.492 1.707.63.717.228 1.37.196 1.886.119.575-.086 1.77-.723 2.02-1.42.25-.698.25-1.297.175-1.42-.074-.124-.274-.197-.573-.347z" fill="#25D366"/>
+    </svg>
+    <!-- Close X icon -->
+    <svg class="wa-icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+/* ═══ WHATSAPP CHAT WIDGET LOGIC ═══ */
+(function(){
+  const WA_NUMBER = '5511912469471';
+  const widget    = document.getElementById('wa-widget');
+  const toggle    = document.getElementById('wa-toggle');
+  const panel     = document.getElementById('wa-panel');
+  const body      = document.getElementById('wa-body');
+  const input     = document.getElementById('wa-msg-input');
+  const sendBtn   = document.getElementById('wa-send-btn');
+  const badge     = document.getElementById('wa-badge');
+
+  // Set current time on welcome bubble
+  const timeEl = document.getElementById('wa-time');
+  if(timeEl){
+    const now = new Date();
+    timeEl.textContent = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  }
+
+  // Show badge after 3s if panel is closed
+  let badgeTimer = setTimeout(() => {
+    if(!widget.classList.contains('open')) badge.classList.remove('hidden');
+  }, 3000);
+
+  // Toggle panel open/close
+  toggle.addEventListener('click', () => {
+    const isOpen = widget.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen);
+    if(isOpen){
+      badge.classList.add('hidden');
+      clearTimeout(badgeTimer);
+      setTimeout(() => input.focus(), 340);
+    }
+  });
+
+  // Close panel on Escape
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && widget.classList.contains('open')){
+      widget.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Auto-resize textarea
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 88) + 'px';
+    sendBtn.classList.toggle('active', input.value.trim().length > 0);
+  });
+
+  // Quick reply chips → fill input
+  document.querySelectorAll('.wa-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const msg = chip.dataset.msg;
+      input.value = msg;
+      input.dispatchEvent(new Event('input'));
+      input.focus();
+      // Scroll body to bottom
+      body.scrollTop = body.scrollHeight;
+    });
+  });
+
+  // Send message → open WhatsApp with pre-filled text
+  function sendMessage(){
+    const msg = input.value.trim();
+    if(!msg) return;
+
+    // Show user bubble in chat
+    const userBubble = document.createElement('div');
+    userBubble.className = 'wa-bubble-user';
+    userBubble.innerHTML = `<div class="wa-bubble-user-text">${msg.replace(/</g,'&lt;')}</div>`;
+    body.appendChild(userBubble);
+    body.scrollTop = body.scrollHeight;
+
+    // Show bot "typing" reply
+    setTimeout(() => {
+      const typing = document.createElement('div');
+      typing.className = 'wa-bubble-bot';
+      typing.id = 'wa-typing';
+      typing.innerHTML = `
+        <div class="wa-bubble-bot-avatar">🤖</div>
+        <div class="wa-bubble-text" style="display:flex;gap:5px;align-items:center;padding:14px 16px">
+          <span style="width:7px;height:7px;border-radius:50%;background:#25D366;animation:wa-dot-pulse 1s 0s ease infinite;display:inline-block"></span>
+          <span style="width:7px;height:7px;border-radius:50%;background:#25D366;animation:wa-dot-pulse 1s 0.2s ease infinite;display:inline-block"></span>
+          <span style="width:7px;height:7px;border-radius:50%;background:#25D366;animation:wa-dot-pulse 1s 0.4s ease infinite;display:inline-block"></span>
+        </div>`;
+      body.appendChild(typing);
+      body.scrollTop = body.scrollHeight;
+
+      // After short delay, open WhatsApp + show redirect message
+      setTimeout(() => {
+        const t = document.getElementById('wa-typing');
+        if(t) t.remove();
+
+        const redirect = document.createElement('div');
+        redirect.className = 'wa-bubble-bot';
+        redirect.innerHTML = `
+          <div class="wa-bubble-bot-avatar">🤖</div>
+          <div class="wa-bubble-text">
+            Abrindo o <strong>WhatsApp</strong> com sua pergunta pronta ✅<br>
+            <span style="font-size:11px;opacity:0.6">Só clique em Enviar no WA!</span>
+          </div>`;
+        body.appendChild(redirect);
+        body.scrollTop = body.scrollHeight;
+
+        // Open WhatsApp
+        const waUrl = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+        window.open(waUrl, '_blank', 'noopener');
+      }, 1100);
+    }, 400);
+
+    // Reset input
+    input.value = '';
+    input.style.height = 'auto';
+    sendBtn.classList.remove('active');
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+  input.addEventListener('keydown', e => {
+    if(e.key === 'Enter' && !e.shiftKey){
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
