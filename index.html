@@ -1177,7 +1177,7 @@ footer{
     <button id="authBtn" class="auth-btn" type="button">Acessar Portal →</button>
     <div id="authError" class="auth-error" style="display:none">E-mail ou senha incorretos. Tente novamente.</div>
     <div id="authLoading" style="font-size:12px;color:#F5C200;margin-top:10px;display:none;text-align:center;">⟳ Verificando credenciais…</div>
-    <div id="authConnStatus" style="font-size:11px;color:rgba(90,100,128,0.8);margin-top:8px;text-align:center;display:none;font-family:'Space Mono',monospace;letter-spacing:0.5px;"></div>
+    <div id="authConnStatus" style="font-size:12px;font-weight:600;margin-top:10px;text-align:center;display:none;font-family:'Space Mono',monospace;letter-spacing:1px;padding:6px 0;transition:color .3s;"></div>
     <div class="auth-hint">Acesso restrito ao público autorizado · Não compartilhar externamente</div>
   </div>
 </div>
@@ -1577,251 +1577,235 @@ footer{
 // Para encontrar o GID: abra a planilha > clique na aba "User_Site" > copie o número após #gid= na URL.
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1731PjXn-Isww5FCyVml2Yq8D0QGv7Z96VIYJfQ8RVkURa00ukOzLNWlvcGOWAnM8Ku7onrORE0sT/pub?gid=177019262&single=true&output=csv';
 
-window.currentUser  = null;
-window.usersData    = [];
-window._unlockQueue = [];
-var _loadPromise    = null;   // deduplicação: evita múltiplas requisições simultâneas
-var _loadError      = null;   // 'network' | 'empty' | null
-var CACHE_KEY       = 'ches_auth_v2'; // chave do localStorage para cache offline
+  window.currentUser  = null;
+  window.usersData    = [];
+  window._unlockQueue = [];
+  var _loadPromise    = null;
+  var _loadError      = null;
+  var CACHE_KEY       = 'ches_auth_v3';
 
-// ── Registra / desbloqueia seções ──────────────────────────────
-window.registerUnlock = function(fn) {
-  window._unlockQueue.push(fn);
-  if (window.currentUser) fn();
-};
-window.unlockAllSections = function() {
-  window._unlockQueue.forEach(function(fn){ try{ fn(); }catch(e){} });
-};
+  window.registerUnlock = function(fn) {
+    window._unlockQueue.push(fn);
+    if (window.currentUser) fn();
+  };
+  window.unlockAllSections = function() {
+    window._unlockQueue.forEach(function(fn){ try{ fn(); }catch(e){} });
+  };
 
-// ── Parse CSV (suporta aspas, CRLF e BOM) ─────────────────────
-function parseCSV(text) {
-  // Remove BOM se presente
-  text = text.replace(/^\uFEFF/, '');
-  var lines = text.split(/\r?\n/).filter(function(l){ return l.trim(); });
-  if (lines.length < 2) return [];
-  var headers = lines[0].split(',').map(function(h){
-    return h.replace(/^"|"$/g,'').trim().toLowerCase();
-  });
-  return lines.slice(1).map(function(line){
-    var cols=[], cur='', inQ=false;
-    for (var i=0;i<line.length;i++){
-      var c=line[i];
-      if (c==='"'){ inQ=!inQ; }
-      else if (c===','&&!inQ){ cols.push(cur.trim()); cur=''; }
-      else cur+=c;
+  /* ── Parse CSV — preserva case original dos headers ──────── */
+  function parseAuthCSV(text) {
+    text = text.replace(/^\uFEFF/, '').replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+    var lines = text.split('\n').filter(function(l){ return l.trim() !== ''; });
+    if (lines.length < 2) return [];
+    function parseLine(line) {
+      var cols=[], cur='', inQ=false;
+      for (var i=0;i<line.length;i++){
+        var c=line[i];
+        if (c==='"'){ inQ=!inQ; }
+        else if (c===','&&!inQ){ cols.push(cur.trim().replace(/^"|"$/g,'')); cur=''; }
+        else { cur+=c; }
+      }
+      cols.push(cur.trim().replace(/^"|"$/g,''));
+      return cols;
     }
-    cols.push(cur.trim());
-    var obj={};
-    headers.forEach(function(h,i){ obj[h]=(cols[i]||'').replace(/^"|"$/g,'').trim(); });
-    return obj;
-  });
-}
-
-// ── Cache localStorage (fallback offline) ─────────────────────
-function cacheUsers(data) {
-  try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch(e){}
-}
-function getCachedUsers() {
-  try {
-    var raw = localStorage.getItem(CACHE_KEY);
-    if (raw) { var d=JSON.parse(raw); if (Array.isArray(d)&&d.length) return d; }
-  } catch(e){}
-  return [];
-}
-
-// ── Atualiza indicador de status na tela ──────────────────────
-var connStatus = document.getElementById('authConnStatus');
-function setConnStatus(msg, color) {
-  if (!connStatus) return;
-  connStatus.textContent = msg;
-  connStatus.style.color = color || 'rgba(90,100,128,0.8)';
-  connStatus.style.display = msg ? 'block' : 'none';
-}
-
-// ── Fetch com fallback XHR ─────────────────────────────────────
-function fetchCSV(url) {
-  // Tenta fetch nativo primeiro
-  return fetch(url, { method:'GET', mode:'cors', credentials:'omit', cache:'no-store', redirect:'follow' })
-    .then(function(r){
-      if (!r.ok) throw new Error('HTTP '+r.status);
-      return r.text();
-    })
-    .catch(function(fetchErr){
-      console.warn('[Auth] fetch falhou ('+fetchErr.message+'), tentando XHR...');
-      // Fallback: XMLHttpRequest
-      return new Promise(function(resolve, reject){
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.timeout = 12000;
-        xhr.onload = function(){
-          if (xhr.status>=200 && xhr.status<300) resolve(xhr.responseText);
-          else reject(new Error('XHR HTTP '+xhr.status));
-        };
-        xhr.onerror   = function(){ reject(new Error('XHR network error')); };
-        xhr.ontimeout = function(){ reject(new Error('XHR timeout')); };
-        xhr.send();
-      });
+    var headers = parseLine(lines[0]);
+    console.log('[Auth] Colunas encontradas na planilha:', headers.join(' | '));
+    return lines.slice(1).map(function(line){
+      var cols = parseLine(line);
+      var obj  = {};
+      headers.forEach(function(h,i){ obj[h] = (cols[i]||'').trim(); });
+      return obj;
+    }).filter(function(u){
+      return Object.keys(u).some(function(k){ return u[k]; });
     });
-}
-
-// ── Carrega usuários (online → cache → erro) ──────────────────
-function loadUsers() {
-  if (_loadPromise) return _loadPromise;
-  _loadError = null;
-
-  setConnStatus('⟳ Verificando planilha de acesso...', '#F5C200');
-
-  _loadPromise = fetchCSV(SHEET_URL)
-    .then(function(csv){
-      var parsed = parseCSV(csv);
-      if (parsed.length > 0) {
-        window.usersData = parsed;
-        cacheUsers(parsed); // salva cache para uso offline
-        _loadError = null;
-        console.log('[Auth] '+parsed.length+' usuário(s) carregado(s). Colunas: ['+Object.keys(parsed[0]).join(', ')+']');
-        console.log('[Auth] Amostra do 1º registro:', JSON.stringify(parsed[0]));
-        setConnStatus('✓ Planilha conectada', '#4ade80');
-        setTimeout(function(){ setConnStatus(''); }, 2000);
-      } else {
-        console.warn('[Auth] CSV retornou 0 usuários — verifique se a planilha está publicada.');
-        var cached = getCachedUsers();
-        if (cached.length > 0) {
-          window.usersData = cached;
-          setConnStatus('⚠ Planilha vazia — usando cache local', '#F5C200');
-        } else {
-          _loadError = 'empty';
-          setConnStatus('⚠ Nenhum usuário encontrado na planilha', '#FF6B6B');
-        }
-      }
-    })
-    .catch(function(e){
-      console.error('[Auth] Falha ao carregar planilha:', e.message);
-      var cached = getCachedUsers();
-      if (cached.length > 0) {
-        window.usersData = cached;
-        _loadError = null;
-        console.log('[Auth] Usando credenciais em cache ('+cached.length+' usuários).');
-        setConnStatus('⚠ Offline — usando cache local', '#F5C200');
-        setTimeout(function(){ setConnStatus(''); }, 3000);
-      } else {
-        window.usersData = [];
-        _loadError = 'network';
-        _loadPromise = null; // permite nova tentativa
-        setConnStatus('✗ Sem conexão com a planilha', '#FF6B6B');
-      }
-    });
-
-  return _loadPromise;
-}
-
-// ── Elementos do formulário ────────────────────────────────────
-const overlay    = document.getElementById('authOverlay');
-const loginInput = document.getElementById('authLogin');
-const passInput  = document.getElementById('authPass');
-const authBtn    = document.getElementById('authBtn');
-const authErr    = document.getElementById('authError');
-const authLoad   = document.getElementById('authLoading');
-
-// ── Autenticação ───────────────────────────────────────────────
-function tryAuth() {
-  var email = (loginInput.value||'').trim().toLowerCase();
-  var senha = (passInput.value||'');
-
-  authErr.style.display = 'none';
-
-  if (!email || !senha) {
-    authErr.textContent = 'Preencha e-mail e senha.';
-    authErr.style.display = 'block';
-    return;
   }
 
-  // Sempre aguarda o carregamento (instantâneo se já carregou, aguarda se ainda em progresso)
-  authLoad.textContent   = '⟳ Verificando credenciais...';
-  authLoad.style.display = 'block';
-  authBtn.disabled = true;
-
-  loadUsers().then(function(){
-    authLoad.style.display = 'none';
-    authBtn.disabled = false;
-
-    // ── Erro de rede (sem cache disponível) ──
-    if (_loadError === 'network') {
-      authErr.innerHTML = '⚠ Não foi possível acessar a planilha de usuários.<br>'
-        + '<small style="font-size:10px;opacity:.7;">Verifique sua internet. Se o problema persistir, '
-        + 'abra o arquivo via servidor local (ex: VSCode Live Server).</small>';
-      authErr.style.display = 'block';
-      return;
-    }
-
-    // ── Planilha vazia ──
-    if (_loadError === 'empty' || window.usersData.length === 0) {
-      authErr.textContent = '⚠ Lista de usuários não encontrada. Verifique se a planilha está publicada.';
-      authErr.style.display = 'block';
-      return;
-    }
-
-    // ── Verifica credenciais (matching robusto case-insensitive) ──
-    // Helper: encontra campo por lista de nomes candidatos (ignora maiúsculas/minúsculas)
-    function findField(obj, candidates) {
-      var keys = Object.keys(obj);
-      // 1) match exato case-insensitive
-      for (var ci=0; ci<candidates.length; ci++) {
-        for (var ki=0; ki<keys.length; ki++) {
-          if (keys[ki].toLowerCase() === candidates[ci].toLowerCase()) {
-            return (obj[keys[ki]] || '').trim();
-          }
+  /* ── Busca campo case-insensitive ────────────────────────── */
+  function getField(obj, candidates) {
+    var keys = Object.keys(obj);
+    for (var ci=0; ci<candidates.length; ci++) {
+      for (var ki=0; ki<keys.length; ki++) {
+        if (keys[ki].toLowerCase().trim() === candidates[ci].toLowerCase()) {
+          return (obj[keys[ki]]||'').trim();
         }
       }
-      // 2) match parcial (contém)
-      for (var ci=0; ci<candidates.length; ci++) {
-        for (var ki=0; ki<keys.length; ki++) {
-          if (keys[ki].toLowerCase().indexOf(candidates[ci].toLowerCase()) > -1) {
-            return (obj[keys[ki]] || '').trim();
-          }
+    }
+    // partial match fallback
+    for (var ci=0; ci<candidates.length; ci++) {
+      for (var ki=0; ki<keys.length; ki++) {
+        if (keys[ki].toLowerCase().indexOf(candidates[ci].toLowerCase()) > -1) {
+          return (obj[keys[ki]]||'').trim();
         }
       }
-      return '';
+    }
+    return '';
+  }
+
+  /* ── Status visual ───────────────────────────────────────── */
+  function setStatus(msg, color) {
+    var el = document.getElementById('authConnStatus');
+    if (!el) return;
+    el.textContent = msg;
+    el.style.color  = color || 'rgba(90,100,128,0.8)';
+    el.style.display = msg ? 'block' : 'none';
+  }
+
+  /* ── Cache local (offline fallback) ─────────────────────── */
+  function saveCache(data){ try{ localStorage.setItem(CACHE_KEY, JSON.stringify(data)); }catch(e){} }
+  function loadCache(){
+    try{ var d=JSON.parse(localStorage.getItem(CACHE_KEY)); return (Array.isArray(d)&&d.length)?d:[]; }
+    catch(e){ return []; }
+  }
+
+  /* ── Fetch CSV com fallback XHR ──────────────────────────── */
+  function fetchCSV(url, cb) {
+    fetch(url, { cache:'no-store', redirect:'follow' })
+      .then(function(r){ if (!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+      .then(function(txt){ cb(null, txt); })
+      .catch(function(err){
+        console.warn('[Auth] fetch falhou ('+err.message+') — tentando XHR…');
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.timeout = 15000;
+        xhr.onload    = function(){ (xhr.status>=200&&xhr.status<300) ? cb(null,xhr.responseText) : cb(new Error('XHR '+xhr.status),null); };
+        xhr.onerror   = function(){ cb(new Error('XHR network error'), null); };
+        xhr.ontimeout = function(){ cb(new Error('XHR timeout'), null); };
+        xhr.send();
+      });
+  }
+
+  /* ── Carrega usuários ────────────────────────────────────── */
+  function loadUsers() {
+    if (_loadPromise) return _loadPromise;
+    _loadError = null;
+    setStatus('⟳ Conectando à planilha…', '#F5C200');
+
+    _loadPromise = new Promise(function(resolve){
+      fetchCSV(SHEET_URL, function(err, csv){
+        // Detecta se retornou página HTML em vez de CSV
+        if (!err && csv && csv.trim().startsWith('<!')) {
+          err = new Error('Resposta HTML — planilha pode não estar publicada como CSV');
+        }
+        if (!err && csv) {
+          var parsed = parseAuthCSV(csv);
+          if (parsed.length > 0) {
+            window.usersData = parsed;
+            saveCache(parsed);
+            _loadError = null;
+            console.log('[Auth] '+parsed.length+' usuário(s) carregado(s).');
+            setStatus('● Planilha conectada', '#4ade80');
+            setTimeout(function(){ setStatus('',''); }, 3500);
+            resolve(); return;
+          }
+          console.warn('[Auth] CSV sem linhas de dados — verifique se a aba está publicada.');
+        }
+        // Tenta cache local
+        var cached = loadCache();
+        if (cached.length > 0) {
+          window.usersData = cached;
+          _loadError = null;
+          console.log('[Auth] Usando cache local ('+cached.length+' usuários).');
+          setStatus('⚠ Cache local ativo', '#F5C200');
+          setTimeout(function(){ setStatus('',''); }, 3000);
+        } else {
+          window.usersData = [];
+          _loadError = err ? 'network' : 'empty';
+          _loadPromise = null; // permite nova tentativa
+          setStatus(err ? '✗ Sem conexão com a planilha' : '⚠ Nenhum usuário encontrado', '#FF6B6B');
+          console.error('[Auth] Erro:', err ? err.message : 'CSV vazio');
+        }
+        resolve();
+      });
+    });
+    return _loadPromise;
+  }
+
+  /* ── Elementos do formulário ─────────────────────────────── */
+  var overlay    = document.getElementById('authOverlay');
+  var loginInput = document.getElementById('authLogin');
+  var passInput  = document.getElementById('authPass');
+  var authBtn    = document.getElementById('authBtn');
+  var authErr    = document.getElementById('authError');
+  var authLoad   = document.getElementById('authLoading');
+
+  /* ── Tenta autenticar ────────────────────────────────────── */
+  function tryAuth() {
+    var loginVal = (loginInput.value||'').trim();
+    var senhaVal = (passInput.value||'').trim();
+
+    authErr.style.display = 'none';
+    if (!loginVal || !senhaVal) {
+      authErr.textContent = 'Preencha login e senha.';
+      authErr.style.display = 'block'; return;
     }
 
-    var user = null;
-    for (var i=0; i<window.usersData.length; i++){
-      var u = window.usersData[i];
-      var uLogin = findField(u, ['email','login','mail','usuario','user','e-mail','Login','Email']).toLowerCase();
-      var uSenha = findField(u, ['senha','password','pass','Senha','SENHA','secret']);
-      console.log('[Auth] Comparando:', uLogin, '==', email, '|', uSenha === senha ? 'senha OK' : 'senha errada');
-      if (uLogin === email && uSenha === senha){ user = u; break; }
-    }
+    authLoad.textContent   = '⟳ Verificando credenciais…';
+    authLoad.style.display = 'block';
+    authBtn.disabled       = true;
 
-    if (user) {
-      window.currentUser = user;
-      overlay.classList.add('hidden');
-      document.body.style.overflow = '';
-      // Exibe nome do usuário no topbar
-      var nome = user['nome']||user['Nome']||user['NOME']||email;
-      var nameEl   = document.getElementById('user-display-name');
-      var nameWrap = document.getElementById('user-name-wrap');
-      if (nameEl)   nameEl.textContent = nome;
-      if (nameWrap) nameWrap.style.display = 'flex';
-      // Desbloqueia todas as seções restritas (Power BI, SGA, Matriz)
-      window.unlockAllSections();
-    } else {
-      authErr.textContent = 'E-mail ou senha incorretos. Tente novamente.';
-      authErr.style.display = 'block';
-      passInput.value = '';
-      passInput.focus();
-      passInput.style.borderColor = '#FF6B6B';
-      setTimeout(function(){ passInput.style.borderColor = ''; }, 1200);
-    }
-  });
-}
+    // Força nova tentativa se houve erro anterior
+    if (_loadError) _loadPromise = null;
 
-document.body.style.overflow = 'hidden';
-authBtn.addEventListener('click', tryAuth);
-passInput.addEventListener('keydown', function(e){ if(e.key==='Enter') tryAuth(); });
-loginInput.addEventListener('keydown', function(e){ if(e.key==='Enter') passInput.focus(); });
+    loadUsers().then(function(){
+      authLoad.style.display = 'none';
+      authBtn.disabled       = false;
 
-// Pré-carrega usuários assim que a página abre
-loadUsers();
+      if (_loadError === 'network') {
+        authErr.innerHTML = '⚠ Não foi possível acessar a planilha de usuários.<br>'
+          +'<small style="font-size:10px;opacity:.7;">Verifique sua internet e tente novamente.</small>';
+        authErr.style.display = 'block'; return;
+      }
+      if (_loadError === 'empty' || !window.usersData.length) {
+        authErr.textContent = '⚠ Planilha sem usuários. Verifique se está publicada.';
+        authErr.style.display = 'block'; return;
+      }
+
+      // ── Busca por Login / Senha (colunas da planilha) ──
+      var user = null;
+      for (var i=0; i<window.usersData.length; i++) {
+        var u      = window.usersData[i];
+        var uLogin = getField(u, ['login','email','usuario','user','e-mail','mail']);
+        var uSenha = getField(u, ['senha','password','pass','secret']);
+        // Login: case-insensitive | Senha: exata
+        if (uLogin.toLowerCase() === loginVal.toLowerCase() && uSenha === senhaVal) {
+          user = u; break;
+        }
+      }
+
+      console.log('[Auth] Tentativa "'+loginVal+'" →', user ? 'ACESSO CONCEDIDO ✓' : 'FALHOU ✗');
+      if (!user) {
+        console.log('[Auth] Logins disponíveis (debug):',
+          window.usersData.map(function(u){ return '"'+getField(u,['login','email','usuario','user'])+'"'; }).join(', ')
+        );
+      }
+
+      if (user) {
+        window.currentUser = user;
+        overlay.classList.add('hidden');
+        document.body.style.overflow = '';
+        var nome    = getField(user, ['nome','name','login','email']) || loginVal;
+        var nameEl   = document.getElementById('user-display-name');
+        var nameWrap = document.getElementById('user-name-wrap');
+        if (nameEl)   nameEl.textContent = nome;
+        if (nameWrap) nameWrap.style.display = 'flex';
+        window.unlockAllSections();
+      } else {
+        authErr.textContent = 'Login ou senha incorretos. Tente novamente.';
+        authErr.style.display = 'block';
+        passInput.value = ''; passInput.focus();
+        passInput.style.borderColor = '#FF6B6B';
+        setTimeout(function(){ passInput.style.borderColor=''; }, 1200);
+      }
+    });
+  }
+
+  document.body.style.overflow = 'hidden';
+  authBtn.addEventListener('click', tryAuth);
+  passInput.addEventListener('keydown',  function(e){ if(e.key==='Enter') tryAuth(); });
+  loginInput.addEventListener('keydown', function(e){ if(e.key==='Enter') passInput.focus(); });
+
+  // Pré-carrega ao abrir a página
+  loadUsers();
 
 // ═══ CONTRACTS DATA (v2 — journey groups) ═══
 const contractGroups = [
