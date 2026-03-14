@@ -846,6 +846,7 @@ footer{
   align-items: flex-end;
   gap: 14px;
   font-family: "DM Sans", sans-serif;
+  pointer-events: none; /* FIX: impede que o container transparente bloqueie cliques na página */
 }
 
 /* ── TOGGLE BUTTON ── */
@@ -863,6 +864,7 @@ footer{
   transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s ease;
   position: relative;
   outline: none;
+  pointer-events: all; /* FIX: re-habilita cliques no botão mesmo com o container sem pointer-events */
 }
 #wa-toggle:hover {
   transform: scale(1.08);
@@ -1450,8 +1452,9 @@ footer{
         <thead>
           <tr>
             <th>Empresa</th>
-            <th>Programa</th>
-            <th>País · Cidade</th>
+            <th>Status</th>
+            <th>País · Estado · Cidade</th>
+            <th>Segmento</th>
             <th style="text-align:right">Equipamentos</th>
             <th style="text-align:right">MTBF (meses)</th>
           </tr>
@@ -2033,41 +2036,52 @@ function drawContractArrows() {
 
 function initContractFilter() { /* replaced by hub layout — no-op */ }
 
-// ═══ CLIENTS (v2 — with equipment & MTBF data) ═══
+// ═══ CLIENTS (v3 — Google Sheets dinâmico com Estado + Segmento) ═══
 // ─── CLIENTES DINÂMICOS — Google Sheets CSV ───────────────────
-const CLIENTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ4DZwUXuzkN-9HhjQehMBU4SnXgju3wnwv22kuStRuyi-W4CPzCJ34L_KHp50_8o3KNMoMsvITx0fK/pub?gid=508331772&single=true&output=csv';
+// Colunas: Empresa,Status,Pais,Estado,Cidade,Numero de equipamento,MTBF (meses),Segmento industria
+const CLIENTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1731PjXn-Isww5FCyVml2Yq8D0QGv7Z96VIYJfQ8RVkURa00ukOzLNWlvcGOWAnM8Ku7onrORE0sT/pub?gid=2042260650&single=true&output=csv';
 
 // Fallback local data (usado se o fetch falhar)
 const clientsFallback = [
-  { name:'Unipar Cubatão',            status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Cubatão',                  equip:286,  mtbf:51.28 },
-  { name:'Unipar Santo André',         status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Santo André',              equip:352,  mtbf:47.77 },
-  { name:'Klabin Monte Alegre Selo',   status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Telêmaco Borba',           equip:747,  mtbf:74.77 },
-  { name:'Klabin Monte Alegre Gaxeta', status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Telêmaco Borba',           equip:1103, mtbf:30.40 },
-  { name:'Klabin Ortigueira',          status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Ortigueira',               equip:1500, mtbf:77.39 },
-  { name:'Klabin Correia Pinto',       status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Correia Pinto',            equip:160,  mtbf:43.36 },
-  { name:'Klabin Otacílio Costa',      status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Otacílio Costa',           equip:111,  mtbf:77.47 },
-  { name:'MD Limeira',                 status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Limeira',                  equip:204,  mtbf:36.99 },
-  { name:'Munksjö Caieiras',           status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Caieiras',                 equip:285,  mtbf:32.03 },
-  { name:'Nexa 3 Marias',             status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Três Marias',              equip:232,  mtbf:16.80 },
-  { name:'CMPC',                       status:'Gasket',          country:'Brasil', flag:'🇧🇷', city:'Porto Alegre',             equip:250,  mtbf:32.03 },
-  { name:'Clariant S.A',              status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Suzano',                   equip:200,  mtbf:null  },
-  { name:'Ajinomoto',                  status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Limeira',                  equip:253,  mtbf:null  },
-  { name:'Alpek Recife',               status:'Monitoring',      country:'Brasil', flag:'🇧🇷', city:'Cabo de Santo Agostinho', equip:210,  mtbf:null  },
-  { name:'Eurochem',                   status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', city:'Serra do Salitre',         equip:224,  mtbf:null  },
+  { name:'Unipar Cubatão',            status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', state:'SP', city:'Cubatão',                  equip:286,  mtbf:51.28, segment:'Química'         },
+  { name:'Unipar Santo André',         status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', state:'SP', city:'Santo André',              equip:352,  mtbf:47.77, segment:'Química'         },
+  { name:'Klabin Monte Alegre Selo',   status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', state:'PR', city:'Telêmaco Borba',           equip:747,  mtbf:74.77, segment:'Papel & Celulose'},
+  { name:'Klabin Monte Alegre Gaxeta', status:'Gasket',          country:'Brasil', flag:'🇧🇷', state:'PR', city:'Telêmaco Borba',           equip:1103, mtbf:30.40, segment:'Papel & Celulose'},
+  { name:'Klabin Ortigueira',          status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', state:'PR', city:'Ortigueira',               equip:1500, mtbf:77.39, segment:'Papel & Celulose'},
+  { name:'Klabin Correia Pinto',       status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', state:'SC', city:'Correia Pinto',            equip:160,  mtbf:43.36, segment:'Papel & Celulose'},
+  { name:'Klabin Otacílio Costa',      status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', state:'SC', city:'Otacílio Costa',           equip:111,  mtbf:77.47, segment:'Papel & Celulose'},
+  { name:'MD Limeira',                 status:'Gasket',          country:'Brasil', flag:'🇧🇷', state:'SP', city:'Limeira',                  equip:204,  mtbf:36.99, segment:'Papel & Celulose'},
+  { name:'Munksjö Caieiras',           status:'Gasket',          country:'Brasil', flag:'🇧🇷', state:'SP', city:'Caieiras',                 equip:285,  mtbf:32.03, segment:'Papel & Celulose'},
+  { name:'Nexa 3 Marias',             status:'Gasket',          country:'Brasil', flag:'🇧🇷', state:'MG', city:'Três Marias',              equip:232,  mtbf:16.80, segment:'Mineração'       },
+  { name:'CMPC',                       status:'Gasket',          country:'Brasil', flag:'🇧🇷', state:'RS', city:'Porto Alegre',             equip:250,  mtbf:32.03, segment:'Papel & Celulose'},
+  { name:'Clariant S.A',              status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', state:'SP', city:'Suzano',                   equip:200,  mtbf:null,  segment:'Química'         },
+  { name:'Ajinomoto',                  status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', state:'SP', city:'Limeira',                  equip:253,  mtbf:null,  segment:'Alimentos'       },
+  { name:'Alpek Recife',               status:'Monitoring',      country:'Brasil', flag:'🇧🇷', state:'PE', city:'Cabo de Santo Agostinho', equip:210,  mtbf:null,  segment:'Química'         },
+  { name:'Eurochem',                   status:'Mechanical Seal', country:'Brasil', flag:'🇧🇷', state:'MG', city:'Serra do Salitre',         equip:224,  mtbf:null,  segment:'Mineração'       },
 ];
 
 // Mapa país → bandeira
-var COUNTRY_FLAGS = { 'Brasil':'🇧🇷','Argentina':'🇦🇷','Chile':'🇨🇱','Colombia':'🇨🇴','Peru':'🇵🇪','Mexico':'🇲🇽','USA':'🇺🇸' };
+var COUNTRY_FLAGS = { 'Brasil':'🇧🇷','Brazil':'🇧🇷','Argentina':'🇦🇷','Chile':'🇨🇱','Colombia':'🇨🇴','Peru':'🇵🇪','Mexico':'🇲🇽','México':'🇲🇽','USA':'🇺🇸' };
 
-// Parse CSV simples (suporta campos com aspas e vírgula decimal)
+// Mapa status → classe de badge
+function getStatusClass(status) {
+  var s = (status||'').toLowerCase();
+  if (s.includes('seal') || s.includes('selo') || s.includes('mechanical')) return 'td-status-seal';
+  if (s.includes('gasket') || s.includes('gaxeta'))                         return 'td-status-gasket';
+  if (s.includes('monitor') || s.includes('iiot') || s.includes('sensor'))  return 'td-status-monitor';
+  return 'td-status-seal'; // default
+}
+
+// Parse CSV (suporta campos com aspas, vírgula decimal)
+// Colunas: Empresa(0),Status(1),Pais(2),Estado(3),Cidade(4),Numero de equipamento(5),MTBF (meses)(6),Segmento industria(7)
 function parseClientsCSV(csvText) {
-  var lines = csvText.trim().split('\n');
+  var lines = csvText.replace(/\r\n/g,'\n').replace(/\r/g,'\n').trim().split('\n');
   if (lines.length < 2) return clientsFallback;
-  // Headers: Empresa,Programa,Pais,Cidade,Numero de equipamento,MTBF (meses)
   var result = [];
   for (var i = 1; i < lines.length; i++) {
     var row = lines[i];
-    // Handle quoted fields
+    if (!row.trim()) continue;
+    // Parse CSV respeitando campos com aspas
     var fields = [];
     var inQuote = false;
     var cur = '';
@@ -2078,26 +2092,31 @@ function parseClientsCSV(csvText) {
     }
     fields.push(cur.trim());
     if (fields.length < 5) continue;
-    var empresa = fields[0] || '';
-    var programa = fields[1] || '';
-    var pais    = fields[2] || 'Brasil';
-    var cidade  = fields[3] || '';
-    var equip   = parseInt((fields[4]||'0').replace(/[^0-9]/g,''),10) || 0;
-    // MTBF: handle "51,28" (comma as decimal) or "-" or empty
-    var mtbfRaw = (fields[5]||'').replace(/"/g,'').trim();
+    var empresa  = fields[0] || '';
+    var status   = fields[1] || '';
+    var pais     = fields[2] || 'Brasil';
+    var estado   = fields[3] || '';
+    var cidade   = fields[4] || '';
+    var equip    = parseInt((fields[5]||'0').replace(/[^0-9]/g,''),10) || 0;
+    // MTBF: aceita "51,28" (vírgula decimal) ou "-" ou vazio
+    var mtbfRaw = (fields[6]||'').replace(/"/g,'').trim();
     var mtbf = null;
-    if (mtbfRaw && mtbfRaw !== '-') {
+    if (mtbfRaw && mtbfRaw !== '-' && mtbfRaw !== '') {
       mtbf = parseFloat(mtbfRaw.replace(',','.'));
       if (isNaN(mtbf)) mtbf = null;
     }
+    var segmento = (fields[7]||'').replace(/"/g,'').trim();
+    if (!empresa) continue;
     result.push({
-      name: empresa,
-      status: programa,
+      name:    empresa,
+      status:  status,
       country: pais,
-      flag: COUNTRY_FLAGS[pais] || '🌎',
-      city: cidade,
-      equip: equip,
-      mtbf: mtbf
+      flag:    COUNTRY_FLAGS[pais] || '🌎',
+      state:   estado,
+      city:    cidade,
+      equip:   equip,
+      mtbf:    mtbf,
+      segment: segmento
     });
   }
   return result.length > 0 ? result : clientsFallback;
@@ -2108,7 +2127,7 @@ var clients = clientsFallback; // será substituído pelo fetch
 function loadClientsFromSheet() {
   var tbody = document.getElementById('clients-tbody');
   // Show loading
-  if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--muted);font-family:Space Mono,monospace;font-size:11px;letter-spacing:1px;">⟳ Carregando dados da planilha…</td></tr>';
+  if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--muted);font-family:Space Mono,monospace;font-size:11px;letter-spacing:1px;">⟳ Carregando dados da planilha…</td></tr>';
 
   fetch(CLIENTS_CSV_URL)
     .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
@@ -2134,29 +2153,36 @@ function buildClients() {
   const statsBar = document.getElementById('clients-stats-bar');
   if(!tbody) return;
 
-  const statusCls = { 'Mechanical Seal':'td-status-seal', 'Gasket':'td-status-gasket', 'Monitoring':'td-status-monitor' };
   const totalEquip = clients.reduce((a,c)=>a+c.equip,0);
   const mtbfClients = clients.filter(c=>c.mtbf!==null);
   const avgMtbf = mtbfClients.length ? (mtbfClients.reduce((a,c)=>a+c.mtbf,0)/mtbfClients.length).toFixed(1) : '-';
-  const topEquip = Math.max(...clients.map(c=>c.equip));
+
+  // Segmentos únicos para KPI
+  const segments = [...new Set(clients.map(c=>c.segment).filter(Boolean))];
 
   if(statsBar){
-    statsBar.innerHTML = [
-      { val: clients.length,       label: 'Contratos Ativos' },
-      { val: totalEquip.toLocaleString('pt-BR'), label: 'Equipamentos Gerenciados' },
-      { val: avgMtbf + ' meses',   label: 'MTBF Médio' },
-      { val: '🇧🇷 Brasil',         label: 'País' },
-    ].map(s=>`<div class="cstat-item"><div class="cstat-val">${s.val}</div><div class="cstat-label">${s.label}</div></div>`).join('');
+    const kpis = [
+      { val: clients.length,                       label: 'Contratos Ativos' },
+      { val: totalEquip.toLocaleString('pt-BR'),    label: 'Equipamentos Gerenciados' },
+      { val: avgMtbf + ' meses',                    label: 'MTBF Médio' },
+    ];
+    if (segments.length > 0) {
+      kpis.push({ val: segments.length, label: 'Segmentos Industriais' });
+    }
+    statsBar.innerHTML = kpis.map(s=>`<div class="cstat-item"><div class="cstat-val">${s.val}</div><div class="cstat-label">${s.label}</div></div>`).join('');
   }
 
+  tbody.innerHTML = '';
   clients.forEach((c, i) => {
-    const cls = statusCls[c.status] || 'td-status-seal';
+    const cls  = getStatusClass(c.status);
+    const loc  = [c.flag, c.country, c.state ? `· ${c.state}` : '', c.city ? `· ${c.city}` : ''].filter(Boolean).join(' ');
     tbody.innerHTML += `
       <tr style="animation-delay:${i*0.04}s">
         <td class="td-company">${c.name}</td>
-        <td><span class="td-status-badge ${cls}">${c.status}</span></td>
-        <td class="td-country">${c.flag} ${c.country} <span class="td-city">· ${c.city}</span></td>
-        <td class="td-equip">${c.equip.toLocaleString('pt-BR')}</td>
+        <td><span class="td-status-badge ${cls}">${c.status || '-'}</span></td>
+        <td class="td-country">${loc}</td>
+        <td style="font-size:12px;color:var(--white2);white-space:nowrap">${c.segment || '—'}</td>
+        <td class="td-equip">${c.equip ? c.equip.toLocaleString('pt-BR') : '—'}</td>
         <td class="td-mtbf">${mtbfDisplay(c.mtbf)}</td>
       </tr>`;
   });
