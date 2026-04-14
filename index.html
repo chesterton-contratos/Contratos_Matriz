@@ -31,6 +31,88 @@
   --radius: 12px;
   --radius-lg: 20px;
 }
+/* ── LIGHT THEME ─────────────────────────────────── */
+[data-theme="light"] {
+  --black:   #f0f4ff;
+  --dark:    #e8edf8;
+  --dark2:   #ffffff;
+  --dark3:   #f1f5ff;
+  --border:  #d0d8ee;
+  --border2: #b8c4dc;
+  --gold:    #c89500;
+  --gold2:   #a87c00;
+  --gold-dim: rgba(200,149,0,0.10);
+  --gold-glow: rgba(200,149,0,0.20);
+  --blue:    #1466B0;
+  --blue2:   #0d4e8c;
+  --blue-dim: rgba(20,102,176,0.10);
+  --blue-glow: rgba(20,102,176,0.20);
+  --red:     #c42020;
+  --white:   #1a2340;
+  --white2:  #344060;
+  --muted:   #7080a0;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+[data-theme="light"] body { background:#f0f4ff; color:#1a2340; }
+[data-theme="light"] #topbar { background:rgba(240,244,255,0.97); border-bottom-color:#d0d8ee; }
+[data-theme="light"] #topbar.scrolled { background:rgba(240,244,255,0.99); }
+[data-theme="light"] .hero-bg { background: radial-gradient(ellipse 70% 60% at 55% 50%, rgba(200,149,0,0.05) 0%, transparent 65%), radial-gradient(ellipse 50% 50% at 90% 15%, rgba(20,102,176,0.05) 0%, transparent 60%), #f0f4ff; }
+[data-theme="light"] .hero-grid { opacity: 0.015; }
+[data-theme="light"] #pbi-section { background: linear-gradient(135deg, #dce8f8 0%, #e8f2ff 60%, #d8e8f4 100%); }
+[data-theme="light"] #sga-section { background: linear-gradient(135deg, #d8f0e8 0%, #e4f8ee 60%, #d0eee0 100%); }
+[data-theme="light"] #matriz-section { background: linear-gradient(135deg, #dce8f8 0%, #e4f0ff 60%, #d8e4f8 100%); }
+[data-theme="light"] #job-section { background: linear-gradient(135deg, #f8f0d8 0%, #fff8e8 60%, #f8f4d0 100%); }
+[data-theme="light"] .pbi-section-sub,[data-theme="light"] .sga-section-sub { color: rgba(26,35,64,0.6); }
+[data-theme="light"] .pbi-gate-hint,[data-theme="light"] .sga-gate-hint { color: rgba(26,35,64,0.55); }
+[data-theme="light"] #pbi-gate,[data-theme="light"] #sga-gate { background:rgba(26,35,64,0.04); }
+[data-theme="light"] .pbi-overlay,[data-theme="light"] .sga-overlay { background: linear-gradient(135deg, #dce8f8 0%, #e4f0ff 100%); }
+[data-theme="light"] .wa-bubble-text { background:#e8edf8; color:#1a2340; }
+[data-theme="light"] .wa-body { background:#f0f4ff; }
+[data-theme="light"] #wa-panel { background:#f0f4ff; border-color:rgba(37,211,102,0.25); }
+[data-theme="light"] .wa-footer { background:#e8edf8; border-top-color:#d0d8ee; }
+[data-theme="light"] #wa-msg-input { color:#1a2340; }
+[data-theme="light"] .wa-input-row { background:#fff; border-color:#d0d8ee; }
+[data-theme="light"] #topbar .brand-sub { color:#5a6480; }
+[data-theme="light"] nav { background: rgba(26,35,64,0.06); border-color:#d0d8ee; }
+[data-theme="light"] nav a { color:#7080a0; }
+[data-theme="light"] nav a:hover { color:#1a2340; background:rgba(26,35,64,0.08); }
+[data-theme="light"] .pbi-section-title,[data-theme="light"] .sga-section-title { color:#1a2340; }
+[data-theme="light"] .pbi-tab { background:rgba(26,35,64,0.04); border-color:#d0d8ee; color:#5a6480; }
+[data-theme="light"] .pbi-tab:hover { background:rgba(26,35,64,0.08); color:#1a2340; }
+[data-theme="light"] .pbi-panel-header { background:rgba(26,35,64,0.04); border-color:#d0d8ee; }
+[data-theme="light"] .pbi-ph-label { color:#1a2340; }
+[data-theme="light"] .pbi-access-info { color:rgba(26,35,64,0.55); }
+[data-theme="light"] #pbi-logout-btn { background:rgba(26,35,64,0.06); border-color:#d0d8ee; color:#5a6480; }
+[data-theme="light"] .pbi-gate-title,[data-theme="light"] .sga-gate-title { color:#1a2340; }
+[data-theme="light"] .pbi-overlay-label,[data-theme="light"] .pbi-overlay-sub { color:rgba(26,35,64,0.5); }
+[data-theme="light"] .clients-table thead tr { background:#e8edf8; }
+[data-theme="light"] .clients-table thead th { color:#7080a0; }
+[data-theme="light"] .clients-table tbody tr { border-bottom-color:#d0d8ee; }
+[data-theme="light"] .clients-table tbody tr:hover { background:rgba(200,149,0,0.04); }
+[data-theme="light"] .td-country { color:#344060; }
+[data-theme="light"] footer { background:#e8edf8; }
+[data-theme="light"] .footer-meta,.footer-notice { color:#7080a0; }
+[data-theme="light"] .brand-strip { background:#e8edf8; border-color:#d0d8ee; }
+[data-theme="light"] ::-webkit-scrollbar-track { background:#e8edf8; }
+
+/* Theme Toggle Button */
+#themeToggle {
+  cursor:pointer;
+  border:1px solid rgba(245,194,0,0.3);
+  background:rgba(245,194,0,0.08);
+  color:var(--white2);
+  border-radius:999px;
+  padding:6px 12px;
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  transition:all .2s;
+  display:flex;align-items:center;gap:6px;
+  flex-shrink:0;
+}
+#themeToggle:hover { background:rgba(245,194,0,0.15); color:var(--gold); }
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px}
 html,body{max-width:100%;overflow-x:hidden}
@@ -1201,6 +1283,7 @@ footer{
     <a href="#pbi-section" class="nav-restricted">Power-BI</a>
     <a href="#sga-section" class="nav-restricted">SGA</a>
     <a href="#matriz-section" class="nav-restricted">Matriz</a>
+    <a href="#job-section" class="nav-restricted">Job Desc.</a>
   </nav>
 
   <!-- ═══ LANG SWITCH (added) -->
@@ -1210,11 +1293,25 @@ footer{
     <button type="button" class="lang-btn" data-lang="en" aria-label="English" style="cursor:pointer;border:1px solid rgba(245,194,0,0.25);background:rgba(245,194,0,0.10);color:#F0F4FF;border-radius:999px;padding:6px 10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">EN</button>
   </div>
 
+  <button id="themeToggle" type="button" aria-label="Toggle dark/light theme" title="Alternar tema" onclick="(function(){var h=document.documentElement;var t=h.getAttribute('data-theme');if(t==='light'){h.removeAttribute('data-theme');try{localStorage.setItem('portal_theme','dark');}catch(e){}}else{h.setAttribute('data-theme','light');try{localStorage.setItem('portal_theme','light');}catch(e){}};var btn=document.getElementById('themeToggle');if(btn){btn.innerHTML=h.getAttribute('data-theme')==='light'?'🌙 Dark':'☀️ Light';}})()">☀️ Light</button>
+
   <div id="user-name-wrap" style="display:none;align-items:center;gap:8px;margin-left:8px;padding-left:12px;border-left:1px solid rgba(245,194,0,0.2);">
     <div style="width:7px;height:7px;border-radius:50%;background:#0e9e5a;flex-shrink:0;animation:pulse 2s ease infinite;"></div>
     <span id="user-display-name" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(240,244,255,0.7);white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis;"></span>
   </div>
 </header>
+<script>
+/* ── THEME INIT ── */
+(function(){
+  var saved;
+  try{saved=localStorage.getItem('portal_theme');}catch(e){}
+  if(saved==='light'){
+    document.documentElement.setAttribute('data-theme','light');
+    var btn=document.getElementById('themeToggle');
+    if(btn) btn.innerHTML='🌙 Dark';
+  }
+})();
+</script>
 
 <!-- ═══ BRAND IDENTITY STRIP ═══ -->
 <div class="brand-strip" aria-hidden="true">
@@ -1480,8 +1577,114 @@ footer{
 */
 (function(){
   const DICT = {
-    es: {"Chesterton | Confiabilidade: Gestão de Ativos Rotativos": "Chesterton | Confiabilidad: Gestión de Activos Rotativos", "Acesso Restrito · Uso Institucional": "Acceso restringido · Uso institucional", "Portal de": "Portal de", "Confiabilidade": "Confiabilidad", "Conteúdo institucional de uso interno. Insira a senha de acesso para continuar.": "Contenido institucional de uso interno. Ingresa la contraseña de acceso para continuar.", "Acessar Portal →": "Acceder al portal →", "Senha incorreta. Tente novamente.": "Contraseña incorrecta. Inténtalo de nuevo.", "Acesso restrito ao público autorizado · Não compartilhar externamente": "Acceso restringido al público autorizado · No compartir externamente", "Gestão de Ativos Rotativos": "Gestión de Activos Rotativos", "Visão Geral": "Visión general", "Entregas": "Entregas", "Ecossistema": "Ecosistema", "Contratos": "Contratos", "Clientes": "Clientes", "Acessos": "Accesos", "Programa Ativo desde 2019": "Programa activo desde 2019", "Confiabilidade:": "Confiabilidad:", "Gestão de Ativos": "Gestión de Activos", "Gestão de Ativos": "Gestión de Activos", "Mais de 7 anos transformando dados em decisões. Do campo ao dashboard executivo — rastreabilidade total, governança por KPIs e monitoramento IIoT 24/7 em ativos rotativos críticos no Brasil.": "Más de 7 años transformando datos en decisiones. Del campo al dashboard ejecutivo: trazabilidad total, gobernanza por KPI y monitoreo IIoT 24/7 en activos rotativos críticos en Brasil.", "Ativos Monitorados": "Activos monitoreados", "Intervenções Realizadas": "Intervenciones realizadas", "Modelos Contratuais": "Modelos contractuales", "Monitoramento IIoT": "Monitoreo IIoT", "Contratos Ativos": "Contratos activos", "Inspeção IIoT": "Inspección IIoT", "Equipe de Campo": "Equipo de campo", "Selos Mecânicos": "Sellos mecánicos", "Sensoriamento": "Sensorización", "Sala de Controle": "Sala de Control", "Treinamento": "Capacitación", "Convenção LATAM": "Convención LATAM", "Feira Industrial": "Feria industrial", "Nossa Entrega": "Nuestra entrega", "O que": "Qué", "Entregamos": "Entregamos", "Um modelo estruturado de parceria técnico-operacional — combinando expertise em selagem, tecnologia digital proprietária e governança por dados.": "Un modelo estructurado de alianza técnico-operativa — combinando expertise en sellado, tecnología digital propietaria y gobernanza por datos.", "Rastreabilidade Total por Ativo": "Trazabilidad total por activo", "TAG NFC em cada equipamento. Histórico completo de intervenções, causas de falha e consumo de materiais — auditável em tempo real.": "TAG NFC en cada equipo. Historial completo de intervenciones, causas de falla y consumo de materiales — auditable en tiempo real.", "Indicadores de Confiabilidade": "Indicadores de confiabilidad", "MTBF, MTTR, Disponibilidade e Bad Actors gerados automaticamente. Dashboards Power BI atualizados em tempo real via SGA.": "MTBF, MTTR, Disponibilidad y Bad Actors generados automáticamente. Dashboards de Power BI actualizados en tiempo real vía SGA.", "Monitoramento IIoT 24/7": "Monitoreo IIoT 24/7", "Sensores Chesterton Connect instalados em ativos críticos. Dados de pressão, temperatura, vibração e detecção de vazamento em tempo real.": "Sensores Chesterton Connect instalados en activos críticos. Datos de presión, temperatura, vibración y detección de fugas en tiempo real.", "Governança por Dados": "Gobernanza por datos", "Três camadas de governança: operacional diária, tática mensal e QBR trimestral — com relatórios automáticos e planos de ação estruturados.": "Tres capas de gobernanza: operativa diaria, táctica mensual y QBR trimestral — con informes automáticos y planes de acción estructurados.", "Inteligência Artificial Integrada": "Inteligencia artificial integrada", "IA treinada com dados reais de selagem: análise preditiva de falhas, correlação de causa raiz e recomendações técnicas automatizadas.": "IA entrenada con datos reales de sellado: análisis predictivo de fallas, correlación de causa raíz y recomendaciones técnicas automatizadas.", "Comunicação Inteligente": "Comunicación inteligente", "WhatsApp automatizado integrado ao SGA. Consulte histórico de ativos, estoque consignado e alertas de desempenho diretamente pelo smartphone.": "WhatsApp automatizado integrado al SGA. Consulta el historial de activos, inventario consignado y alertas de desempeño directamente desde el smartphone.", "Plataforma": "Plataforma", "Digital": "Digital", "SGA como núcleo. Power BI como camada de visualização. IA para predição. IIoT para monitoramento. Sala de Controle como centro de inteligência.": "SGA como núcleo. Power BI como capa de visualización. IA para predicción. IIoT para monitoreo. Sala de Control como centro de inteligencia.", "TAG NFC": "TAG NFC", "Identidade do Ativo": "Identidad del activo", "Rotas de Inspeção": "Rutas de inspección", "Ordens de Serviço": "Órdenes de servicio", "Registro Digital": "Registro digital", "Dashboards Online": "Dashboards online", "IA Integrada": "IA integrada", "Análise Preditiva": "Análisis predictivo", "WhatsApp Bot": "Bot de WhatsApp", "Comunicação Smart": "Comunicación smart", "IIoT 24/7": "IIoT 24/7", "SBC — Brasil": "SBC — Brasil", "Análise de Falha": "Análisis de falla", "Causa Raiz": "Causa raíz", "Ativos rotativos cadastrados e monitorados desde 2019": "Activos rotativos registrados y monitoreados desde 2019", "Monitoramento contínuo via Sala de Controle e sensores Chesterton Connect": "Monitoreo continuo vía Sala de Control y sensores Chesterton Connect", "Redução de vazamentos, emissões fugitivas e consumo energético — dados auditáveis": "Reducción de fugas, emisiones fugitivas y consumo energético — datos auditables", "Portfólio": "Portafolio", "Modelos": "Modelos", "Contratuais": "Contractuales", "Sete modelos estruturados em três níveis de maturidade operacional. Do fornecimento de materiais à confiabilidade integrada com IIoT.": "Siete modelos estructurados en tres niveles de madurez operativa. Desde el suministro de materiales hasta la confiabilidad integrada con IIoT.", "Modelos Contratuais e Jornada de Evolução": "Modelos Contractuales y Jornada de Evolución", "Soluções desenhadas para diferentes contextos operacionais, com possibilidade de evolução até o modelo mais completo de gestão integrada.": "Soluciones diseñadas para diferentes contextos operativos, con posibilidad de evolución hasta el modelo más completo de gestión integrada.", "Todos os modelos geram valor. Alguns atuam como porta de entrada, outros como expansão de escopo. O modelo 2.5 representa a configuração estratégica mais completa, reunindo governança, previsibilidade e confiabilidade em uma única estrutura.": "Todos los modelos generan valor. Algunos actúan como puerta de entrada, otros como expansión de alcance. El modelo 2.5 representa la configuración estratégica más completa, reuniendo gobernanza, previsibilidad y confiabilidad en una sola estructura.", "Clientes & Contratos Ativos": "Clientes y Contratos Activos", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do Brasil.": "Presencia en múltiples sectores industriales (Papel y Celulosa, Química y Minería) de norte a sur de Brasil.", "Contratos Ativos": "Contratos Activos", "Equipamentos Gerenciados": "Equipos gestionados", "MTBF Médio": "MTBF promedio", "Em análise": "En análisis", "Improving Reliability and Efficiency Worldwide": "Mejorando la confiabilidad y eficiencia en todo el mundo", "140+ anos": "140+ años", "113 países": "113 países", "500+ centros de serviço": "500+ centros de servicio", "MODELO-ALVO": "MODELO-OBJETIVO", "Objetivo estratégico — convergência de todos os modelos": "Objetivo estratégico — convergencia de todos los modelos", "Grupo 1 — Base": "Grupo 1 — Base", "Grupo 2 — Evolução": "Grupo 2 — Evolución", "Grupo 3 — Estratégico · Modelo-Alvo": "Grupo 3 — Estratégico · Modelo-Objetivo", "BASE": "BASE", "EVOLUÇÃO": "EVOLUCIÓN", "ESTRATÉGICO": "ESTRATÉGICO", "Todos": "Todos", "Básico": "Básico", "Intermediário": "Intermedio", "Avançado": "Avanzado", "Presença Nacional": "Presencia nacional", "Ativos": "Activos", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do país.": "Presencia en múltiples sectores industriales (Papel y Celulosa, Química y Minería) de norte a sur del país.", "Portais": "Portales", "Rápidos": "Rápidos", "Links diretos para as principais ferramentas do ecossistema digital Chesterton.": "Enlaces directos a las principales herramientas del ecosistema digital Chesterton.", "Dashboard de Overall Equipment Effectiveness em tempo real. Indicadores MTBF, MTTR e performance operacional auditáveis.": "Dashboard de Overall Equipment Effectiveness en tiempo real. Indicadores MTBF, MTTR y desempeño operativo auditables.", "Abrir Dashboard": "Abrir dashboard", "Matriz de Escopo": "Matriz de alcance", "Matriz interativa com os 7 modelos contratuais e 32 escopos técnicos detalhados. Filtros por categoria e tipo de contrato.": "Matriz interactiva con los 7 modelos contractuales y 32 alcances técnicos detallados. Filtros por categoría y tipo de contrato.", "Abrir Matriz": "Abrir matriz", "Agente IA · SGA": "Agente IA · SGA", "Agente inteligente via WhatsApp integrado ao SGA. Consulte contratos, histórico de ativos e indicadores direto pelo smartphone.": "Agente inteligente vía WhatsApp integrado al SGA. Consulta contratos, historial de activos e indicadores directamente desde el smartphone.", "Abrir WhatsApp": "Abrir WhatsApp", "Site Chesterton Brasil": "Sitio Chesterton Brasil", "Portal institucional da Chesterton do Brasil. Produtos, soluções, casos de sucesso e contatos da equipe técnica.": "Portal institucional de Chesterton Brasil. Productos, soluciones, casos de éxito y contactos del equipo técnico.", "Acessar Site": "Acceder al sitio", "Confiabilidade: Gestão de Ativos Rotativos · Documento Interno · 2025": "Confiabilidad: Gestión de Activos Sellados · Documento interno · 2025", "Uso Restrito · Não Compartilhar": "Uso restringido · No compartir", "Acesso restrito": "Acceso restringido", "Acessos Rápidos": "Accesos rápidos", "Chesterton Home": "Chesterton Home", "Ecossistema Digital": "Ecosistema digital", "Galeria de campo": "Galería de campo", "Navegação": "Navegación", "O Que Entregamos": "Qué entregamos", "Senha de acesso": "Contraseña de acceso", "Convenção Chesterton": "Convención Chesterton", "Dashboard SGA": "Dashboard SGA", "Equipe Chesterton": "Equipo Chesterton", "Inspeção em campo": "Inspección en campo", "Manutenção de selos": "Mantenimiento de sellos", "Sensor Connect": "Sensor Connect", "Stand Chesterton": "Stand Chesterton", "Técnico em campo": "Técnico en campo"},
-    en: {"Chesterton | Confiabilidade: Gestão de Ativos Rotativos": "Chesterton | Reliability: Rotating Assets Management", "Acesso Restrito · Uso Institucional": "Restricted access · Institutional use", "Portal de": "Portal of", "Confiabilidade": "Reliability", "Conteúdo institucional de uso interno. Insira a senha de acesso para continuar.": "Internal institutional content. Enter the access password to continue.", "Acessar Portal →": "Enter portal →", "Senha incorreta. Tente novamente.": "Incorrect password. Try again.", "Acesso restrito ao público autorizado · Não compartilhar externamente": "Restricted to authorized audience · Do not share externally", "Gestão de Ativos Rotativos": "Rotating Assets Management", "Visão Geral": "Overview", "Entregas": "Deliverables", "Ecossistema": "Ecosystem", "Contratos": "Contracts", "Clientes": "Clients", "Acessos": "Access", "Programa Ativo desde 2019": "Active program since 2019", "Confiabilidade:": "Reliability:", "Gestão de Ativos": "Asset Management", "Gestão de Ativos": "Asset Management", "Mais de 7 anos transformando dados em decisões. Do campo ao dashboard executivo — rastreabilidade total, governança por KPIs e monitoramento IIoT 24/7 em ativos rotativos críticos no Brasil.": "Over 7 years turning data into decisions. From the field to the executive dashboard — full traceability, KPI governance, and 24/7 IIoT monitoring of critical rotating assets in Brazil.", "Ativos Monitorados": "Monitored assets", "Intervenções Realizadas": "Interventions performed", "Modelos Contratuais": "Contract models", "Monitoramento IIoT": "IIoT monitoring", "Contratos Ativos": "Active contracts", "Inspeção IIoT": "IIoT inspection", "Equipe de Campo": "Field team", "Selos Mecânicos": "Mechanical seals", "Sensoriamento": "Sensorization", "Sala de Controle": "Control Room", "Treinamento": "Training", "Convenção LATAM": "LATAM Convention", "Feira Industrial": "Industrial Fair", "Nossa Entrega": "Our deliverables", "O que": "What", "Entregamos": "We deliver", "Um modelo estruturado de parceria técnico-operacional — combinando expertise em selagem, tecnologia digital proprietária e governança por dados.": "A structured technical-operational partnership model — combining sealing expertise, proprietary digital technology, and data governance.", "Rastreabilidade Total por Ativo": "Full asset traceability", "TAG NFC em cada equipamento. Histórico completo de intervenções, causas de falha e consumo de materiais — auditável em tempo real.": "NFC tag on each asset. Full history of interventions, failure causes, and material consumption — auditable in real time.", "Indicadores de Confiabilidade": "Reliability indicators", "MTBF, MTTR, Disponibilidade e Bad Actors gerados automaticamente. Dashboards Power BI atualizados em tempo real via SGA.": "MTBF, MTTR, Availability and Bad Actors generated automatically. Power BI dashboards updated in real time via SGA.", "Monitoramento IIoT 24/7": "24/7 IIoT monitoring", "Sensores Chesterton Connect instalados em ativos críticos. Dados de pressão, temperatura, vibração e detecção de vazamento em tempo real.": "Chesterton Connect sensors installed on critical assets. Real-time pressure, temperature, vibration and leak detection data.", "Governança por Dados": "Data governance", "Três camadas de governança: operacional diária, tática mensal e QBR trimestral — com relatórios automáticos e planos de ação estruturados.": "Three governance layers: daily operational, monthly tactical, and quarterly QBR — with automated reports and structured action plans.", "Inteligência Artificial Integrada": "Integrated artificial intelligence", "IA treinada com dados reais de selagem: análise preditiva de falhas, correlação de causa raiz e recomendações técnicas automatizadas.": "AI trained on real sealing data: predictive failure analysis, root-cause correlation, and automated technical recommendations.", "Comunicação Inteligente": "Smart communication", "WhatsApp automatizado integrado ao SGA. Consulte histórico de ativos, estoque consignado e alertas de desempenho diretamente pelo smartphone.": "Automated WhatsApp integrated with SGA. Check asset history, consignment stock, and performance alerts directly from your smartphone.", "Plataforma": "Platform", "Digital": "Digital", "SGA como núcleo. Power BI como camada de visualização. IA para predição. IIoT para monitoramento. Sala de Controle como centro de inteligência.": "SGA as the core. Power BI as the visualization layer. AI for prediction. IIoT for monitoring. Control Room as the intelligence center.", "TAG NFC": "NFC tag", "Identidade do Ativo": "Asset identity", "Rotas de Inspeção": "Inspection routes", "Ordens de Serviço": "Work orders", "Registro Digital": "Digital records", "Dashboards Online": "Online dashboards", "IA Integrada": "Integrated AI", "Análise Preditiva": "Predictive analytics", "WhatsApp Bot": "WhatsApp bot", "Comunicação Smart": "Smart communication", "IIoT 24/7": "IIoT 24/7", "SBC — Brasil": "SBC — Brazil", "Análise de Falha": "Failure analysis", "Causa Raiz": "Root cause", "Ativos rotativos cadastrados e monitorados desde 2019": "Rotating assets registered and monitored since 2019", "Monitoramento contínuo via Sala de Controle e sensores Chesterton Connect": "Continuous monitoring via Control Room and Chesterton Connect sensors", "Redução de vazamentos, emissões fugitivas e consumo energético — dados auditáveis": "Reduced leaks, fugitive emissions and energy consumption — auditable data", "Portfólio": "Portfolio", "Modelos": "Models", "Contratuais": "Contract", "Sete modelos estruturados em três níveis de maturidade operacional. Do fornecimento de materiais à confiabilidade integrada com IIoT.": "Seven models structured across three operational maturity levels — from materials supply to IIoT-integrated reliability.", "Modelos Contratuais e Jornada de Evolução": "Contract Models and Evolution Journey", "Soluções desenhadas para diferentes contextos operacionais, com possibilidade de evolução até o modelo mais completo de gestão integrada.": "Solutions designed for different operational contexts, with the possibility of evolution towards the most complete integrated management model.", "Todos os modelos geram valor. Alguns atuam como porta de entrada, outros como expansão de escopo. O modelo 2.5 representa a configuração estratégica mais completa, reunindo governança, previsibilidade e confiabilidade em uma única estrutura.": "Every model delivers value. Some serve as entry points, others as scope expansion. Model 2.5 represents the most complete strategic configuration, bringing together governance, predictability, and reliability in a single structure.", "Clientes & Contratos Ativos": "Clients & Active Contracts", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do Brasil.": "Presence across multiple industrial sectors — Pulp & Paper, Chemicals, and Mining — throughout Brazil.", "Contratos Ativos": "Active Contracts", "Equipamentos Gerenciados": "Managed equipment", "MTBF Médio": "Average MTBF", "Em análise": "Under analysis", "Improving Reliability and Efficiency Worldwide": "Improving Reliability and Efficiency Worldwide", "140+ anos": "140+ years", "113 países": "113 countries", "500+ centros de serviço": "500+ service centers", "MODELO-ALVO": "TARGET MODEL", "Objetivo estratégico — convergência de todos os modelos": "Strategic objective — convergence of all models", "Grupo 1 — Base": "Group 1 — Foundation", "Grupo 2 — Evolução": "Group 2 — Evolution", "Grupo 3 — Estratégico · Modelo-Alvo": "Group 3 — Strategic · Target Model", "BASE": "FOUNDATION", "EVOLUÇÃO": "EVOLUTION", "ESTRATÉGICO": "STRATEGIC", "Todos": "All", "Básico": "Basic", "Intermediário": "Intermediate", "Avançado": "Advanced", "Presença Nacional": "National presence", "Ativos": "Active", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do país.": "Presence across multiple industrial sectors — Pulp & Paper, Chemicals, and Mining — from north to south of the country.", "Portais": "Portals", "Rápidos": "Quick", "Links diretos para as principais ferramentas do ecossistema digital Chesterton.": "Direct links to the main tools in the Chesterton digital ecosystem.", "Dashboard de Overall Equipment Effectiveness em tempo real. Indicadores MTBF, MTTR e performance operacional auditáveis.": "Real-time Overall Equipment Effectiveness dashboard. Auditable MTBF, MTTR and operational performance indicators.", "Abrir Dashboard": "Open dashboard", "Matriz de Escopo": "Scope matrix", "Matriz interativa com os 7 modelos contratuais e 32 escopos técnicos detalhados. Filtros por categoria e tipo de contrato.": "Interactive matrix with the 7 contract models and 32 detailed technical scopes. Filters by category and contract type.", "Abrir Matriz": "Open matrix", "Agente IA · SGA": "AI Agent · SGA", "Agente inteligente via WhatsApp integrado ao SGA. Consulte contratos, histórico de ativos e indicadores direto pelo smartphone.": "Smart WhatsApp agent integrated with SGA. Check contracts, asset history and indicators directly from your smartphone.", "Abrir WhatsApp": "Open WhatsApp", "Site Chesterton Brasil": "Chesterton Brazil website", "Portal institucional da Chesterton do Brasil. Produtos, soluções, casos de sucesso e contatos da equipe técnica.": "Institutional portal of Chesterton Brazil. Products, solutions, success cases and technical team contacts.", "Acessar Site": "Open website", "Confiabilidade: Gestão de Ativos Rotativos · Documento Interno · 2025": "Reliability: Sealed Assets Management · Internal Document · 2025", "Uso Restrito · Não Compartilhar": "Restricted use · Do not share", "Acesso restrito": "Restricted access", "Acessos Rápidos": "Quick access", "Chesterton Home": "Chesterton Home", "Ecossistema Digital": "Digital ecosystem", "Galeria de campo": "Field gallery", "Navegação": "Navigation", "O Que Entregamos": "What we deliver", "Senha de acesso": "Access password", "Convenção Chesterton": "Chesterton convention", "Dashboard SGA": "SGA dashboard", "Equipe Chesterton": "Chesterton team", "Inspeção em campo": "Field inspection", "Manutenção de selos": "Seal maintenance", "Sensor Connect": "Connect sensor", "Stand Chesterton": "Chesterton booth", "Técnico em campo": "Field technician"}
+    es: {"Chesterton | Confiabilidade: Gestão de Ativos Rotativos": "Chesterton | Confiabilidad: Gestión de Activos Rotativos", "Acesso Restrito · Uso Institucional": "Acceso restringido · Uso institucional", "Portal de": "Portal de", "Confiabilidade": "Confiabilidad", "Conteúdo institucional de uso interno. Insira a senha de acesso para continuar.": "Contenido institucional de uso interno. Ingresa la contraseña de acceso para continuar.", "Acessar Portal →": "Acceder al portal →", "Senha incorreta. Tente novamente.": "Contraseña incorrecta. Inténtalo de nuevo.", "Acesso restrito ao público autorizado · Não compartilhar externamente": "Acceso restringido al público autorizado · No compartir externamente", "Gestão de Ativos Rotativos": "Gestión de Activos Rotativos", "Visão Geral": "Visión general", "Entregas": "Entregas", "Ecossistema": "Ecosistema", "Contratos": "Contratos", "Clientes": "Clientes", "Acessos": "Accesos", "Programa Ativo desde 2019": "Programa activo desde 2019", "Confiabilidade:": "Confiabilidad:", "Gestão de Ativos": "Gestión de Activos", "Gestão de Ativos": "Gestión de Activos", "Mais de 7 anos transformando dados em decisões. Do campo ao dashboard executivo — rastreabilidade total, governança por KPIs e monitoramento IIoT 24/7 em ativos rotativos críticos no Brasil.": "Más de 7 años transformando datos en decisiones. Del campo al dashboard ejecutivo: trazabilidad total, gobernanza por KPI y monitoreo IIoT 24/7 en activos rotativos críticos en Brasil.", "Ativos Monitorados": "Activos monitoreados", "Intervenções Realizadas": "Intervenciones realizadas", "Modelos Contratuais": "Modelos contractuales", "Monitoramento IIoT": "Monitoreo IIoT", "Contratos Ativos": "Contratos activos", "Inspeção IIoT": "Inspección IIoT", "Equipe de Campo": "Equipo de campo", "Selos Mecânicos": "Sellos mecánicos", "Sensoriamento": "Sensorización", "Sala de Controle": "Sala de Control", "Treinamento": "Capacitación", "Convenção LATAM": "Convención LATAM", "Feira Industrial": "Feria industrial", "Nossa Entrega": "Nuestra entrega", "O que": "Qué", "Entregamos": "Entregamos", "Um modelo estruturado de parceria técnico-operacional — combinando expertise em selagem, tecnologia digital proprietária e governança por dados.": "Un modelo estructurado de alianza técnico-operativa — combinando expertise en sellado, tecnología digital propietaria y gobernanza por datos.", "Rastreabilidade Total por Ativo": "Trazabilidad total por activo", "TAG NFC em cada equipamento. Histórico completo de intervenções, causas de falha e consumo de materiais — auditável em tempo real.": "TAG NFC en cada equipo. Historial completo de intervenciones, causas de falla y consumo de materiales — auditable en tiempo real.", "Indicadores de Confiabilidade": "Indicadores de confiabilidad", "MTBF, MTTR, Disponibilidade e Bad Actors gerados automaticamente. Dashboards Power BI atualizados em tempo real via SGA.": "MTBF, MTTR, Disponibilidad y Bad Actors generados automáticamente. Dashboards de Power BI actualizados en tiempo real vía SGA.", "Monitoramento IIoT 24/7": "Monitoreo IIoT 24/7", "Sensores Chesterton Connect instalados em ativos críticos. Dados de pressão, temperatura, vibração e detecção de vazamento em tempo real.": "Sensores Chesterton Connect instalados en activos críticos. Datos de presión, temperatura, vibración y detección de fugas en tiempo real.", "Governança por Dados": "Gobernanza por datos", "Três camadas de governança: operacional diária, tática mensal e QBR trimestral — com relatórios automáticos e planos de ação estruturados.": "Tres capas de gobernanza: operativa diaria, táctica mensual y QBR trimestral — con informes automáticos y planes de acción estructurados.", "Inteligência Artificial Integrada": "Inteligencia artificial integrada", "IA treinada com dados reais de selagem: análise preditiva de falhas, correlação de causa raiz e recomendações técnicas automatizadas.": "IA entrenada con datos reales de sellado: análisis predictivo de fallas, correlación de causa raíz y recomendaciones técnicas automatizadas.", "Comunicação Inteligente": "Comunicación inteligente", "WhatsApp automatizado integrado ao SGA. Consulte histórico de ativos, estoque consignado e alertas de desempenho diretamente pelo smartphone.": "WhatsApp automatizado integrado al SGA. Consulta el historial de activos, inventario consignado y alertas de desempeño directamente desde el smartphone.", "Plataforma": "Plataforma", "Digital": "Digital", "SGA como núcleo. Power BI como camada de visualização. IA para predição. IIoT para monitoramento. Sala de Controle como centro de inteligência.": "SGA como núcleo. Power BI como capa de visualización. IA para predicción. IIoT para monitoreo. Sala de Control como centro de inteligencia.", "TAG NFC": "TAG NFC", "Identidade do Ativo": "Identidad del activo", "Rotas de Inspeção": "Rutas de inspección", "Ordens de Serviço": "Órdenes de servicio", "Registro Digital": "Registro digital", "Dashboards Online": "Dashboards online", "IA Integrada": "IA integrada", "Análise Preditiva": "Análisis predictivo", "WhatsApp Bot": "Bot de WhatsApp", "Comunicação Smart": "Comunicación smart", "IIoT 24/7": "IIoT 24/7", "SBC — Brasil": "SBC — Brasil", "Análise de Falha": "Análisis de falla", "Causa Raiz": "Causa raíz", "Ativos rotativos cadastrados e monitorados desde 2019": "Activos rotativos registrados y monitoreados desde 2019", "Monitoramento contínuo via Sala de Controle e sensores Chesterton Connect": "Monitoreo continuo vía Sala de Control y sensores Chesterton Connect", "Redução de vazamentos, emissões fugitivas e consumo energético — dados auditáveis": "Reducción de fugas, emisiones fugitivas y consumo energético — datos auditables", "Portfólio": "Portafolio", "Modelos": "Modelos", "Contratuais": "Contractuales", "Sete modelos estruturados em três níveis de maturidade operacional. Do fornecimento de materiais à confiabilidade integrada com IIoT.": "Siete modelos estructurados en tres niveles de madurez operativa. Desde el suministro de materiales hasta la confiabilidad integrada con IIoT.", "Modelos Contratuais e Jornada de Evolução": "Modelos Contractuales y Jornada de Evolución", "Soluções desenhadas para diferentes contextos operacionais, com possibilidade de evolução até o modelo mais completo de gestão integrada.": "Soluciones diseñadas para diferentes contextos operativos, con posibilidad de evolución hasta el modelo más completo de gestión integrada.", "Todos os modelos geram valor. Alguns atuam como porta de entrada, outros como expansão de escopo. O modelo 2.5 representa a configuração estratégica mais completa, reunindo governança, previsibilidade e confiabilidade em uma única estrutura.": "Todos los modelos generan valor. Algunos actúan como puerta de entrada, otros como expansión de alcance. El modelo 2.5 representa la configuración estratégica más completa, reuniendo gobernanza, previsibilidad y confiabilidad en una sola estructura.", "Clientes & Contratos Ativos": "Clientes y Contratos Activos", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do Brasil.": "Presencia en múltiples sectores industriales (Papel y Celulosa, Química y Minería) de norte a sur de Brasil.", "Contratos Ativos": "Contratos Activos", "Equipamentos Gerenciados": "Equipos gestionados", "MTBF Médio": "MTBF promedio", "Em análise": "En análisis", "Improving Reliability and Efficiency Worldwide": "Mejorando la confiabilidad y eficiencia en todo el mundo", "140+ anos": "140+ años", "113 países": "113 países", "500+ centros de serviço": "500+ centros de servicio", "MODELO-ALVO": "MODELO-OBJETIVO", "Objetivo estratégico — convergência de todos os modelos": "Objetivo estratégico — convergencia de todos los modelos", "Grupo 1 — Base": "Grupo 1 — Base", "Grupo 2 — Evolução": "Grupo 2 — Evolución", "Grupo 3 — Estratégico · Modelo-Alvo": "Grupo 3 — Estratégico · Modelo-Objetivo", "BASE": "BASE", "EVOLUÇÃO": "EVOLUCIÓN", "ESTRATÉGICO": "ESTRATÉGICO", "Todos": "Todos", "Básico": "Básico", "Intermediário": "Intermedio", "Avançado": "Avanzado", "Presença Nacional": "Presencia nacional", "Ativos": "Activos", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do país.": "Presencia en múltiples sectores industriales (Papel y Celulosa, Química y Minería) de norte a sur del país.", "Portais": "Portales", "Rápidos": "Rápidos", "Links diretos para as principais ferramentas do ecossistema digital Chesterton.": "Enlaces directos a las principales herramientas del ecosistema digital Chesterton.", "Dashboard de Overall Equipment Effectiveness em tempo real. Indicadores MTBF, MTTR e performance operacional auditáveis.": "Dashboard de Overall Equipment Effectiveness en tiempo real. Indicadores MTBF, MTTR y desempeño operativo auditables.", "Abrir Dashboard": "Abrir dashboard", "Matriz de Escopo": "Matriz de alcance", "Matriz interativa com os 7 modelos contratuais e 32 escopos técnicos detalhados. Filtros por categoria e tipo de contrato.": "Matriz interactiva con los 7 modelos contractuales y 32 alcances técnicos detallados. Filtros por categoría y tipo de contrato.", "Abrir Matriz": "Abrir matriz", "Agente IA · SGA": "Agente IA · SGA", "Agente inteligente via WhatsApp integrado ao SGA. Consulte contratos, histórico de ativos e indicadores direto pelo smartphone.": "Agente inteligente vía WhatsApp integrado al SGA. Consulta contratos, historial de activos e indicadores directamente desde el smartphone.", "Abrir WhatsApp": "Abrir WhatsApp", "Site Chesterton Brasil": "Sitio Chesterton Brasil", "Portal institucional da Chesterton do Brasil. Produtos, soluções, casos de sucesso e contatos da equipe técnica.": "Portal institucional de Chesterton Brasil. Productos, soluciones, casos de éxito y contactos del equipo técnico.", "Acessar Site": "Acceder al sitio", "Confiabilidade: Gestão de Ativos Rotativos · Documento Interno · 2025": "Confiabilidad: Gestión de Activos Sellados · Documento interno · 2025", "Uso Restrito · Não Compartilhar": "Uso restringido · No compartir", "Acesso restrito": "Acceso restringido", "Acessos Rápidos": "Accesos rápidos", "Chesterton Home": "Chesterton Home", "Ecossistema Digital": "Ecosistema digital", "Galeria de campo": "Galería de campo", "Navegação": "Navegación", "O Que Entregamos": "Qué entregamos", "Senha de acesso": "Contraseña de acceso", "Convenção Chesterton": "Convención Chesterton", "Dashboard SGA": "Dashboard SGA", "Equipe Chesterton": "Equipo Chesterton", "Inspeção em campo": "Inspección en campo", "Manutenção de selos": "Mantenimiento de sellos", "Sensor Connect": "Sensor Connect", "Stand Chesterton": "Stand Chesterton", "Técnico em campo": "Técnico en campo",
+"Excelência em Produtos de Selagem": "Excelencia en Productos de Sellado",
+"Selos mecânicos, gaxetas e vedações de alto desempenho com materiais certificados para ambientes corrosivos, alta temperatura e pressão crítica — garantia de durabilidade em campo.": "Sellos mecánicos, empaques y sellos de alto rendimiento con materiales certificados para entornos corrosivos, alta temperatura y presión crítica — garantía de durabilidad en campo.",
+"Capacidade Técnica Especializada": "Capacidad Técnica Especializada",
+"Engenheiros certificados em selagem aplicada a ativos rotativos. Diagnóstico preciso, especificação correta e análise de causa raiz — presença técnica onde o processo mais exige.": "Ingenieros certificados en sellado aplicado a activos rotativos. Diagnóstico preciso, especificación correcta y análisis de causa raíz — presencia técnica donde el proceso más lo exige.",
+"Entregáveis Digitais & Rastreabilidade": "Entregables Digitales y Trazabilidad",
+"TAG NFC em cada ativo. Histórico completo de intervenções, causa de falha e consumo de materiais — relatórios auditáveis em tempo real via SGA, com governança por dados estruturada.": "TAG NFC en cada activo. Historial completo de intervenciones, causa de falla y consumo de materiales — informes auditables en tiempo real vía SGA, con gobernanza de datos estructurada.",
+"Engenharia de Alta Performance": "Ingeniería de Alto Rendimiento",
+"MTBF, MTTR, Disponibilidade e Bad Actors calculados automaticamente. Programas estruturados para eliminar falhas repetitivas e maximizar a vida útil de cada equipamento.": "MTBF, MTTR, Disponibilidad y Bad Actors calculados automáticamente. Programas estructurados para eliminar fallas repetitivas y maximizar la vida útil de cada equipo.",
+"Sensores Chesterton Connect em ativos críticos. Dados de temperatura, vibração, pressão e detecção de vazamento em tempo real — com alertas automáticos via Sala de Controle.": "Sensores Chesterton Connect en activos críticos. Datos de temperatura, vibración, presión y detección de fugas en tiempo real — con alertas automáticas vía Sala de Control.",
+"Governança Contratual por Dados": "Gobernanza Contractual por Datos",
+"Três camadas de governança: operacional diária, revisão tática mensal e QBR trimestral. Relatórios automáticos e planos de ação estruturados — com visibilidade total para gestores e operação.": "Tres capas de gobernanza: operativa diaria, revisión táctica mensual y QBR trimestral. Informes automáticos y planes de acción estructurados — con visibilidad total para gestores y operación.",
+"Relatórios Compilados em Power-Bi": "Informes Compilados en Power BI",
+"Área exclusiva para visualização de dashboards contratuais. Acesso mediante senha.": "Área exclusiva para visualización de dashboards contractuales. Acceso mediante contraseña.",
+"Área Restrita · Power BI": "Área Restringida · Power BI",
+"Autenticando sessão…": "Autenticando sesión…",
+"Acesse o portal principal para visualizar os relatórios.": "Accede al portal principal para visualizar los informes.",
+"Clique para reabrir os relatórios.": "Haga clic para reabrir los informes.",
+"Sessão autenticada · Relatórios contratuais": "Sesión autenticada · Informes contractuales",
+"🔒 Bloquear acesso": "🔒 Bloquear acceso",
+"Carregando relatório…": "Cargando informe…",
+"SGA — Sistema de Gestão de Ativos": "SGA — Sistema de Gestión de Activos",
+"Acesso direto aos sistemas AppSheet por contrato. Área exclusiva mediante senha.": "Acceso directo a los sistemas AppSheet por contrato. Área exclusiva mediante contraseña.",
+"Área Restrita — SGA": "Área Restringida — SGA",
+"▶ Acessar Sistemas SGA": "▶ Acceder a Sistemas SGA",
+"Sessão autenticada · Sistemas AppSheet": "Sesión autenticada · Sistemas AppSheet",
+"Matriz de Contratos Chesterton": "Matriz de Contratos Chesterton",
+"Visualização interativa da Matriz de Contratos. Filtre, navegue e analise os modelos contratuais.": "Visualización interactiva de la Matriz de Contratos. Filtre, navegue y analice los modelos contractuales.",
+"Área Restrita — Matriz": "Área Restringida — Matriz",
+"Sessão autenticada · Matriz de Contratos": "Sesión autenticada · Matriz de Contratos",
+"⛶ Tela cheia": "⛶ Pantalla completa",
+"🔒 Bloquear": "🔒 Bloquear",
+"Job Description": "Descripción de Puestos",
+"Estrutura de Profissionais por Modelo Contratual": "Estructura de Profesionales por Modelo Contractual",
+"Estrutura mínima de pessoas para operar cada modelo contratual. Técnicos, analistas, coordenadores e gerência — com engenharia obrigatória em todos os modelos.": "Estructura mínima de personas para operar cada modelo contractual. Técnicos, analistas, coordinadores y gerencia — con ingeniería obligatoria en todos los modelos.",
+"Regras de Dimensionamento": "Reglas de Dimensionamiento",
+"A definição da estrutura mínima depende do escopo contratado, criticidade dos ativos, volume de equipamentos, necessidade de atendimento local e nível de maturidade digital do contrato.": "La definición de la estructura mínima depende del alcance contratado, la criticidad de los activos, el volumen de equipos, la necesidad de atención local y el nivel de madurez digital del contrato.",
+"Acordo de Preços": "Acuerdo de Precios",
+"Acordo de Preços + Mão de Obra": "Acuerdo de Precios + Mano de Obra",
+"Estoque Consignado": "Stock Consignado",
+"Recuperação de Selos": "Recuperación de Sellos",
+"Consultoria e Confiabilidade / Full Service": "Consultoría y Confiabilidad / Full Service",
+"Consultoria e Confiabilidade": "Consultoría y Confiabilidad",
+"IIoT e Sensoriamento": "IIoT y Sensorización",
+"Sem técnico residente. Estrutura comercial, logística e engenharia obrigatória.": "Sin técnico residente. Estructura comercial, logística e ingeniería obligatoria.",
+"Técnico residente ou não residente conforme escopo. Atendimento spot, estoque local ou consignado e recuperação de selos. Engenharia obrigatória.": "Técnico residente o no residente según alcance. Atención spot, stock local o consignado y recuperación de sellos. Ingeniería obligatoria.",
+"SGA, gestão de estoque, rastreabilidade e engenharia. Foco em controle, governança e suporte técnico.": "SGA, gestión de inventario, trazabilidad e ingeniería. Enfoque en control, gobernanza y soporte técnico.",
+"Técnico local quando recuperação ocorre na planta do cliente. Estrutura interna quando na fábrica Chesterton. Engenharia obrigatória.": "Técnico local cuando la recuperación ocurre en la planta del cliente. Estructura interna cuando en la fábrica Chesterton. Ingeniería obligatoria.",
+"Técnico residente obrigatório. Número varia por volume. Acima de 4 técnicos: coordenador local. Com IIoT: analista dedicado. Engenharia obrigatória.": "Técnico residente obligatorio. Cantidad varía según volumen. Más de 4 técnicos: coordinador local. Con IIoT: analista dedicado. Ingeniería obligatoria.",
+"Sem técnico residente. Técnico ou analista mobilizado conforme necessidade. Estrutura leve e especializada em diagnóstico. Engenharia obrigatória.": "Sin técnico residente. Técnico o analista movilizado según necesidad. Estructura ligera y especializada en diagnóstico. Ingeniería obligatoria.",
+"Analista técnico obrigatório para instalação, configuração, análise e acompanhamento dos sensores. Integração SGA e nuvem. Engenharia obrigatória.": "Analista técnico obligatorio para instalación, configuración, análisis y seguimiento de sensores. Integración SGA y nube. Ingeniería obligatoria.",
+"☀️ Light": "☀️ Claro",
+"🌙 Dark": "🌙 Oscuro",
+"Alternar tema": "Alternar tema"},
+    en: {"Chesterton | Confiabilidade: Gestão de Ativos Rotativos": "Chesterton | Reliability: Rotating Assets Management", "Acesso Restrito · Uso Institucional": "Restricted access · Institutional use", "Portal de": "Portal of", "Confiabilidade": "Reliability", "Conteúdo institucional de uso interno. Insira a senha de acesso para continuar.": "Internal institutional content. Enter the access password to continue.", "Acessar Portal →": "Enter portal →", "Senha incorreta. Tente novamente.": "Incorrect password. Try again.", "Acesso restrito ao público autorizado · Não compartilhar externamente": "Restricted to authorized audience · Do not share externally", "Gestão de Ativos Rotativos": "Rotating Assets Management", "Visão Geral": "Overview", "Entregas": "Deliverables", "Ecossistema": "Ecosystem", "Contratos": "Contracts", "Clientes": "Clients", "Acessos": "Access", "Programa Ativo desde 2019": "Active program since 2019", "Confiabilidade:": "Reliability:", "Gestão de Ativos": "Asset Management", "Gestão de Ativos": "Asset Management", "Mais de 7 anos transformando dados em decisões. Do campo ao dashboard executivo — rastreabilidade total, governança por KPIs e monitoramento IIoT 24/7 em ativos rotativos críticos no Brasil.": "Over 7 years turning data into decisions. From the field to the executive dashboard — full traceability, KPI governance, and 24/7 IIoT monitoring of critical rotating assets in Brazil.", "Ativos Monitorados": "Monitored assets", "Intervenções Realizadas": "Interventions performed", "Modelos Contratuais": "Contract models", "Monitoramento IIoT": "IIoT monitoring", "Contratos Ativos": "Active contracts", "Inspeção IIoT": "IIoT inspection", "Equipe de Campo": "Field team", "Selos Mecânicos": "Mechanical seals", "Sensoriamento": "Sensorization", "Sala de Controle": "Control Room", "Treinamento": "Training", "Convenção LATAM": "LATAM Convention", "Feira Industrial": "Industrial Fair", "Nossa Entrega": "Our deliverables", "O que": "What", "Entregamos": "We deliver", "Um modelo estruturado de parceria técnico-operacional — combinando expertise em selagem, tecnologia digital proprietária e governança por dados.": "A structured technical-operational partnership model — combining sealing expertise, proprietary digital technology, and data governance.", "Rastreabilidade Total por Ativo": "Full asset traceability", "TAG NFC em cada equipamento. Histórico completo de intervenções, causas de falha e consumo de materiais — auditável em tempo real.": "NFC tag on each asset. Full history of interventions, failure causes, and material consumption — auditable in real time.", "Indicadores de Confiabilidade": "Reliability indicators", "MTBF, MTTR, Disponibilidade e Bad Actors gerados automaticamente. Dashboards Power BI atualizados em tempo real via SGA.": "MTBF, MTTR, Availability and Bad Actors generated automatically. Power BI dashboards updated in real time via SGA.", "Monitoramento IIoT 24/7": "24/7 IIoT monitoring", "Sensores Chesterton Connect instalados em ativos críticos. Dados de pressão, temperatura, vibração e detecção de vazamento em tempo real.": "Chesterton Connect sensors installed on critical assets. Real-time pressure, temperature, vibration and leak detection data.", "Governança por Dados": "Data governance", "Três camadas de governança: operacional diária, tática mensal e QBR trimestral — com relatórios automáticos e planos de ação estruturados.": "Three governance layers: daily operational, monthly tactical, and quarterly QBR — with automated reports and structured action plans.", "Inteligência Artificial Integrada": "Integrated artificial intelligence", "IA treinada com dados reais de selagem: análise preditiva de falhas, correlação de causa raiz e recomendações técnicas automatizadas.": "AI trained on real sealing data: predictive failure analysis, root-cause correlation, and automated technical recommendations.", "Comunicação Inteligente": "Smart communication", "WhatsApp automatizado integrado ao SGA. Consulte histórico de ativos, estoque consignado e alertas de desempenho diretamente pelo smartphone.": "Automated WhatsApp integrated with SGA. Check asset history, consignment stock, and performance alerts directly from your smartphone.", "Plataforma": "Platform", "Digital": "Digital", "SGA como núcleo. Power BI como camada de visualização. IA para predição. IIoT para monitoramento. Sala de Controle como centro de inteligência.": "SGA as the core. Power BI as the visualization layer. AI for prediction. IIoT for monitoring. Control Room as the intelligence center.", "TAG NFC": "NFC tag", "Identidade do Ativo": "Asset identity", "Rotas de Inspeção": "Inspection routes", "Ordens de Serviço": "Work orders", "Registro Digital": "Digital records", "Dashboards Online": "Online dashboards", "IA Integrada": "Integrated AI", "Análise Preditiva": "Predictive analytics", "WhatsApp Bot": "WhatsApp bot", "Comunicação Smart": "Smart communication", "IIoT 24/7": "IIoT 24/7", "SBC — Brasil": "SBC — Brazil", "Análise de Falha": "Failure analysis", "Causa Raiz": "Root cause", "Ativos rotativos cadastrados e monitorados desde 2019": "Rotating assets registered and monitored since 2019", "Monitoramento contínuo via Sala de Controle e sensores Chesterton Connect": "Continuous monitoring via Control Room and Chesterton Connect sensors", "Redução de vazamentos, emissões fugitivas e consumo energético — dados auditáveis": "Reduced leaks, fugitive emissions and energy consumption — auditable data", "Portfólio": "Portfolio", "Modelos": "Models", "Contratuais": "Contract", "Sete modelos estruturados em três níveis de maturidade operacional. Do fornecimento de materiais à confiabilidade integrada com IIoT.": "Seven models structured across three operational maturity levels — from materials supply to IIoT-integrated reliability.", "Modelos Contratuais e Jornada de Evolução": "Contract Models and Evolution Journey", "Soluções desenhadas para diferentes contextos operacionais, com possibilidade de evolução até o modelo mais completo de gestão integrada.": "Solutions designed for different operational contexts, with the possibility of evolution towards the most complete integrated management model.", "Todos os modelos geram valor. Alguns atuam como porta de entrada, outros como expansão de escopo. O modelo 2.5 representa a configuração estratégica mais completa, reunindo governança, previsibilidade e confiabilidade em uma única estrutura.": "Every model delivers value. Some serve as entry points, others as scope expansion. Model 2.5 represents the most complete strategic configuration, bringing together governance, predictability, and reliability in a single structure.", "Clientes & Contratos Ativos": "Clients & Active Contracts", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do Brasil.": "Presence across multiple industrial sectors — Pulp & Paper, Chemicals, and Mining — throughout Brazil.", "Contratos Ativos": "Active Contracts", "Equipamentos Gerenciados": "Managed equipment", "MTBF Médio": "Average MTBF", "Em análise": "Under analysis", "Improving Reliability and Efficiency Worldwide": "Improving Reliability and Efficiency Worldwide", "140+ anos": "140+ years", "113 países": "113 countries", "500+ centros de serviço": "500+ service centers", "MODELO-ALVO": "TARGET MODEL", "Objetivo estratégico — convergência de todos os modelos": "Strategic objective — convergence of all models", "Grupo 1 — Base": "Group 1 — Foundation", "Grupo 2 — Evolução": "Group 2 — Evolution", "Grupo 3 — Estratégico · Modelo-Alvo": "Group 3 — Strategic · Target Model", "BASE": "FOUNDATION", "EVOLUÇÃO": "EVOLUTION", "ESTRATÉGICO": "STRATEGIC", "Todos": "All", "Básico": "Basic", "Intermediário": "Intermediate", "Avançado": "Advanced", "Presença Nacional": "National presence", "Ativos": "Active", "Presença em múltiplos setores industriais — Papel & Celulose, Química e Mineração — de Norte a Sul do país.": "Presence across multiple industrial sectors — Pulp & Paper, Chemicals, and Mining — from north to south of the country.", "Portais": "Portals", "Rápidos": "Quick", "Links diretos para as principais ferramentas do ecossistema digital Chesterton.": "Direct links to the main tools in the Chesterton digital ecosystem.", "Dashboard de Overall Equipment Effectiveness em tempo real. Indicadores MTBF, MTTR e performance operacional auditáveis.": "Real-time Overall Equipment Effectiveness dashboard. Auditable MTBF, MTTR and operational performance indicators.", "Abrir Dashboard": "Open dashboard", "Matriz de Escopo": "Scope matrix", "Matriz interativa com os 7 modelos contratuais e 32 escopos técnicos detalhados. Filtros por categoria e tipo de contrato.": "Interactive matrix with the 7 contract models and 32 detailed technical scopes. Filters by category and contract type.", "Abrir Matriz": "Open matrix", "Agente IA · SGA": "AI Agent · SGA", "Agente inteligente via WhatsApp integrado ao SGA. Consulte contratos, histórico de ativos e indicadores direto pelo smartphone.": "Smart WhatsApp agent integrated with SGA. Check contracts, asset history and indicators directly from your smartphone.", "Abrir WhatsApp": "Open WhatsApp", "Site Chesterton Brasil": "Chesterton Brazil website", "Portal institucional da Chesterton do Brasil. Produtos, soluções, casos de sucesso e contatos da equipe técnica.": "Institutional portal of Chesterton Brazil. Products, solutions, success cases and technical team contacts.", "Acessar Site": "Open website", "Confiabilidade: Gestão de Ativos Rotativos · Documento Interno · 2025": "Reliability: Sealed Assets Management · Internal Document · 2025", "Uso Restrito · Não Compartilhar": "Restricted use · Do not share", "Acesso restrito": "Restricted access", "Acessos Rápidos": "Quick access", "Chesterton Home": "Chesterton Home", "Ecossistema Digital": "Digital ecosystem", "Galeria de campo": "Field gallery", "Navegação": "Navigation", "O Que Entregamos": "What we deliver", "Senha de acesso": "Access password", "Convenção Chesterton": "Chesterton convention", "Dashboard SGA": "SGA dashboard", "Equipe Chesterton": "Chesterton team", "Inspeção em campo": "Field inspection", "Manutenção de selos": "Seal maintenance", "Sensor Connect": "Connect sensor", "Stand Chesterton": "Chesterton booth", "Técnico em campo": "Field technician",
+"Excelência em Produtos de Selagem": "Sealing Product Excellence",
+"Selos mecânicos, gaxetas e vedações de alto desempenho com materiais certificados para ambientes corrosivos, alta temperatura e pressão crítica — garantia de durabilidade em campo.": "High-performance mechanical seals, packings, and seals with certified materials for corrosive environments, high temperature, and critical pressure — durability guaranteed in the field.",
+"Capacidade Técnica Especializada": "Specialized Technical Capacity",
+"Engenheiros certificados em selagem aplicada a ativos rotativos. Diagnóstico preciso, especificação correta e análise de causa raiz — presença técnica onde o processo mais exige.": "Engineers certified in sealing applied to rotating assets. Precise diagnostics, correct specification, and root-cause analysis — technical presence where the process demands it most.",
+"Entregáveis Digitais & Rastreabilidade": "Digital Deliverables & Traceability",
+"TAG NFC em cada ativo. Histórico completo de intervenções, causa de falha e consumo de materiais — relatórios auditáveis em tempo real via SGA, com governança por dados estruturada.": "NFC tag on each asset. Full history of interventions, failure causes, and material consumption — real-time auditable reports via SGA, with structured data governance.",
+"Engenharia de Alta Performance": "High-Performance Engineering",
+"MTBF, MTTR, Disponibilidade e Bad Actors calculados automaticamente. Programas estruturados para eliminar falhas repetitivas e maximizar a vida útil de cada equipamento.": "MTBF, MTTR, Availability and Bad Actors calculated automatically. Structured programs to eliminate repetitive failures and maximize the lifespan of each asset.",
+"Sensores Chesterton Connect em ativos críticos. Dados de temperatura, vibração, pressão e detecção de vazamento em tempo real — com alertas automáticos via Sala de Controle.": "Chesterton Connect sensors on critical assets. Real-time temperature, vibration, pressure, and leak detection data — with automatic alerts via Control Room.",
+"Governança Contratual por Dados": "Data-Driven Contract Governance",
+"Três camadas de governança: operacional diária, revisão tática mensal e QBR trimestral. Relatórios automáticos e planos de ação estruturados — com visibilidade total para gestores e operação.": "Three governance layers: daily operational, monthly tactical review, and quarterly QBR. Automated reports and structured action plans — with full visibility for managers and operations.",
+"Relatórios Compilados em Power-Bi": "Compiled Power BI Reports",
+"Área exclusiva para visualização de dashboards contratuais. Acesso mediante senha.": "Exclusive area for viewing contract dashboards. Password-protected access.",
+"Área Restrita · Power BI": "Restricted Area · Power BI",
+"Autenticando sessão…": "Authenticating session…",
+"Acesse o portal principal para visualizar os relatórios.": "Access the main portal to view the reports.",
+"Clique para reabrir os relatórios.": "Click to reopen the reports.",
+"Sessão autenticada · Relatórios contratuais": "Authenticated session · Contract reports",
+"🔒 Bloquear acesso": "🔒 Lock access",
+"Carregando relatório…": "Loading report…",
+"SGA — Sistema de Gestão de Ativos": "SGA — Asset Management System",
+"Acesso direto aos sistemas AppSheet por contrato. Área exclusiva mediante senha.": "Direct access to AppSheet systems by contract. Exclusive password-protected area.",
+"Área Restrita — SGA": "Restricted Area — SGA",
+"▶ Acessar Sistemas SGA": "▶ Access SGA Systems",
+"Sessão autenticada · Sistemas AppSheet": "Authenticated session · AppSheet systems",
+"Matriz de Contratos Chesterton": "Chesterton Contract Matrix",
+"Visualização interativa da Matriz de Contratos. Filtre, navegue e analise os modelos contratuais.": "Interactive Contract Matrix view. Filter, navigate and analyze the contract models.",
+"Área Restrita — Matriz": "Restricted Area — Matrix",
+"Sessão autenticada · Matriz de Contratos": "Authenticated session · Contract Matrix",
+"⛶ Tela cheia": "⛶ Fullscreen",
+"🔒 Bloquear": "🔒 Lock",
+"Job Description": "Job Description",
+"Estrutura de Profissionais por Modelo Contratual": "Professional Structure by Contract Model",
+"Estrutura mínima de pessoas para operar cada modelo contratual. Técnicos, analistas, coordenadores e gerência — com engenharia obrigatória em todos os modelos.": "Minimum staffing structure to operate each contract model. Technicians, analysts, coordinators and management — with mandatory engineering in all models.",
+"Regras de Dimensionamento": "Staffing Rules",
+"A definição da estrutura mínima depende do escopo contratado, criticidade dos ativos, volume de equipamentos, necessidade de atendimento local e nível de maturidade digital do contrato.": "The minimum structure depends on the contracted scope, asset criticality, equipment volume, local service needs, and digital maturity level of the contract.",
+"Acordo de Preços": "Price Agreement",
+"Acordo de Preços + Mão de Obra": "Price Agreement + Labor",
+"Estoque Consignado": "Consignment Stock",
+"Recuperação de Selos": "Seal Recovery",
+"Consultoria e Confiabilidade / Full Service": "Consulting & Reliability / Full Service",
+"Consultoria e Confiabilidade": "Consulting & Reliability",
+"IIoT e Sensoriamento": "IIoT & Sensing",
+"Sem técnico residente. Estrutura comercial, logística e engenharia obrigatória.": "No resident technician. Commercial, logistics, and mandatory engineering structure.",
+"Técnico residente ou não residente conforme escopo. Atendimento spot, estoque local ou consignado e recuperação de selos. Engenharia obrigatória.": "Resident or non-resident technician as per scope. Spot service, local or consignment stock, and seal recovery. Mandatory engineering.",
+"SGA, gestão de estoque, rastreabilidade e engenharia. Foco em controle, governança e suporte técnico.": "SGA, inventory management, traceability, and engineering. Focus on control, governance, and technical support.",
+"Técnico local quando recuperação ocorre na planta do cliente. Estrutura interna quando na fábrica Chesterton. Engenharia obrigatória.": "Local technician when recovery occurs at the customer's plant. Internal structure when at Chesterton factory. Mandatory engineering.",
+"Técnico residente obrigatório. Número varia por volume. Acima de 4 técnicos: coordenador local. Com IIoT: analista dedicado. Engenharia obrigatória.": "Mandatory resident technician. Number varies by volume. Over 4 technicians: local coordinator. With IIoT: dedicated analyst. Mandatory engineering.",
+"Sem técnico residente. Técnico ou analista mobilizado conforme necessidade. Estrutura leve e especializada em diagnóstico. Engenharia obrigatória.": "No resident technician. Technician or analyst mobilized as needed. Lightweight, diagnostics-focused structure. Mandatory engineering.",
+"Analista técnico obrigatório para instalação, configuração, análise e acompanhamento dos sensores. Integração SGA e nuvem. Engenharia obrigatória.": "Mandatory technical analyst for sensor installation, configuration, analysis, and monitoring. SGA and cloud integration. Mandatory engineering.",
+"☀️ Light": "☀️ Light",
+"🌙 Dark": "🌙 Dark",
+"Alternar tema": "Toggle theme"}
   };
   const ATTRS = ["aria-label","title","placeholder","alt","value"];
 
@@ -2262,21 +2465,21 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       id: 'nexa',
-      label: 'Contrato Nexa',
+      label: 'Relatório Nexa',
       icon: '📊',
       color: '#1a6fbf',
       url: 'https://app.powerbi.com/view?r=eyJrIjoiYjVjYzYxMjctNTE3Ni00Yjc4LWJjZTMtZWMzYmUyODY2ZGQzIiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9&pageName=26905ab0b5169acbbde4'
     },
     {
       id: 'klabin-selo',
-      label: 'Contrato Klabin Monte Alegre Selo',
+      label: 'Relatório Klabin Monte Alegre Selo',
       icon: '📊',
       color: '#0e7c4a',
       url: 'https://app.powerbi.com/view?r=eyJrIjoiMGQxY2RlYjYtOGIwYi00NjJkLThlNjgtNGM2YjZiODRlZjdkIiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9&pageName=967f19c6065e9727d0bb'
     },
     {
       id: 'klabin-gaxeta',
-      label: 'Contrato Klabin Monte Alegre Gaxeta',
+      label: 'Relatório Klabin Monte Alegre Gaxeta',
       icon: '📊',
       color: '#7b3fa0',
       url: 'https://app.powerbi.com/view?r=eyJrIjoiMTAyZDgyNWMtMWE3NC00MGVmLWI5OGYtZjFiNTBhZDlkYzA1IiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9'
@@ -2297,10 +2500,24 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       id: 'munksjo',
-      label: 'Relatório Munksjo',
+      label: 'Relatório Munksjö',
       icon: '📊',
       color: '#c45c1a',
       url: 'https://app.powerbi.com/view?r=eyJrIjoiZjRjOWI0YWItODQ5YS00NTA1LWFhMDUtNGVlOTYwZGRjNzMxIiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9&pageName=796791ce5adf7218afc6'
+    },
+    {
+      id: 'unipar-cubatao',
+      label: 'Relatório Unipar Cubatão',
+      icon: '📊',
+      color: '#1a3fbf',
+      url: 'https://app.powerbi.com/view?r=eyJrIjoiOWVjYmIxOGItNjQwOS00NDUxLWExZGQtNDFjOWJlM2Q0YzE3IiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9&pageName=934bfbd85861771a895d'
+    },
+    {
+      id: 'unipar-santo-andre',
+      label: 'Relatório Unipar Santo André',
+      icon: '📊',
+      color: '#1a6fa0',
+      url: 'https://app.powerbi.com/view?r=eyJrIjoiYTVlNzE5ODQtMjZiZS00ZDZiLWI0OWMtMDdkMjEyZmFjYzZjIiwidCI6ImYwMGQ1YzkwLTE2ZmQtNGUwNi1iY2Q2LWJmM2Y2MjEzNjVhMCJ9&pageName=934bfbd85861771a895d'
     }
   ];
 
@@ -3711,6 +3928,363 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 
+<!-- ═══ JOB DESCRIPTION ═══ -->
+<script>
+(function() {
+  'use strict';
+
+  var style = document.createElement('style');
+  style.textContent = `
+    #job-section {
+      background: linear-gradient(135deg, #0a0d14 0%, #111520 60%, #080b12 100%);
+      border-top: 2px solid #F5C200;
+      padding: 72px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    #job-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(245,194,0,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .job-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+    .job-header { text-align: center; margin-bottom: 52px; }
+    .job-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(245,194,0,0.12); border: 1px solid rgba(245,194,0,0.4);
+      border-radius: 50px; padding: 6px 18px;
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      color: #F5C200; text-transform: uppercase; margin-bottom: 20px;
+    }
+    .job-title {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(28px,4vw,50px); color: #fff;
+      letter-spacing: 1px; margin-bottom: 12px; line-height: 1.1;
+    }
+    .job-title em { color: #F5C200; font-style: normal; }
+    .job-sub {
+      font-size: 15px; color: rgba(255,255,255,0.5);
+      max-width: 600px; margin: 0 auto; line-height: 1.7;
+    }
+
+    /* Dimensioning rules box */
+    .job-rules {
+      background: linear-gradient(135deg, rgba(245,194,0,0.07), rgba(26,127,212,0.05));
+      border: 1px solid rgba(245,194,0,0.25);
+      border-left: 3px solid #F5C200;
+      border-radius: 12px; padding: 28px 32px; margin-bottom: 52px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px 40px;
+    }
+    @media(max-width:768px){ .job-rules{ grid-template-columns: 1fr; } }
+    .job-rules-title {
+      grid-column: 1/-1;
+      font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 2.5px;
+      text-transform: uppercase; color: #F5C200; margin-bottom: 4px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .job-rules-title::after { content:''; flex:1; height:1px; background:rgba(245,194,0,0.2); }
+    .job-rule-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.5;
+    }
+    .job-rule-item::before { content: '▸'; color: #F5C200; flex-shrink:0; margin-top:1px; }
+
+    /* Model grid */
+    .job-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    @media(max-width:1100px){ .job-grid{ grid-template-columns: repeat(2,1fr); } }
+    @media(max-width:640px){ .job-grid{ grid-template-columns: 1fr; } }
+
+    /* Core card (2.5) spans full width visually */
+    .job-card-core-wrap {
+      grid-column: 1 / -1;
+    }
+
+    .job-card {
+      background: #121620; border: 1px solid #1E2535;
+      border-radius: 14px; padding: 24px 22px;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .job-card:hover {
+      border-color: rgba(245,194,0,0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.35);
+    }
+    .job-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:2px;
+      background: var(--card-accent, #F5C200);
+      transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
+    }
+    .job-card:hover::before { transform: scaleX(1); }
+
+    .job-card.core {
+      background: linear-gradient(135deg, #1a1f2d 0%, rgba(245,194,0,0.06) 100%);
+      border: 2px solid #F5C200 !important;
+      box-shadow: 0 0 60px rgba(245,194,0,0.12), 0 0 0 3px rgba(245,194,0,0.05);
+      padding: 32px 36px;
+      display: grid; grid-template-columns: 1fr 280px;
+      gap: 32px; align-items: start;
+    }
+    @media(max-width:900px){ .job-card.core { grid-template-columns: 1fr; gap:20px; padding:24px; } }
+    .job-card.core::before { display:none; }
+    .job-card.core::after {
+      content:''; position:absolute; top:0; left:0; right:0; height:3px;
+      background: linear-gradient(90deg, transparent, #F5C200, #D4A800, #F5C200, transparent);
+    }
+
+    .job-model-num {
+      font-family: "Space Mono", monospace; font-size: 9px; letter-spacing: 2px;
+      text-transform: uppercase; color: #5A6480; margin-bottom: 8px;
+    }
+    .job-model-title {
+      font-family: "Bebas Neue", sans-serif; font-size: 20px; color: #fff;
+      letter-spacing: 0.5px; margin-bottom: 10px; line-height: 1.1;
+    }
+    .job-model-desc {
+      font-size: 12px; color: #5A6480; line-height: 1.6; margin-bottom: 16px;
+    }
+
+    /* Role chips */
+    .job-roles { display: flex; flex-wrap: wrap; gap: 6px; }
+    .job-role {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10px; letter-spacing: 0.5px; font-weight: 600;
+      padding: 4px 10px; border-radius: 100px;
+      text-transform: uppercase;
+    }
+    .role-tec  { background: rgba(26,127,212,0.12); color: #1A7FD4; border: 1px solid rgba(26,127,212,0.3); }
+    .role-ana  { background: rgba(245,194,0,0.10); color: #F5C200; border: 1px solid rgba(245,194,0,0.25); }
+    .role-coo  { background: rgba(212,32,32,0.10); color: #FF6B6B; border: 1px solid rgba(212,32,32,0.25); }
+    .role-eng  { background: rgba(14,158,90,0.10); color: #0e9e5a; border: 1px solid rgba(14,158,90,0.25); }
+    .role-ger  { background: rgba(116,66,208,0.12); color: #9b6ff8; border: 1px solid rgba(116,66,208,0.25); }
+    .role-com  { background: rgba(255,255,255,0.05); color: #B8C2D8; border: 1px solid rgba(255,255,255,0.12); }
+    .role-dot  { width:6px; height:6px; border-radius:50%; background:currentColor; flex-shrink:0; }
+
+    /* Core card side stats */
+    .job-core-right {
+      background: #0D1018; border: 1px solid #1E2535; border-radius: 10px;
+      padding: 18px 20px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .job-core-stat { display: flex; flex-direction: column; gap: 3px; }
+    .job-core-stat-lbl { font-family: "Space Mono", monospace; font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: #5A6480; }
+    .job-core-stat-val { font-family: "Bebas Neue", sans-serif; font-size: 26px; color: #F5C200; line-height: 1; }
+    .job-core-stat-val.blue { color: #1A7FD4; font-size: 16px; line-height: 1.4; }
+    .job-core-sep { height: 1px; background: #1E2535; }
+
+    /* Executive message */
+    .job-exec {
+      background: linear-gradient(135deg, rgba(245,194,0,0.06), rgba(26,127,212,0.04));
+      border: 1px solid rgba(245,194,0,0.2); border-left: 3px solid #F5C200;
+      border-radius: 12px; padding: 24px 32px;
+      font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.8;
+    }
+    .job-exec strong { color: #F5C200; }
+
+    /* Light theme overrides */
+    [data-theme="light"] .job-card { background: #fff; border-color: #e0e8f0; }
+    [data-theme="light"] .job-card.core { background: linear-gradient(135deg, #fffdf0 0%, rgba(245,194,0,0.04) 100%); }
+    [data-theme="light"] .job-core-right { background: #f8f9fc; border-color: #e0e8f0; }
+    [data-theme="light"] .job-model-title { color: #1a2340; }
+    [data-theme="light"] .job-model-num { color: #7080a0; }
+    [data-theme="light"] .job-model-desc { color: #7080a0; }
+    [data-theme="light"] .job-core-sep { background: #e0e8f0; }
+    [data-theme="light"] .job-rules { background: linear-gradient(135deg, rgba(200,149,0,0.06), rgba(20,102,176,0.04)); }
+    [data-theme="light"] .job-rule-item { color: rgba(26,35,64,0.75); }
+    [data-theme="light"] .job-exec { background: linear-gradient(135deg, rgba(200,149,0,0.05), rgba(20,102,176,0.03)); color: rgba(26,35,64,0.75); }
+    [data-theme="light"] .job-sub { color: rgba(26,35,64,0.55); }
+  `;
+  document.head.appendChild(style);
+
+  var section = document.createElement('section');
+  section.id = 'job-section';
+  section.innerHTML = `
+    <div class="job-inner">
+      <div class="job-header">
+        <div class="job-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          Estrutura Operacional
+        </div>
+        <div class="job-title">Job <em>Description</em></div>
+        <div class="job-sub">Estrutura de Profissionais por Modelo Contratual</div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-top:10px;max-width:680px;margin-left:auto;margin-right:auto;line-height:1.7">
+          Estrutura mínima de pessoas para operar cada modelo contratual. Técnicos, analistas, coordenadores e gerência — com engenharia obrigatória em todos os modelos.
+        </p>
+      </div>
+
+      <!-- Dimensioning rules -->
+      <div class="job-rules">
+        <div class="job-rules-title">Regras de Dimensionamento</div>
+        <div class="job-rule-item">1 técnico → até 250 equipamentos de selo mecânico</div>
+        <div class="job-rule-item">1 técnico → até 210 equipamentos de gaxeta em papel &amp; celulose</div>
+        <div class="job-rule-item">1 técnico → até 140 equipamentos de gaxeta em mineração</div>
+        <div class="job-rule-item">1 técnico → até 210 equipamentos de gaxeta em química</div>
+        <div class="job-rule-item">1 engenheiro/coordenador → gestão de técnicos</div>
+        <div class="job-rule-item">1 gerente → condução geral das atividades</div>
+        <div class="job-rule-item">Acima de 4 técnicos no mesmo contrato → incluir 1 coordenador local</div>
+        <div class="job-rule-item">IIoT com demanda analítica elevada → incluir 1 analista dedicado</div>
+      </div>
+
+      <!-- Model cards grid -->
+      <div class="job-grid">
+
+        <!-- 2.1 -->
+        <div class="job-card" style="--card-accent:#1A7FD4">
+          <div class="job-model-num">Modelo 2.1</div>
+          <div class="job-model-title">Acordo de Preços</div>
+          <div class="job-model-desc">Sem técnico residente. Estrutura comercial, logística e engenharia obrigatória.</div>
+          <div class="job-roles">
+            <span class="job-role role-eng"><span class="role-dot"></span>Engenharia</span>
+            <span class="job-role role-com"><span class="role-dot"></span>Comercial</span>
+            <span class="job-role role-com"><span class="role-dot"></span>Logística</span>
+            <span class="job-role role-ger"><span class="role-dot"></span>Gerente</span>
+          </div>
+        </div>
+
+        <!-- 2.2 -->
+        <div class="job-card" style="--card-accent:#F5C200">
+          <div class="job-model-num">Modelo 2.2</div>
+          <div class="job-model-title">Acordo de Preços + Mão de Obra</div>
+          <div class="job-model-desc">Técnico residente ou não residente conforme escopo. Atendimento spot, estoque local ou consignado e recuperação de selos. Engenharia obrigatória.</div>
+          <div class="job-roles">
+            <span class="job-role role-tec"><span class="role-dot"></span>Técnico</span>
+            <span class="job-role role-eng"><span class="role-dot"></span>Engenharia</span>
+            <span class="job-role role-ger"><span class="role-dot"></span>Gerente</span>
+          </div>
+        </div>
+
+        <!-- 2.3 -->
+        <div class="job-card" style="--card-accent:#0e9e5a">
+          <div class="job-model-num">Modelo 2.3</div>
+          <div class="job-model-title">Estoque Consignado</div>
+          <div class="job-model-desc">SGA, gestão de estoque, rastreabilidade e engenharia. Foco em controle, governança e suporte técnico.</div>
+          <div class="job-roles">
+            <span class="job-role role-eng"><span class="role-dot"></span>Engenharia</span>
+            <span class="job-role role-com"><span class="role-dot"></span>Supply</span>
+            <span class="job-role role-ger"><span class="role-dot"></span>Gerente</span>
+          </div>
+        </div>
+
+        <!-- 2.4 -->
+        <div class="job-card" style="--card-accent:#FF6B6B">
+          <div class="job-model-num">Modelo 2.4</div>
+          <div class="job-model-title">Recuperação de Selos</div>
+          <div class="job-model-desc">Técnico local quando recuperação ocorre na planta do cliente. Estrutura interna quando na fábrica Chesterton. Engenharia obrigatória.</div>
+          <div class="job-roles">
+            <span class="job-role role-tec"><span class="role-dot"></span>Técnico</span>
+            <span class="job-role role-eng"><span class="role-dot"></span>Engenharia</span>
+            <span class="job-role role-ger"><span class="role-dot"></span>Gerente</span>
+          </div>
+        </div>
+
+        <!-- 2.6 -->
+        <div class="job-card" style="--card-accent:#9b6ff8">
+          <div class="job-model-num">Modelo 2.6</div>
+          <div class="job-model-title">Consultoria e Confiabilidade</div>
+          <div class="job-model-desc">Sem técnico residente. Técnico ou analista mobilizado conforme necessidade. Estrutura leve e especializada em diagnóstico. Engenharia obrigatória.</div>
+          <div class="job-roles">
+            <span class="job-role role-ana"><span class="role-dot"></span>Analista</span>
+            <span class="job-role role-tec"><span class="role-dot"></span>Técnico</span>
+            <span class="job-role role-eng"><span class="role-dot"></span>Engenharia</span>
+            <span class="job-role role-ger"><span class="role-dot"></span>Gerente</span>
+          </div>
+        </div>
+
+        <!-- 2.7 -->
+        <div class="job-card" style="--card-accent:#1A7FD4">
+          <div class="job-model-num">Modelo 2.7</div>
+          <div class="job-model-title">IIoT e Sensoriamento</div>
+          <div class="job-model-desc">Analista técnico obrigatório para instalação, configuração, análise e acompanhamento dos sensores. Integração SGA e nuvem. Engenharia obrigatória.</div>
+          <div class="job-roles">
+            <span class="job-role role-ana"><span class="role-dot"></span>Analista IIoT</span>
+            <span class="job-role role-tec"><span class="role-dot"></span>Técnico</span>
+            <span class="job-role role-eng"><span class="role-dot"></span>Engenharia</span>
+            <span class="job-role role-ger"><span class="role-dot"></span>Gerente</span>
+          </div>
+        </div>
+
+        <!-- 2.5 CORE — Full Width -->
+        <div class="job-card-core-wrap">
+          <div class="job-card core" id="job-card-25">
+            <div>
+              <div style="display:inline-flex;align-items:center;gap:6px;background:#F5C200;color:#000;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:999px;margin-bottom:14px;font-weight:700;">⬡ MODELO-ALVO</div>
+              <div class="job-model-num" style="color:#D4A800;font-size:12px">Modelo 2.5 · Full Service</div>
+              <div class="job-model-title" style="font-size:30px;margin-bottom:12px">Consultoria e Confiabilidade / Full Service</div>
+              <div class="job-model-desc" style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.7">
+                Técnico residente obrigatório. Número varia por volume. Acima de 4 técnicos: coordenador local. Com IIoT: analista dedicado. Engenharia obrigatória.
+              </div>
+              <div class="job-roles" style="margin-top:16px">
+                <span class="job-role role-tec"><span class="role-dot"></span>Técnico Residente</span>
+                <span class="job-role role-coo"><span class="role-dot"></span>Coordenador Local</span>
+                <span class="job-role role-ana"><span class="role-dot"></span>Analista IIoT</span>
+                <span class="job-role role-eng"><span class="role-dot"></span>Engenharia</span>
+                <span class="job-role role-ger"><span class="role-dot"></span>Gerente</span>
+              </div>
+              <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#D4A800;margin-top:14px;opacity:.85;">◆ Objetivo estratégico — convergência de todos os modelos</div>
+            </div>
+            <div class="job-core-right">
+              <div class="job-core-stat">
+                <div class="job-core-stat-lbl">Cobertura de Campo</div>
+                <div class="job-core-stat-val">24/7</div>
+              </div>
+              <div class="job-core-sep"></div>
+              <div class="job-core-stat">
+                <div class="job-core-stat-lbl">Coord. obrigatório acima de</div>
+                <div class="job-core-stat-val">4 Tec.</div>
+              </div>
+              <div class="job-core-sep"></div>
+              <div class="job-core-stat">
+                <div class="job-core-stat-lbl">Tecnologia</div>
+                <div class="job-core-stat-val blue">IA · IIoT · SGA · Power BI</div>
+              </div>
+              <div class="job-core-sep"></div>
+              <div class="job-core-stat">
+                <div class="job-core-stat-lbl">Governança</div>
+                <div class="job-core-stat-val blue" style="font-size:14px">Operacional · Tática · QBR</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Executive message -->
+      <div class="job-exec">
+        <strong>Nota executiva:</strong> A definição da estrutura mínima depende do escopo contratado, criticidade dos ativos, volume de equipamentos, necessidade de atendimento local e nível de maturidade digital do contrato. Todos os modelos exigem engenharia de suporte obrigatória como base da operação técnica Chesterton.
+      </div>
+    </div>
+  `;
+
+  // Insert before footer
+  var footer = document.querySelector('footer');
+  if (footer) {
+    document.body.insertBefore(section, footer);
+  } else {
+    document.body.appendChild(section);
+  }
+
+  // Re-apply i18n if language is already set
+  try {
+    var savedLang = localStorage.getItem('portal_lang');
+    if (savedLang && savedLang !== 'pt' && typeof window.i18nApply === 'function') {
+      window.i18nApply(savedLang);
+    }
+  } catch(e) {}
+})();
+</script>
+
 <!-- ═══ ACCORDION SECTIONS ═══ -->
 <style>
 /* ── ACCORDION SECTIONS ─────────────────────────────── */
@@ -3822,7 +4396,8 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'contratos-ativos',label: 'Clientes & Contratos Ativos',  tag: 'Presença Nacional'  },
     { id: 'pbi-section',     label: 'Relatórios Power-BI',          tag: 'Analytics'          },
     { id: 'sga-section',     label: 'SGA — Gestão de Ativos',       tag: 'Acesso'             },
-    { id: 'matriz-section',  label: 'Matriz de Contratos',          tag: 'Ferramenta'         }
+    { id: 'matriz-section',  label: 'Matriz de Contratos',          tag: 'Ferramenta'         },
+    { id: 'job-section',     label: 'Job Description',              tag: 'RH'                 }
   ];
 
   function wrapAccordion(conf, idx) {
