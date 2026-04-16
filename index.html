@@ -6,6 +6,7 @@
 <title>Chesterton | Confiabilidade: Gestão de Ativos Rotativos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root {
   --black:   #080A0F;
@@ -199,6 +200,267 @@ body{background:var(--black);color:var(--white);font-family:"DM Sans",sans-serif
   font-family:"Space Mono",monospace;letter-spacing:0.5px;
 }
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.4)}}
+
+/* ═══════════════════════════════════════════════════════════
+   2FA / TOTP STEP 2 — Design adaptado ao SistemadeGestao
+══════════════════════════════════════════════════════════ */
+#sga-step-1, #sga-step-2 {
+  transition: opacity 0.3s ease;
+}
+#sga-step-2 { display: none; }
+
+/* Cabeçalho step-2 */
+.sga-totp-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+.sga-totp-step-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(245,194,0,0.28);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.sga-totp-shield {
+  width: 68px; height: 68px;
+  background: var(--gold-dim);
+  border: 1.5px solid rgba(245,194,0,0.35);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.85rem;
+  margin: 0 auto 14px;
+  animation: sga-shield-pulse 3s ease-in-out infinite;
+}
+@keyframes sga-shield-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(245,194,0,0.22); }
+  50%      { box-shadow: 0 0 0 12px rgba(245,194,0,0); }
+}
+.sga-totp-header h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; letter-spacing: 1.5px;
+  color: var(--white); margin-bottom: 4px;
+}
+.sga-totp-header p {
+  font-size: 12px; color: var(--muted); line-height: 1.5;
+}
+
+/* QR Code block */
+.sga-qr-main {
+  background: var(--dark3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+}
+.sga-qr-main.hidden {
+  max-height: 0 !important;
+  padding: 0 16px;
+  opacity: 0;
+  pointer-events: none;
+  margin-bottom: 0;
+}
+.sga-qr-steps { margin-bottom: 12px; }
+.sga-qr-step {
+  display: flex; align-items: center; gap: 9px;
+  font-size: 12px; color: var(--white2);
+  padding: 3px 0; line-height: 1.4;
+}
+.sga-qr-step-num {
+  width: 20px; height: 20px;
+  background: var(--gold);
+  color: var(--black);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800;
+  flex-shrink: 0; font-family: 'Space Mono', monospace;
+}
+.sga-qr-frame {
+  display: flex; justify-content: center; margin-bottom: 12px;
+}
+#sga-qrcode-canvas {
+  display: inline-block;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0 0 0 3px rgba(245,194,0,0.30);
+}
+.sga-secret-box {
+  background: var(--dark);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 11px;
+  color: var(--muted);
+  word-break: break-all;
+}
+.sga-secret-box strong {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 4px;
+}
+.sga-secret-key {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px; font-weight: 700;
+  color: var(--gold); letter-spacing: 2px;
+}
+.sga-copy-btn {
+  background: none; border: none;
+  color: var(--muted); cursor: pointer;
+  font-size: 11px; margin-left: 8px;
+  padding: 2px 6px; border-radius: 4px;
+  transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+}
+.sga-copy-btn:hover { color: var(--gold); background: var(--gold-dim); }
+
+/* Already row */
+.sga-already-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  font-size: 11px; color: var(--muted);
+  gap: 8px; margin: 10px 0;
+}
+.sga-qr-hide-btn {
+  background: none;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--muted); cursor: pointer; transition: all 0.2s;
+  white-space: nowrap;
+}
+.sga-qr-hide-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+/* Divider */
+.sga-totp-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 10px 0;
+}
+
+/* Code label + timer */
+.sga-code-label {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  font-size: 12px; font-weight: 500;
+  color: var(--white2); margin-bottom: 10px;
+}
+.sga-timer-row {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--muted);
+}
+.sga-timer-ring {
+  width: 26px; height: 26px; position: relative; flex-shrink: 0;
+}
+.sga-timer-svg { transform: rotate(-90deg); }
+.sga-timer-track { fill: none; stroke: var(--border2); stroke-width: 3; }
+.sga-timer-fill {
+  fill: none; stroke: var(--gold); stroke-width: 3;
+  stroke-dasharray: 69.11; stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+.sga-timer-label {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; font-weight: 800; color: var(--gold);
+}
+
+/* 6 digit boxes */
+.sga-digits-row {
+  display: flex; gap: 6px;
+  justify-content: center; margin-bottom: 16px;
+}
+.sga-digit {
+  width: 44px; height: 54px;
+  background: var(--dark3);
+  border: 1.5px solid var(--border2);
+  border-radius: 10px;
+  color: var(--white);
+  font-size: 1.5rem; font-weight: 700;
+  text-align: center;
+  font-family: 'Space Mono', monospace;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  caret-color: var(--gold);
+  -moz-appearance: textfield;
+}
+.sga-digit::-webkit-inner-spin-button,
+.sga-digit::-webkit-outer-spin-button { -webkit-appearance: none; }
+.sga-digit:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(245,194,0,0.18);
+  transform: translateY(-2px);
+}
+.sga-digit.sga-filled {
+  border-color: rgba(245,194,0,0.55);
+  background: rgba(245,194,0,0.06);
+}
+.sga-digit.sga-shake {
+  animation: sga-shake 0.4s ease;
+  border-color: var(--red) !important;
+}
+@keyframes sga-shake {
+  0%,100% { transform: translateX(0); }
+  20%,60%  { transform: translateX(-5px); }
+  40%,80%  { transform: translateX(5px); }
+}
+
+/* Back button */
+.sga-btn-back {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; padding: 11px;
+  background: transparent;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 500;
+  margin-top: 10px; cursor: pointer; transition: all 0.2s;
+}
+.sga-btn-back:hover { color: var(--white); border-color: var(--gold); background: var(--gold-dim); }
+
+/* TOTP loading/error */
+.sga-totp-status {
+  margin-top: 10px; font-size: 11px;
+  border-radius: 8px; padding: 8px 12px;
+  text-align: center; display: none;
+  font-family: 'Space Mono', monospace; letter-spacing: 0.5px;
+}
+.sga-totp-status.loading {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  color: var(--gold);
+}
+.sga-totp-status.error {
+  display: block;
+  background: rgba(212,32,32,0.10);
+  border: 1px solid rgba(212,32,32,0.28);
+  color: #FF6B6B;
+}
+
+/* Spinner small */
+.sga-spinner {
+  width: 16px; height: 16px;
+  border: 2px solid var(--border2);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: sga-spin 0.75s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes sga-spin { to { transform: rotate(360deg); } }
 
 /* ── TOPBAR ─────────────────────────────────── */
 #topbar{
@@ -1246,23 +1508,105 @@ footer{
 <!-- ═══ AUTH OVERLAY ═══ -->
 <div id="authOverlay" role="dialog" aria-modal="true" aria-label="Acesso restrito">
   <div class="auth-wrap">
-    <!-- Language selector on login -->
-    <div id="loginLangSwitch" style="display:flex;gap:6px;justify-content:flex-end;margin-bottom:20px;">
-      <button type="button" class="login-lang-btn" data-lang="pt" style="cursor:pointer;border:1px solid rgba(245,194,0,0.4);background:rgba(245,194,0,0.15);color:#F5C200;border-radius:999px;padding:5px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s;font-weight:700;">PT</button>
-      <button type="button" class="login-lang-btn" data-lang="es" style="cursor:pointer;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.4);border-radius:999px;padding:5px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s;">ES</button>
-      <button type="button" class="login-lang-btn" data-lang="en" style="cursor:pointer;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.4);border-radius:999px;padding:5px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s;">EN</button>
+
+    <!-- ─── STEP 1 — E-MAIL + SENHA ─── -->
+    <div id="sga-step-1">
+      <!-- Language selector on login -->
+      <div id="loginLangSwitch" style="display:flex;gap:6px;justify-content:flex-end;margin-bottom:20px;">
+        <button type="button" class="login-lang-btn" data-lang="pt" style="cursor:pointer;border:1px solid rgba(245,194,0,0.4);background:rgba(245,194,0,0.15);color:#F5C200;border-radius:999px;padding:5px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s;font-weight:700;">PT</button>
+        <button type="button" class="login-lang-btn" data-lang="es" style="cursor:pointer;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.4);border-radius:999px;padding:5px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s;">ES</button>
+        <button type="button" class="login-lang-btn" data-lang="en" style="cursor:pointer;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.4);border-radius:999px;padding:5px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s;">EN</button>
+      </div>
+      <div class="auth-logo">CHESTERTON<span>.</span></div>
+      <div class="auth-badge" id="auth-badge-text">Acesso Restrito · Uso Institucional</div>
+      <div class="auth-title" id="auth-title-text">Portal de<br><em>Confiabilidade</em></div>
+      <div class="auth-sub" id="auth-sub-text">Conteúdo institucional de uso interno. Insira seu e-mail e senha para continuar.</div>
+      <input id="authLogin" class="auth-input" type="email" placeholder="seu@email.com" aria-label="E-mail de acesso" autocomplete="off" style="margin-bottom:10px">
+      <input id="authPass" class="auth-input" type="password" placeholder="••••••••••••••" aria-label="Senha de acesso" autocomplete="off">
+      <button id="authBtn" class="auth-btn" type="button">Acessar Portal →</button>
+      <div id="authError" class="auth-error" style="display:none">E-mail ou senha incorretos. Tente novamente.</div>
+      <div id="authLoading" style="font-size:12px;color:#F5C200;margin-top:10px;display:none;text-align:center;">⟳ Verificando credenciais…</div>
+      <div id="authConnStatus" style="font-size:12px;font-weight:600;margin-top:10px;text-align:center;display:none;font-family:'Space Mono',monospace;letter-spacing:1px;padding:6px 0;transition:color .3s;"></div>
+      <div class="auth-hint">Acesso restrito ao público autorizado · Não compartilhar externamente</div>
     </div>
-    <div class="auth-logo">CHESTERTON<span>.</span></div>
-    <div class="auth-badge" id="auth-badge-text">Acesso Restrito · Uso Institucional</div>
-    <div class="auth-title" id="auth-title-text">Portal de<br><em>Confiabilidade</em></div>
-    <div class="auth-sub" id="auth-sub-text">Conteúdo institucional de uso interno. Insira seu e-mail e senha para continuar.</div>
-    <input id="authLogin" class="auth-input" type="email" placeholder="seu@email.com" aria-label="E-mail de acesso" autocomplete="off" style="margin-bottom:10px">
-    <input id="authPass" class="auth-input" type="password" placeholder="••••••••••••••" aria-label="Senha de acesso" autocomplete="off">
-    <button id="authBtn" class="auth-btn" type="button">Acessar Portal →</button>
-    <div id="authError" class="auth-error" style="display:none">E-mail ou senha incorretos. Tente novamente.</div>
-    <div id="authLoading" style="font-size:12px;color:#F5C200;margin-top:10px;display:none;text-align:center;">⟳ Verificando credenciais…</div>
-    <div id="authConnStatus" style="font-size:12px;font-weight:600;margin-top:10px;text-align:center;display:none;font-family:'Space Mono',monospace;letter-spacing:1px;padding:6px 0;transition:color .3s;"></div>
-    <div class="auth-hint">Acesso restrito ao público autorizado · Não compartilhar externamente</div>
+
+    <!-- ─── STEP 2 — VERIFICAÇÃO 2FA / TOTP ─── -->
+    <div id="sga-step-2">
+
+      <div class="sga-totp-header">
+        <div class="sga-totp-step-badge">🔐 &nbsp;Etapa 2 de 2 — Verificação</div>
+        <div class="sga-totp-shield">🛡️</div>
+        <h3>Autenticação em Duas Etapas</h3>
+        <p>Verifique sua identidade com o código do autenticador</p>
+      </div>
+
+      <!-- QR CODE — sempre visível, foco principal -->
+      <div class="sga-qr-main" id="sga-qr-main">
+        <div class="sga-qr-steps">
+          <div class="sga-qr-step"><span class="sga-qr-step-num">1</span><span>Abra o <strong>Google Authenticator</strong> no celular</span></div>
+          <div class="sga-qr-step"><span class="sga-qr-step-num">2</span><span>Toque em <strong>+</strong> → <strong>Ler código QR</strong></span></div>
+          <div class="sga-qr-step"><span class="sga-qr-step-num">3</span><span>Aponte a câmera para o código abaixo</span></div>
+        </div>
+        <div class="sga-qr-frame">
+          <div id="sga-qrcode-canvas"></div>
+        </div>
+        <div class="sga-secret-box">
+          <strong>Chave manual (se não conseguir escanear)</strong>
+          <span class="sga-secret-key" id="sga-secret-display">—</span>
+          <button class="sga-copy-btn" onclick="sgaCopySecret()" title="Copiar chave">📋 Copiar</button>
+        </div>
+      </div>
+
+      <hr class="sga-totp-divider">
+
+      <!-- Ocultar QR após escanear -->
+      <div class="sga-already-row">
+        <span id="sga-qr-toggle-label">✅ Já escaneei — ocultar QR Code</span>
+        <button class="sga-qr-hide-btn" id="sga-qr-hide-btn" onclick="sgaToggleQR()">Ocultar</button>
+      </div>
+
+      <hr class="sga-totp-divider">
+
+      <!-- Timer + label -->
+      <div class="sga-code-label">
+        <span>Digite o código de 6 dígitos do app:</span>
+        <div class="sga-timer-row">
+          <div class="sga-timer-ring">
+            <svg class="sga-timer-svg" viewBox="0 0 24 24" width="26" height="26">
+              <circle class="sga-timer-track" cx="12" cy="12" r="11"/>
+              <circle class="sga-timer-fill" id="sga-timer-circle" cx="12" cy="12" r="11"/>
+            </svg>
+            <div class="sga-timer-label" id="sga-timer-label">30</div>
+          </div>
+          <span>renova em <strong id="sga-timer-secs">30</strong>s</span>
+        </div>
+      </div>
+
+      <!-- 6 digit boxes -->
+      <div class="sga-digits-row" id="sga-digits-row">
+        <input class="sga-digit" id="sgd0" type="number" min="0" max="9" maxlength="1" inputmode="numeric" autocomplete="one-time-code" placeholder="·" oninput="sgaDigitInput(this,0)" onkeydown="sgaDigitKeyDown(event,0)" onfocus="this.select()">
+        <input class="sga-digit" id="sgd1" type="number" min="0" max="9" maxlength="1" inputmode="numeric" placeholder="·" oninput="sgaDigitInput(this,1)" onkeydown="sgaDigitKeyDown(event,1)" onfocus="this.select()">
+        <input class="sga-digit" id="sgd2" type="number" min="0" max="9" maxlength="1" inputmode="numeric" placeholder="·" oninput="sgaDigitInput(this,2)" onkeydown="sgaDigitKeyDown(event,2)" onfocus="this.select()">
+        <input class="sga-digit" id="sgd3" type="number" min="0" max="9" maxlength="1" inputmode="numeric" placeholder="·" oninput="sgaDigitInput(this,3)" onkeydown="sgaDigitKeyDown(event,3)" onfocus="this.select()">
+        <input class="sga-digit" id="sgd4" type="number" min="0" max="9" maxlength="1" inputmode="numeric" placeholder="·" oninput="sgaDigitInput(this,4)" onkeydown="sgaDigitKeyDown(event,4)" onfocus="this.select()">
+        <input class="sga-digit" id="sgd5" type="number" min="0" max="9" maxlength="1" inputmode="numeric" placeholder="·" oninput="sgaDigitInput(this,5)" onkeydown="sgaDigitKeyDown(event,5)" onfocus="this.select()">
+      </div>
+
+      <button class="auth-btn" id="sga-totp-btn" onclick="sgaHandleTOTP()" disabled style="margin-top:0">
+        ✔ Verificar e Entrar
+      </button>
+
+      <div class="sga-totp-status loading" id="sga-totp-loading">
+        <div class="sga-spinner"></div>
+        <span>Verificando código...</span>
+      </div>
+      <div class="sga-totp-status error" id="sga-totp-error"></div>
+
+      <button class="sga-btn-back" onclick="sgaBackToStep1()">
+        ← Voltar para o login
+      </button>
+    </div>
+
   </div>
 </div>
 
@@ -1937,6 +2281,319 @@ footer{
 
 <script>
 // ═══ AUTH — Google Sheets dinâmico ═══
+/* ══════════════════════════════════════════════════════════════
+   TOTP ENGINE — Pure JS, WebCrypto API (RFC 6238)
+   Identical to UniparCubatao implementation (validated ✓)
+══════════════════════════════════════════════════════════════ */
+'use strict';
+
+/* ── Detecta se string é HEX válido ── */
+function isHexSecret(s) {
+  return /^[0-9a-fA-F]+$/.test(s) && s.length % 2 === 0;
+}
+
+/* ── Bytes → Base32 ── */
+function bytesToBase32(bytes) {
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+  let bits = '';
+  for (const b of bytes) bits += b.toString(2).padStart(8, '0');
+  while (bits.length % 5 !== 0) bits += '0';
+  let result = '';
+  for (let i = 0; i < bits.length; i += 5)
+    result += CHARS[parseInt(bits.slice(i, i + 5), 2)];
+  return result;
+}
+
+/* ── Normaliza HEX ou Base32 → Base32 puro ── */
+function normToBase32(secret) {
+  const s = secret.trim().replace(/[\s=]/g, '');
+  if (isHexSecret(s)) {
+    const bytes = [];
+    for (let i = 0; i < s.length; i += 2) bytes.push(parseInt(s.slice(i, i + 2), 16));
+    return bytesToBase32(new Uint8Array(bytes));
+  }
+  return s.toUpperCase();
+}
+
+/* ── Decodifica Base32 → Uint8Array ── */
+function base32Decode(secret) {
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+  const s = normToBase32(secret);
+  let bits = '';
+  for (const c of s) {
+    const idx = CHARS.indexOf(c);
+    if (idx === -1) continue;
+    bits += idx.toString(2).padStart(5, '0');
+  }
+  const bytes = [];
+  for (let i = 0; i + 8 <= bits.length; i += 8)
+    bytes.push(parseInt(bits.slice(i, i + 8), 2));
+  return new Uint8Array(bytes);
+}
+
+/* ── Gera código TOTP de 6 dígitos ── */
+async function generateTOTP(keyBytes, counter) {
+  const key = await crypto.subtle.importKey(
+    'raw', keyBytes, { name: 'HMAC', hash: 'SHA-1' }, false, ['sign']
+  );
+  const buf = new ArrayBuffer(8);
+  new DataView(buf).setUint32(4, counter >>> 0, false);
+  const sig = new Uint8Array(await crypto.subtle.sign('HMAC', key, buf));
+  const off  = sig[19] & 0x0f;
+  const code = (
+    ((sig[off]   & 0x7f) << 24) | ((sig[off+1] & 0xff) << 16) |
+    ((sig[off+2] & 0xff) <<  8) |  (sig[off+3] & 0xff)
+  ) % 1_000_000;
+  return String(code).padStart(6, '0');
+}
+
+/* ── Verifica token (±1 janela de 30s) ── */
+async function verifyTOTP(base32Secret, userToken) {
+  const token = userToken.replace(/\s/g, '');
+  if (!/^\d{6}$/.test(token)) return false;
+  const keyBytes = base32Decode(base32Secret);
+  const counter  = Math.floor(Date.now() / 1000 / 30);
+  for (const delta of [-1, 0, 1])
+    if (await generateTOTP(keyBytes, counter + delta) === token) return true;
+  return false;
+}
+
+/* ── Constrói otpauth URI ── */
+function buildOTPAuthURI(secret, email) {
+  const base32  = normToBase32(secret);
+  const label   = encodeURIComponent('Portal Chesterton:' + email);
+  const issuer  = encodeURIComponent('Chesterton do Brasil');
+  return `otpauth://totp/${label}?secret=${base32}&issuer=${issuer}&algorithm=SHA1&digits=6&period=30`;
+}
+
+/* ── Renderiza QR Code ── */
+function sgaRenderQR(secret, email) {
+  const container = document.getElementById('sga-qrcode-canvas');
+  if (!container) return;
+  container.innerHTML = '';
+  const base32 = normToBase32(secret);
+  try {
+    new QRCode(container, {
+      text: buildOTPAuthURI(secret, email),
+      width: 174, height: 174,
+      colorDark: '#000000', colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } catch(e) {
+    container.innerHTML = `<p style="color:#FF6B6B;font-size:11px;padding:10px">⚠️ Erro ao gerar QR Code.<br>Use a chave manual abaixo.</p>`;
+  }
+  const disp = document.getElementById('sga-secret-display');
+  if (disp) {
+    disp.textContent = (base32.match(/.{1,4}/g) || []).join(' ');
+    disp.dataset.raw = base32;
+  }
+}
+
+/* ── Copiar chave secreta ── */
+function sgaCopySecret() {
+  const el = document.getElementById('sga-secret-display');
+  if (!el) return;
+  const raw = el.dataset.raw || el.textContent.replace(/\s/g, '');
+  navigator.clipboard.writeText(raw).then(() => {
+    const btn = document.querySelector('.sga-copy-btn');
+    if (btn) { btn.textContent = '✅ Copiado!'; setTimeout(() => { btn.textContent = '📋 Copiar'; }, 2000); }
+  }).catch(() => { prompt('Copie a chave secreta:', raw); });
+}
+
+/* ── Timer ring countdown ── */
+let _sgaTimerInterval = null;
+function sgaStartTimer() {
+  sgaStopTimer();
+  const CIRC = 2 * Math.PI * 11;
+  function tick() {
+    const rem = 30 - (Math.floor(Date.now() / 1000) % 30);
+    const sEl = document.getElementById('sga-timer-secs');
+    const lEl = document.getElementById('sga-timer-label');
+    const cEl = document.getElementById('sga-timer-circle');
+    if (!sEl) return;
+    sEl.textContent = rem;
+    lEl.textContent = rem;
+    cEl.style.strokeDashoffset = CIRC * (1 - rem / 30);
+    const isUrgent = rem <= 5;
+    cEl.style.stroke = isUrgent ? 'var(--red)' : 'var(--gold)';
+    lEl.style.color  = isUrgent ? 'var(--red)' : 'var(--gold)';
+  }
+  tick();
+  _sgaTimerInterval = setInterval(tick, 1000);
+}
+function sgaStopTimer() {
+  if (_sgaTimerInterval) { clearInterval(_sgaTimerInterval); _sgaTimerInterval = null; }
+}
+
+/* ── Toggle visibilidade QR ── */
+let _sgaQRVisible = true;
+function sgaToggleQR() {
+  _sgaQRVisible = !_sgaQRVisible;
+  const panel = document.getElementById('sga-qr-main');
+  const btn   = document.getElementById('sga-qr-hide-btn');
+  const lbl   = document.getElementById('sga-qr-toggle-label');
+  if (!panel) return;
+  panel.classList.toggle('hidden', !_sgaQRVisible);
+  btn.textContent = _sgaQRVisible ? 'Ocultar' : 'Mostrar';
+  lbl.textContent = _sgaQRVisible ? '✅ Já escaneei — ocultar QR Code' : '📱 Mostrar QR Code novamente';
+}
+
+/* ── Digit input UX ── */
+function sgaDigitInput(el, idx) {
+  let v = el.value.replace(/\D/g, '');
+  if (v.length > 1) v = v.slice(-1);
+  el.value = v;
+  el.classList.toggle('sga-filled', v !== '');
+  if (v && idx < 5) document.getElementById('sgd' + (idx + 1)).focus();
+  sgaUpdateBtn();
+  if (idx === 5 && sgaGetCode().length === 6) setTimeout(sgaHandleTOTP, 120);
+}
+function sgaDigitKeyDown(e, idx) {
+  if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+    const prev = document.getElementById('sgd' + (idx - 1));
+    prev.value = ''; prev.classList.remove('sga-filled'); prev.focus(); sgaUpdateBtn();
+  }
+  if (e.key === 'Enter') sgaHandleTOTP();
+  if (e.ctrlKey && e.key === 'v' && idx === 0) {
+    setTimeout(() => {
+      const pasted = (e.target.value || '').replace(/\D/g, '').slice(0, 6);
+      if (pasted.length === 6) {
+        [...pasted].forEach((d, i) => {
+          const inp = document.getElementById('sgd' + i);
+          inp.value = d; inp.classList.add('sga-filled');
+        });
+        sgaUpdateBtn(); setTimeout(sgaHandleTOTP, 120);
+      }
+    }, 50);
+  }
+}
+function sgaGetCode() {
+  return [0,1,2,3,4,5].map(i => document.getElementById('sgd'+i).value.replace(/\D/g,'')).join('');
+}
+function sgaUpdateBtn() {
+  const btn = document.getElementById('sga-totp-btn');
+  if (btn) btn.disabled = sgaGetCode().length !== 6;
+}
+function sgaClearDigits() {
+  for (let i = 0; i < 6; i++) {
+    const el = document.getElementById('sgd' + i);
+    el.value = ''; el.classList.remove('sga-filled', 'sga-shake');
+  }
+  sgaUpdateBtn();
+}
+function sgaShakeDigits() {
+  for (let i = 0; i < 6; i++) {
+    const el = document.getElementById('sgd' + i);
+    el.classList.add('sga-shake');
+    setTimeout(() => el.classList.remove('sga-shake'), 500);
+  }
+}
+
+/* ── State pendente (e-mail + secret) ── */
+window._sgaPendingEmail  = null;
+window._sgaPendingSecret = null;
+
+/* ── Ir para step-2 ── */
+function sgaShowStep2(email, totpSecret) {
+  window._sgaPendingEmail  = email;
+  window._sgaPendingSecret = totpSecret;
+  _sgaQRVisible = true;
+
+  document.getElementById('sga-step-1').style.display = 'none';
+  document.getElementById('sga-step-2').style.display = 'block';
+  document.getElementById('sga-totp-error').style.display   = 'none';
+  document.getElementById('sga-totp-loading').style.display = 'none';
+
+  const panel = document.getElementById('sga-qr-main');
+  if (panel) panel.classList.remove('hidden');
+  const btn = document.getElementById('sga-qr-hide-btn');
+  const lbl = document.getElementById('sga-qr-toggle-label');
+  if (btn) btn.textContent = 'Ocultar';
+  if (lbl) lbl.textContent = '✅ Já escaneei — ocultar QR Code';
+
+  sgaClearDigits();
+  sgaStartTimer();
+  sgaRenderQR(totpSecret, email);
+  setTimeout(() => { document.getElementById('sgd0').focus(); }, 300);
+}
+
+/* ── Voltar para step-1 ── */
+function sgaBackToStep1() {
+  sgaStopTimer();
+  window._sgaPendingEmail  = null;
+  window._sgaPendingSecret = null;
+  document.getElementById('sga-step-2').style.display = 'none';
+  document.getElementById('sga-step-1').style.display = 'block';
+  document.getElementById('authError').style.display  = 'none';
+}
+
+/* ── Verificar TOTP (step-2 submit) ── */
+async function sgaHandleTOTP() {
+  const code   = sgaGetCode();
+  const btnEl  = document.getElementById('sga-totp-btn');
+  const loadEl = document.getElementById('sga-totp-loading');
+  const errEl  = document.getElementById('sga-totp-error');
+  if (code.length !== 6) return;
+
+  errEl.style.display  = 'none';
+  loadEl.style.display = '';
+  loadEl.classList.add('loading');
+  btnEl.disabled = true;
+
+  try {
+    const valid = await verifyTOTP(window._sgaPendingSecret, code);
+    if (valid) {
+      sgaStopTimer();
+      sgaGrantAccess(window._sgaPendingEmail);
+    } else {
+      sgaShakeDigits();
+      errEl.textContent = '⚠️ Código inválido ou expirado. Aguarde o próximo e tente novamente.';
+      errEl.style.display = 'block';
+      setTimeout(() => { sgaClearDigits(); document.getElementById('sgd0').focus(); }, 600);
+    }
+  } catch(e) {
+    console.error(e);
+    errEl.textContent = '⚠️ Erro ao verificar código. Tente novamente.';
+    errEl.style.display = 'block';
+  } finally {
+    loadEl.style.display = 'none';
+    btnEl.disabled = sgaGetCode().length !== 6;
+  }
+}
+
+/* ── Paste global no step-2 ── */
+document.addEventListener('paste', function(e) {
+  const step2 = document.getElementById('sga-step-2');
+  if (!step2 || step2.style.display === 'none') return;
+  const text   = (e.clipboardData || window.clipboardData).getData('text');
+  const digits = text.replace(/\D/g, '').slice(0, 6);
+  if (digits.length === 6) {
+    e.preventDefault();
+    [...digits].forEach((d, i) => {
+      const inp = document.getElementById('sgd' + i);
+      inp.value = d; inp.classList.add('sga-filled');
+    });
+    sgaUpdateBtn(); setTimeout(sgaHandleTOTP, 120);
+  }
+});
+
+/* ── Conceder acesso após autenticação completa ── */
+function sgaGrantAccess(email) {
+  var overlay = document.getElementById('authOverlay');
+  overlay.classList.add('hidden');
+  document.body.style.overflow = '';
+  var nome     = '';
+  // Tenta pegar nome do usuário em cache
+  var userData = window.currentUser || {};
+  nome = getField(userData, ['nome','name','login','email']) || email;
+  var nameEl   = document.getElementById('user-display-name');
+  var nameWrap = document.getElementById('user-name-wrap');
+  if (nameEl)   nameEl.textContent = nome;
+  if (nameWrap) nameWrap.style.display = 'flex';
+  window.unlockAllSections();
+}
+
+// ═══════════════════════════════════════════════════════════
 // URL da planilha publicada (aba User_Site).
 // Se retornar a aba errada, adicione &gid=NUMERO_DO_GID ao final da URL.
 // Para encontrar o GID: abra a planilha > clique na aba "User_Site" > copie o número após #gid= na URL.
@@ -2146,14 +2803,18 @@ const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1731PjXn-Is
 
       if (user) {
         window.currentUser = user;
-        overlay.classList.add('hidden');
-        document.body.style.overflow = '';
-        var nome    = getField(user, ['nome','name','login','email']) || loginVal;
-        var nameEl   = document.getElementById('user-display-name');
-        var nameWrap = document.getElementById('user-name-wrap');
-        if (nameEl)   nameEl.textContent = nome;
-        if (nameWrap) nameWrap.style.display = 'flex';
-        window.unlockAllSections();
+
+        // ── 2FA: verifica se o usuário tem TOTP_SECRET na planilha ──
+        var totpSecret = getField(user, ['TOTP_SECRET','totp_secret','TOTP','totp','totp secret']);
+        totpSecret = totpSecret.replace(/\s/g, '');
+
+        if (totpSecret) {
+          // Avança para Etapa 2 — QR Code + código TOTP
+          sgaShowStep2(loginVal, totpSecret);
+        } else {
+          // Sem 2FA configurado — acesso direto (retrocompatível)
+          sgaGrantAccess(loginVal);
+        }
       } else {
         authErr.textContent = 'Login ou senha incorretos. Tente novamente.';
         authErr.style.display = 'block';
