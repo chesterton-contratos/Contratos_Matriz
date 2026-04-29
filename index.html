@@ -5001,6 +5001,105 @@ document.addEventListener('DOMContentLoaded', () => {
     [data-theme="light"] .job-rule-item { color: rgba(26,35,64,0.75); }
     [data-theme="light"] .job-exec { background: linear-gradient(135deg, rgba(200,149,0,0.05), rgba(20,102,176,0.03)); color: rgba(26,35,64,0.75); }
     [data-theme="light"] .job-sub { color: rgba(26,35,64,0.55); }
+    /* ─── TEAM GALLERY ──────────────────────────────────────────────────── */
+    .job-team-section {
+      margin-bottom: 56px;
+      position: relative;
+    }
+    .job-team-header {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 28px;
+    }
+    .job-team-header-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(245,194,0,0.10); border: 1px solid rgba(245,194,0,0.35);
+      border-radius: 50px; padding: 5px 16px;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      color: #F5C200; text-transform: uppercase; white-space: nowrap;
+    }
+    .job-team-header-line { flex: 1; height: 1px; background: rgba(245,194,0,0.18); }
+    .job-team-header-count {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      color: rgba(255,255,255,0.3); text-transform: uppercase; white-space: nowrap;
+    }
+    .job-team-country-group { margin-bottom: 28px; }
+    .job-team-country-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.35);
+      margin-bottom: 14px;
+    }
+    .job-team-country-label .flag-icon { font-size: 15px; line-height: 1; }
+    .job-team-country-label::after {
+      content:''; flex:1; height:1px;
+      background: rgba(255,255,255,0.07);
+    }
+    .job-team-row {
+      display: flex; flex-wrap: wrap; gap: 14px 10px;
+      align-items: flex-start;
+    }
+    .job-person {
+      display: flex; flex-direction: column; align-items: center;
+      width: 82px; text-align: center; cursor: default;
+      transition: transform .22s ease;
+    }
+    .job-person:hover { transform: translateY(-4px); }
+    .job-person:hover .job-person-img {
+      filter: grayscale(0%) brightness(1.05);
+    }
+    .job-person:hover .job-person-photo {
+      border-color: rgba(245,194,0,0.7);
+      box-shadow: 0 0 0 2px rgba(245,194,0,0.25), 0 6px 20px rgba(0,0,0,0.5);
+    }
+    .job-person-photo {
+      width: 62px; height: 62px; border-radius: 50%; overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.10);
+      background: #1a2030; flex-shrink: 0;
+      transition: border-color .22s, box-shadow .22s;
+      position: relative;
+    }
+    .job-person-img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: grayscale(100%) brightness(0.92) contrast(1.05);
+      transition: filter .35s ease;
+      display: block;
+    }
+    .job-person-initials {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.45);
+      letter-spacing: 0.5px; background: #1a2236;
+    }
+    .job-person-name {
+      margin-top: 7px;
+      font-size: 9.5px; font-weight: 700;
+      color: rgba(255,255,255,0.82); line-height: 1.25;
+      word-break: break-word; hyphens: auto;
+    }
+    .job-person-cargo {
+      font-size: 8px; color: rgba(255,255,255,0.38); line-height: 1.3;
+      margin-top: 2px; word-break: break-word;
+    }
+    .job-person-empresa {
+      font-size: 8px; color: #F5C200; opacity: .65;
+      margin-top: 1px; word-break: break-word;
+    }
+    .job-person-flag { margin-top: 4px; font-size: 13px; line-height: 1; }
+    [data-theme="light"] .job-team-country-label { color: rgba(26,35,64,0.4); }
+    [data-theme="light"] .job-person-photo { border-color: rgba(0,0,0,0.12); background: #e8eaf0; }
+    [data-theme="light"] .job-person-name { color: rgba(26,35,64,0.88); }
+    [data-theme="light"] .job-person-cargo { color: rgba(26,35,64,0.45); }
+    [data-theme="light"] .job-person-empresa { color: #b07800; }
+    [data-theme="light"] .job-team-country-label::after { background: rgba(0,0,0,0.1); }
+    [data-theme="light"] .job-person-initials { background: #d0d5e8; color: rgba(26,35,64,0.55); }
+    [data-theme="light"] .job-team-header-line { background: rgba(0,0,0,0.1); }
+    [data-theme="light"] .job-team-header-count { color: rgba(26,35,64,0.3); }
+    @media(max-width:600px) {
+      .job-person { width: 70px; }
+      .job-person-photo { width: 52px; height: 52px; }
+      .job-team-row { gap: 12px 8px; }
+    }
+
   `;
   document.head.appendChild(style);
 
@@ -5008,6 +5107,88 @@ document.addEventListener('DOMContentLoaded', () => {
   section.id = 'job-section';
   section.innerHTML = `
     <div class="job-inner">
+      <!-- ── EQUIPE OPERACIONAL ── -->
+      <div class="job-team-section">
+        <div class="job-team-header">
+          <div class="job-team-header-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Equipe Operacional
+          </div>
+          <div class="job-team-header-line"></div>
+          <div class="job-team-header-count">34 Profissionais · 4 Regiões</div>
+        </div>
+
+        <div class="job-team-country-group">
+          <div class="job-team-country-label">
+            <span class="flag-icon">🇲🇽</span>
+            México &nbsp;·&nbsp; 8 pessoas
+          </div>
+          <div class="job-team-row">
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Carlos Castro - Chesterton - Sales manager - MX.jpg" alt="Carlos Castro" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">CC</div></div><div class="job-person-name">Carlos Castro</div><div class="job-person-cargo">Sales Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇲🇽</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Elizabeth Gonzalez-Chesterton - Sales Manager - MX.jpg" alt="Elizabeth Gonzalez" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">EG</div></div><div class="job-person-name">Elizabeth Gonzalez</div><div class="job-person-cargo">Sales Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇲🇽</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Fidel Garcia- Chesterton - Sales Manager - MX.jpg" alt="Fidel Garcia" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">FG</div></div><div class="job-person-name">Fidel Garcia</div><div class="job-person-cargo">Sales Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇲🇽</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Miguel Sagu-Chesterton - Sales Manager - MX.jpg" alt="Miguel Sagu" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">MS</div></div><div class="job-person-name">Miguel Sagu</div><div class="job-person-cargo">Sales Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇲🇽</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Rene Rojas- Chesterton- General Manager - MX.jpg" alt="Rene Rojas" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">RR</div></div><div class="job-person-name">Rene Rojas</div><div class="job-person-cargo">General Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇲🇽</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Mauricio Torres-Chesterton - Sales Manager - MX.jpg" alt="Mauricio Torres" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">MT</div></div><div class="job-person-name">Mauricio Torres</div><div class="job-person-cargo">Sales Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇲🇽</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="itchel Aguirre - Chesterton - Especialista en Desarrollo de Negocios I - MX.jpg" alt="Itchel Aguirre" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">IA</div></div><div class="job-person-name">Itchel Aguirre</div><div class="job-person-cargo">Especialista</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇲🇽</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Carlos A. Castro - Chesterton - Engineering Mgr - MX.jpg" alt="Carlos A. Castro" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">CC</div></div><div class="job-person-name">Carlos A. Castro</div><div class="job-person-cargo">Engineering Mgr</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇲🇽</div></div>
+          </div>
+        </div>
+
+        <div class="job-team-country-group">
+          <div class="job-team-country-label">
+            <span class="flag-icon">🌐</span>
+            LATAM &nbsp;·&nbsp; 4 pessoas
+          </div>
+          <div class="job-team-row">
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Cristian Herrera - Chesterton - Business Development Manager - LATAM.jpg" alt="Cristian Herrera" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">CH</div></div><div class="job-person-name">Cristian Herrera</div><div class="job-person-cargo">Business Dev. Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🌐</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Daniel juarez - Chesterton - Director of Marketing & Business Development - LATAM.jpg" alt="Daniel Juarez" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">DJ</div></div><div class="job-person-name">Daniel Juarez</div><div class="job-person-cargo">Director Marketing</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🌐</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Eduardo Castro - Chesterton - VP Managing Director - LATAM.jpg" alt="Eduardo Castro" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">EC</div></div><div class="job-person-name">Eduardo Castro</div><div class="job-person-cargo">VP Managing Director</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🌐</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Italo Iva - Chesterton - Business Development Coordinator, IloT & Reliability Projects - LATAM.png" alt="Italo Iva" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">II</div></div><div class="job-person-name">Italo Iva</div><div class="job-person-cargo">BD Coordinator IIoT</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🌐</div></div>
+          </div>
+        </div>
+
+        <div class="job-team-country-group">
+          <div class="job-team-country-label">
+            <span class="flag-icon">🇨🇱</span>
+            Chile &nbsp;·&nbsp; 3 pessoas
+          </div>
+          <div class="job-team-row">
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Carlos Montero - Chesterton - General Manager - CH.jpg" alt="Carlos Montero" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">CM</div></div><div class="job-person-name">Carlos Montero</div><div class="job-person-cargo">General Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇨🇱</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Hugo Fuentes-Chesterton - Sales Manager - CH.jpg" alt="Hugo Fuentes" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">HF</div></div><div class="job-person-name">Hugo Fuentes</div><div class="job-person-cargo">Sales Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇨🇱</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Jimmy Cuevas - Chesterton- Operations Manager - CH.jpg" alt="Jimmy Cuevas" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">JC</div></div><div class="job-person-name">Jimmy Cuevas</div><div class="job-person-cargo">Operations Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇨🇱</div></div>
+          </div>
+        </div>
+
+        <div class="job-team-country-group">
+          <div class="job-team-country-label">
+            <span class="flag-icon">🇧🇷</span>
+            Brasil &nbsp;·&nbsp; 19 pessoas
+          </div>
+          <div class="job-team-row">
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Alysoson Alves - Klabin - Tecnico - BR.jpg" alt="Alysoson Alves" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">AA</div></div><div class="job-person-name">Alysoson Alves</div><div class="job-person-cargo">Técnico</div><div class="job-person-empresa">Klabin</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Andre Luis - Chesterton - Sales Manager - BR.jpg" alt="Andre Luis" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">AL</div></div><div class="job-person-name">Andre Luis</div><div class="job-person-cargo">Sales Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Eder Bianchetti - Chesterton - Sales Manager - BR.jpg" alt="Eder Bianchetti" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">EB</div></div><div class="job-person-name">Eder Bianchetti</div><div class="job-person-cargo">Sales Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Euzebio - Chesterton - Engineer - BR.jpg" alt="Euzebio" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">EU</div></div><div class="job-person-name">Euzebio</div><div class="job-person-cargo">Engineer</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Fernando Pereira - Chesterton - Tecnico - BR.jpg" alt="Fernando Pereira" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">FP</div></div><div class="job-person-name">Fernando Pereira</div><div class="job-person-cargo">Técnico</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Heber Oliveira - Chesterton-Klabin - Tecnico - BR.jpg" alt="Heber Oliveira" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">HO</div></div><div class="job-person-name">Heber Oliveira</div><div class="job-person-cargo">Técnico</div><div class="job-person-empresa">Chesterton-Klabin</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Jackson - Unipar - Tecnico - BR.jpg" alt="Jackson" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">JA</div></div><div class="job-person-name">Jackson</div><div class="job-person-cargo">Técnico</div><div class="job-person-empresa">Unipar</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Johnnata Fonseca - Nexa - Tecnico - BR.jpg" alt="Johnnata Fonseca" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">JF</div></div><div class="job-person-name">Johnnata Fonseca</div><div class="job-person-cargo">Técnico</div><div class="job-person-empresa">Nexa</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Jose Ilton - Nexa - Tecnico - BR.jpg" alt="Jose Ilton" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">JI</div></div><div class="job-person-name">Jose Ilton</div><div class="job-person-cargo">Técnico</div><div class="job-person-empresa">Nexa</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Leandro Carneiro - Klabin - Tecnico - BR.jpg" alt="Leandro Carneiro" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">LC</div></div><div class="job-person-name">Leandro Carneiro</div><div class="job-person-cargo">Técnico</div><div class="job-person-empresa">Klabin</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Lucas Bonfim - Chesterton - Tecnico - BR.jpg" alt="Lucas Bonfim" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">LB</div></div><div class="job-person-name">Lucas Bonfim</div><div class="job-person-cargo">Técnico</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Lucas Reis - Unipar - Tecnico - BR.jpg" alt="Lucas Reis" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">LR</div></div><div class="job-person-name">Lucas Reis</div><div class="job-person-cargo">Técnico</div><div class="job-person-empresa">Unipar</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Luiz Fillipe - Chesterton - IoT Specialist nd Contracts - BR.jpg" alt="Luiz Fillipe" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">LF</div></div><div class="job-person-name">Luiz Fillipe</div><div class="job-person-cargo">IIoT Specialist</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Marcelo Chagas - Chesterton- General Manager - BR.jpg" alt="Marcelo Chagas" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">MC</div></div><div class="job-person-name">Marcelo Chagas</div><div class="job-person-cargo">General Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Matheus Saruva - Chesterton- Technician Coordinator - BR.jpg" alt="Matheus Saruva" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">MS</div></div><div class="job-person-name">Matheus Saruva</div><div class="job-person-cargo">Tech. Coordinator</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Ribamar -Chesterton - Mgr Sales - BR.jpg" alt="Ribamar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">RI</div></div><div class="job-person-name">Ribamar</div><div class="job-person-cargo">Sales Manager</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Walisson Cezar-Chesterton - Technician Coordinator- BR.jpg" alt="Walisson Cezar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">WC</div></div><div class="job-person-name">Walisson Cezar</div><div class="job-person-cargo">Tech. Coordinator</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Welson Santos - MD - Tecnico - BR.jpg" alt="Welson Santos" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">WS</div></div><div class="job-person-name">Welson Santos</div><div class="job-person-cargo">Técnico</div><div class="job-person-empresa">MD</div><div class="job-person-flag">🇧🇷</div></div>
+            <div class="job-person"><div class="job-person-photo"><img class="job-person-img" src="Danilo Araujo - Chesterton - Engineering Mgr - BR.jpg" alt="Danilo Araujo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="job-person-initials" style="display:none">DA</div></div><div class="job-person-name">Danilo Araujo</div><div class="job-person-cargo">Engineering Mgr</div><div class="job-person-empresa">Chesterton</div><div class="job-person-flag">🇧🇷</div></div>
+          </div>
+        </div>
+      </div>
+
       <div class="job-header">
         <div class="job-badge">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
